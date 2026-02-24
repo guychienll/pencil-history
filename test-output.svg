@@ -1,0 +1,8 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="image-lzjbp2" x="0" y="0" width="1" height="1" patternContentUnits="objectBoundingBox">
+    <image href="https://raw.githubusercontent.com/guychienll/pen-diff/refs/heads/main/232543043.jpeg" x="0" y="0" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
+  </pattern>
+  </defs>
+  <rect x="0" y="0" width="400" height="300" fill="url(#image-lzjbp2)"/>
+</svg>

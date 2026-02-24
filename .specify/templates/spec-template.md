@@ -1,8 +1,14 @@
 # Feature Specification: [FEATURE NAME]
 
-**Feature Branch**: `[###-feature-name]`  
-**Created**: [DATE]  
-**Status**: Draft  
+<!--
+  憲章要求 (Constitution Requirement):
+  本文件必須使用繁體中文（zh-TW）撰寫
+  This document MUST be written in Traditional Chinese (zh-TW)
+-->
+
+**Feature Branch**: `[###-feature-name]`
+**Created**: [DATE]
+**Status**: Draft
 **Input**: User description: "$ARGUMENTS"
 
 ## User Scenarios & Testing *(mandatory)*

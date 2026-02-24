@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Test SVG Pattern - Direct Inline</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test {
+      margin: 20px 0;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+    }
+    svg {
+      border: 2px solid #ddd;
+      display: block;
+      margin: 10px 0;
+    }
+    pre {
+      background: #f0f0f0;
+      padding: 10px;
+      overflow: auto;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <h1>SVG Pattern 破圖調試</h1>
+
+  <div class="test">
+    <h2>Test 1: Direct Image (應該正常)</h2>
+    <img
+      src="https://raw.githubusercontent.com/guychienll/pen-diff/refs/heads/main/232543043.jpeg"
+      width="400"
+      height="300"
+      style="border: 2px solid #ddd"
+    />
+  </div>
+
+  <div class="test">
+    <h2>Test 2: SVG Image Element (應該正常)</h2>
+    <svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+      <image
+        href="https://raw.githubusercontent.com/guychienll/pen-diff/refs/heads/main/232543043.jpeg"
+        x="0"
+        y="0"
+        width="400"
+        height="300"
+        preserveAspectRatio="xMidYMid slice"
+      />
+    </svg>
+  </div>
+
+  <div class="test">
+    <h2>Test 3: Pattern (objectBoundingBox - 可能破圖)</h2>
+    <svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="img1" x="0" y="0" width="1" height="1" patternContentUnits="objectBoundingBox">
+          <image
+            href="https://raw.githubusercontent.com/guychienll/pen-diff/refs/heads/main/232543043.jpeg"
+            x="0"
+            y="0"
+            width="1"
+            height="1"
+            preserveAspectRatio="xMidYMid slice"
+          />
+        </pattern>
+      </defs>
+      <rect x="0" y="0" width="400" height="300" fill="url(#img1)"/>
+    </svg>
+  </div>
+
+  <div class="test">
+    <h2>Test 4: Pattern (userSpaceOnUse - 應該正常)</h2>
+    <svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="img2" x="0" y="0" width="400" height="300" patternUnits="userSpaceOnUse">
+          <image
+            href="https://raw.githubusercontent.com/guychienll/pen-diff/refs/heads/main/232543043.jpeg"
+            x="0"
+            y="0"
+            width="400"
+            height="300"
+            preserveAspectRatio="xMidYMid slice"
+          />
+        </pattern>
+      </defs>
+      <rect x="0" y="0" width="400" height="300" fill="url(#img2)"/>
+    </svg>
+  </div>
+
+  <div class="test">
+    <h2>Test 5: Pattern with preserveAspectRatio="none"</h2>
+    <svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="img3" x="0" y="0" width="400" height="300" patternUnits="userSpaceOnUse">
+          <image
+            href="https://raw.githubusercontent.com/guychienll/pen-diff/refs/heads/main/232543043.jpeg"
+            x="0"
+            y="0"
+            width="400"
+            height="300"
+            preserveAspectRatio="none"
+          />
+        </pattern>
+      </defs>
+      <rect x="0" y="0" width="400" height="300" fill="url(#img3)"/>
+    </svg>
+  </div>
+
+  <div class="test">
+    <h2>Test 6: objectBoundingBox with viewBox</h2>
+    <svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="img4" x="0" y="0" width="1" height="1" patternContentUnits="objectBoundingBox" viewBox="0 0 1 1">
+          <image
+            href="https://raw.githubusercontent.com/guychienll/pen-diff/refs/heads/main/232543043.jpeg"
+            x="0"
+            y="0"
+            width="1"
+            height="1"
+            preserveAspectRatio="xMidYMid slice"
+          />
+        </pattern>
+      </defs>
+      <rect x="0" y="0" width="400" height="300" fill="url(#img4)"/>
+    </svg>
+  </div>
+
+  <script>
+    console.log('All tests loaded. Check which ones display correctly.');
+  </script>
+</body>
+</html>
