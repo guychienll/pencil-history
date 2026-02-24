@@ -29,20 +29,20 @@
 
 **目的**: 專案初始化和基本結構建立
 
-- [X] T001 根據 plan.md 建立 Next.js 15 專案結構
-- [X] T002 [P] 安裝核心相依套件 (React 18, TypeScript 5.x, Tailwind CSS v4, Octokit, idb-keyval)
-- [X] T003 [P] 安裝開發相依套件 (Vitest, Playwright, React Testing Library, ESLint, Prettier)
-- [X] T004 [P] 配置 TypeScript in tsconfig.json 依照 plan.md 結構
-- [X] T005 [P] 配置 Tailwind CSS v4 in tailwind.config.js 和 app/globals.css
-- [X] T006 [P] 配置 ESLint in .eslintrc.json 含 Next.js 和 TypeScript 規則
-- [X] T007 [P] 配置 Prettier in .prettierrc.json
-- [X] T008 [P] 設定 Husky pre-commit hooks 用於 ESLint 和 Prettier
-- [X] T009 [P] 配置 Vitest in vitest.config.ts 用於單元和整合測試
-- [X] T010 [P] 配置 Playwright in playwright.config.ts 用於 E2E 測試
-- [X] T011 [P] 建立 Next.js 配置 in next.config.js (static export, 環境變數)
-- [X] T012 [P] 依 plan.md 建立專案目錄結構 (src/, app/, tests/, public/)
-- [X] T013 [P] 建立 .gitignore 含 Node.js, Next.js 和 IDE 項目
-- [X] T014 [P] 設定 Vercel 部署配置 in vercel.json 用於 serverless functions
+- [x] T001 根據 plan.md 建立 Next.js 15 專案結構
+- [x] T002 [P] 安裝核心相依套件 (React 18, TypeScript 5.x, Tailwind CSS v4, Octokit, idb-keyval)
+- [x] T003 [P] 安裝開發相依套件 (Vitest, Playwright, React Testing Library, ESLint, Prettier)
+- [x] T004 [P] 配置 TypeScript in tsconfig.json 依照 plan.md 結構
+- [x] T005 [P] 配置 Tailwind CSS v4 in tailwind.config.js 和 app/globals.css
+- [x] T006 [P] 配置 ESLint in .eslintrc.json 含 Next.js 和 TypeScript 規則
+- [x] T007 [P] 配置 Prettier in .prettierrc.json
+- [x] T008 [P] 設定 Husky pre-commit hooks 用於 ESLint 和 Prettier
+- [x] T009 [P] 配置 Vitest in vitest.config.ts 用於單元和整合測試
+- [x] T010 [P] 配置 Playwright in playwright.config.ts 用於 E2E 測試
+- [x] T011 [P] 建立 Next.js 配置 in next.config.js (static export, 環境變數)
+- [x] T012 [P] 依 plan.md 建立專案目錄結構 (src/, app/, tests/, public/)
+- [x] T013 [P] 建立 .gitignore 含 Node.js, Next.js 和 IDE 項目
+- [x] T014 [P] 設定 Vercel 部署配置 in vercel.json 用於 serverless functions
 
 ---
 
@@ -54,34 +54,34 @@
 
 ### 型別定義
 
-- [X] T015 [P] 定義 TypeScript 型別 PenFile in src/types/app.ts
-- [X] T016 [P] 定義 TypeScript 型別 Repository in src/types/app.ts
-- [X] T017 [P] 定義 TypeScript 型別 Commit in src/types/app.ts
-- [X] T018 [P] 定義 TypeScript 型別 FileVersion in src/types/app.ts
-- [X] T019 [P] 定義 TypeScript 型別 VisualDesign in src/types/app.ts
-- [X] T020 [P] 定義 TypeScript 型別 DiffComparison in src/types/app.ts
-- [X] T021 [P] 定義 GitHub API 型別 in src/types/github.ts
-- [X] T022 [P] 定義 .pen 檔案型別 in src/types/pen.ts
+- [x] T015 [P] 定義 TypeScript 型別 PenFile in src/types/app.ts
+- [x] T016 [P] 定義 TypeScript 型別 Repository in src/types/app.ts
+- [x] T017 [P] 定義 TypeScript 型別 Commit in src/types/app.ts
+- [x] T018 [P] 定義 TypeScript 型別 FileVersion in src/types/app.ts
+- [x] T019 [P] 定義 TypeScript 型別 VisualDesign in src/types/app.ts
+- [x] T020 [P] 定義 TypeScript 型別 DiffComparison in src/types/app.ts
+- [x] T021 [P] 定義 GitHub API 型別 in src/types/github.ts
+- [x] T022 [P] 定義 .pen 檔案型別 in src/types/pen.ts
 
 ### 工具函式與錯誤處理
 
-- [X] T023 [P] 建立自訂錯誤類別 in src/lib/utils/errors.ts (GitHubAPIError, PenFileError, ValidationError)
-- [X] T024 [P] 實作效能追蹤工具 in src/lib/utils/performance.ts (measureLoadTime, measureRenderTime)
-- [X] T025 [P] 建立 URL 工具函式 in src/lib/utils/url.ts (isValidURL, formatURL)
+- [x] T023 [P] 建立自訂錯誤類別 in src/lib/utils/errors.ts (GitHubAPIError, PenFileError, ValidationError)
+- [x] T024 [P] 實作效能追蹤工具 in src/lib/utils/performance.ts (measureLoadTime, measureRenderTime)
+- [x] T025 [P] 建立 URL 工具函式 in src/lib/utils/url.ts (isValidURL, formatURL)
 
 ### 基礎 UI 元件
 
-- [X] T026 [P] 建立基礎 Button 元件 in src/components/ui/Button.tsx
-- [X] T027 [P] 建立基礎 Input 元件 in src/components/ui/Input.tsx
-- [X] T028 [P] 建立 ErrorBoundary 元件 in src/components/layout/ErrorBoundary.tsx
-- [X] T029 [P] 建立 LoadingSpinner 元件 in src/components/layout/LoadingSpinner.tsx
-- [X] T030 [P] 建立 ErrorMessage 元件 in src/components/layout/ErrorMessage.tsx
-- [X] T031 [P] 建立 Header 元件 in src/components/layout/Header.tsx
+- [x] T026 [P] 建立基礎 Button 元件 in src/components/ui/Button.tsx
+- [x] T027 [P] 建立基礎 Input 元件 in src/components/ui/Input.tsx
+- [x] T028 [P] 建立 ErrorBoundary 元件 in src/components/layout/ErrorBoundary.tsx
+- [x] T029 [P] 建立 LoadingSpinner 元件 in src/components/layout/LoadingSpinner.tsx
+- [x] T030 [P] 建立 ErrorMessage 元件 in src/components/layout/ErrorMessage.tsx
+- [x] T031 [P] 建立 Header 元件 in src/components/layout/Header.tsx
 
 ### App Router 基礎
 
-- [X] T032 [P] 建立 root layout in app/layout.tsx 含 Tailwind CSS imports
-- [X] T033 [P] 設定 IndexedDB helper functions 使用 idb-keyval in src/lib/pen/cache.ts
+- [x] T032 [P] 建立 root layout in app/layout.tsx 含 Tailwind CSS imports
+- [x] T033 [P] 設定 IndexedDB helper functions 使用 idb-keyval in src/lib/pen/cache.ts
 
 **Checkpoint**: 基礎設施就緒 - 使用者故事實作現在可以平行開始
 
@@ -98,72 +98,72 @@
 > **憲章要求: 先撰寫測試,確保測試失敗後再實作**
 > **Red-Green-Refactor 循環: 紅燈 (測試失敗) → 綠燈 (測試通過) → 重構 (保持綠燈)**
 
-- [X] T034 [P] [US1] GitHub API commits 端點契約測試 in tests/contract/github-api.test.ts
-- [X] T035 [P] [US1] GitHub API 檔案內容端點契約測試 in tests/contract/github-api.test.ts
-- [X] T036 [P] [US1] .pen 檔案結構驗證契約測試 in tests/contract/pen-file.test.ts
-- [X] T037 [P] [US1] Pencil MCP 截圖 API 契約測試 in tests/contract/pencil-mcp-api.test.ts
-- [X] T038 [US1] 完整 URL 輸入→時間軸→視覺化流程整合測試 in tests/integration/user-story-1.test.ts
+- [x] T034 [P] [US1] GitHub API commits 端點契約測試 in tests/contract/github-api.test.ts
+- [x] T035 [P] [US1] GitHub API 檔案內容端點契約測試 in tests/contract/github-api.test.ts
+- [x] T036 [P] [US1] .pen 檔案結構驗證契約測試 in tests/contract/pen-file.test.ts
+- [x] T037 [P] [US1] Pencil MCP 截圖 API 契約測試 in tests/contract/pencil-mcp-api.test.ts
+- [x] T038 [US1] 完整 URL 輸入→時間軸→視覺化流程整合測試 in tests/integration/user-story-1.test.ts
 
 ### User Story 1 實作
 
 #### 核心 GitHub 整合
 
-- [X] T039 [P] [US1] 實作 GitHub URL 解析器 in src/lib/github/parser.ts (parseGitHubURL, validateURL)
-- [X] T040 [P] [US1] 實作 Octokit wrapper client in src/lib/github/client.ts (initialize, handleRateLimit)
-- [X] T041 [US1] 實作 fetchCommits 函式 in src/lib/github/commits.ts (分頁, 最多 100 commits)
-- [X] T042 [US1] 實作 fetchFileContent 函式 in src/lib/github/files.ts (取得特定 SHA 的檔案, 處理 10MB 限制)
+- [x] T039 [P] [US1] 實作 GitHub URL 解析器 in src/lib/github/parser.ts (parseGitHubURL, validateURL)
+- [x] T040 [P] [US1] 實作 Octokit wrapper client in src/lib/github/client.ts (initialize, handleRateLimit)
+- [x] T041 [US1] 實作 fetchCommits 函式 in src/lib/github/commits.ts (分頁, 最多 100 commits)
+- [x] T042 [US1] 實作 fetchFileContent 函式 in src/lib/github/files.ts (取得特定 SHA 的檔案, 處理 10MB 限制)
 
 #### .pen 檔案處理
 
-- [X] T043 [P] [US1] 實作 .pen 檔案解析器 in src/lib/pen/parser.ts (parsePenFile, validatePenFile)
-- [X] T044 [P] [US1] 實作 .pen 檔案驗證器 in src/lib/pen/validator.ts (validateStructure, validateFileSize, validateNodeIds)
-- [X] T045 [US1] 實作 FileVersion 記憶體快取 in src/lib/pen/cache.ts (LRU cache, 最多 50 items)
+- [x] T043 [P] [US1] 實作 .pen 檔案解析器 in src/lib/pen/parser.ts (parsePenFile, validatePenFile)
+- [x] T044 [P] [US1] 實作 .pen 檔案驗證器 in src/lib/pen/validator.ts (validateStructure, validateFileSize, validateNodeIds)
+- [x] T045 [US1] 實作 FileVersion 記憶體快取 in src/lib/pen/cache.ts (LRU cache, 最多 50 items)
 
 #### Pencil MCP 截圖服務整合
 
-- [X] T046 [US1] 實作 Pencil MCP client 初始化 in app/api/screenshot/pencil-mcp-client.ts
-- [X] T047 [US1] 實作截圖生成函式 in app/api/screenshot/generate.ts (呼叫 get_screenshot 工具)
-- [X] T048 [US1] 實作 POST /api/screenshot 端點 in app/api/screenshot/route.ts (驗證, timeout 處理, 錯誤處理)
-- [X] T049 [US1] 實作前端截圖服務 in src/lib/pen/screenshot-service.ts (API 呼叫, IndexedDB 快取)
-- [X] T050 [US1] 實作 useScreenshot React hook in src/hooks/useScreenshot.ts
+- [x] T046 [US1] 實作 Pencil MCP client 初始化 in app/api/screenshot/pencil-mcp-client.ts
+- [x] T047 [US1] 實作截圖生成函式 in app/api/screenshot/generate.ts (呼叫 get_screenshot 工具)
+- [x] T048 [US1] 實作 POST /api/screenshot 端點 in app/api/screenshot/route.ts (驗證, timeout 處理, 錯誤處理)
+- [x] T049 [US1] 實作前端截圖服務 in src/lib/pen/screenshot-service.ts (API 呼叫, IndexedDB 快取)
+- [x] T050 [US1] 實作 useScreenshot React hook in src/hooks/useScreenshot.ts
 
 #### 狀態管理
 
-- [X] T051 [P] [US1] 建立 history store 使用 Zustand in src/store/history-store.ts (commits, currentCommitIndex, fileVersions, loading states)
-- [X] T052 [P] [US1] 建立 UI preferences store in src/store/ui-store.ts (playbackSpeed, preferences)
+- [x] T051 [P] [US1] 建立 history store 使用 Zustand in src/store/history-store.ts (commits, currentCommitIndex, fileVersions, loading states)
+- [x] T052 [P] [US1] 建立 UI preferences store in src/store/ui-store.ts (playbackSpeed, preferences)
 
 #### React Hooks
 
-- [X] T053 [US1] 實作 useCommits hook in src/hooks/useCommits.ts (fetch commits, 分頁, 錯誤處理)
-- [X] T054 [US1] 實作 usePenFile hook in src/hooks/usePenFile.ts (lazy load 檔案內容, 解析, 驗證)
+- [x] T053 [US1] 實作 useCommits hook in src/hooks/useCommits.ts (fetch commits, 分頁, 錯誤處理)
+- [x] T054 [US1] 實作 usePenFile hook in src/hooks/usePenFile.ts (lazy load 檔案內容, 解析, 驗證)
 
 #### 時間軸 UI 元件
 
-- [X] T055 [P] [US1] 建立 CommitNode 元件 in src/components/timeline/CommitNode.tsx (顯示 commit 資訊, 可選取)
-- [X] T056 [US1] 建立 Timeline 元件 in src/components/timeline/Timeline.tsx (渲染 commits, 捲動, 「載入更多」按鈕)
+- [x] T055 [P] [US1] 建立 CommitNode 元件 in src/components/timeline/CommitNode.tsx (顯示 commit 資訊, 可選取)
+- [x] T056 [US1] 建立 Timeline 元件 in src/components/timeline/Timeline.tsx (渲染 commits, 捲動, 「載入更多」按鈕)
 
 #### .pen 檢視器元件
 
-- [X] T057 [P] [US1] 建立 PenRenderer 元件 in src/components/viewer/PenRenderer.tsx (顯示 API 回傳的截圖)
-- [X] T058 [US1] 建立 PenViewer 元件 in src/components/viewer/PenViewer.tsx (容器, loading 狀態, 錯誤處理)
+- [x] T057 [P] [US1] 建立 PenRenderer 元件 in src/components/viewer/PenRenderer.tsx (顯示 API 回傳的截圖)
+- [x] T058 [US1] 建立 PenViewer 元件 in src/components/viewer/PenViewer.tsx (容器, loading 狀態, 錯誤處理)
 
 #### 頁面
 
-- [X] T059 [US1] 實作首頁含 URL 輸入表單 in app/page.tsx (表單, 驗證, 導航)
-- [X] T060 [US1] 實作歷史檢視器頁面 in app/history/[owner]/[repo]/[...path]/page.tsx (時間軸, 檢視器, commit 資訊)
+- [x] T059 [US1] 實作首頁含 URL 輸入表單 in app/page.tsx (表單, 驗證, 導航)
+- [x] T060 [US1] 實作歷史檢視器頁面 in app/history/[owner]/[repo]/[...path]/page.tsx (時間軸, 檢視器, commit 資訊)
 
 #### 錯誤處理 UI
 
-- [X] T061 [P] [US1] 處理 GitHub URL 驗證錯誤 (顯示友善訊息)
-- [X] T062 [P] [US1] 處理檔案找不到錯誤 (404)
-- [X] T063 [P] [US1] 處理非 .pen 檔案錯誤
-- [X] T064 [P] [US1] 處理私有儲存庫錯誤
-- [X] T065 [P] [US1] 處理非 GitHub 平台錯誤 (GitLab, Bitbucket)
-- [X] T066 [P] [US1] 處理檔案大小限制錯誤 (> 10MB)
-- [X] T067 [P] [US1] 處理 GitHub API 速率限制錯誤
-- [X] T068 [P] [US1] 處理 .pen 檔案解析錯誤
-- [X] T069 [P] [US1] 處理網路錯誤
-- [X] T070 [P] [US1] 處理 Pencil MCP 截圖生成錯誤
+- [x] T061 [P] [US1] 處理 GitHub URL 驗證錯誤 (顯示友善訊息)
+- [x] T062 [P] [US1] 處理檔案找不到錯誤 (404)
+- [x] T063 [P] [US1] 處理非 .pen 檔案錯誤
+- [x] T064 [P] [US1] 處理私有儲存庫錯誤
+- [x] T065 [P] [US1] 處理非 GitHub 平台錯誤 (GitLab, Bitbucket)
+- [x] T066 [P] [US1] 處理檔案大小限制錯誤 (> 10MB)
+- [x] T067 [P] [US1] 處理 GitHub API 速率限制錯誤
+- [x] T068 [P] [US1] 處理 .pen 檔案解析錯誤
+- [x] T069 [P] [US1] 處理網路錯誤
+- [x] T070 [P] [US1] 處理 Pencil MCP 截圖生成錯誤
 
 **Checkpoint**: 此時 User Story 1 應完全可用且可獨立測試
 
@@ -177,33 +177,33 @@
 
 ### User Story 2 測試 (憲章強制要求) ⚠️
 
-- [ ] T071 [P] [US2] 鍵盤導航整合測試 in tests/integration/user-story-2.test.ts (左/右方向鍵)
-- [ ] T072 [P] [US2] 播放控制整合測試 in tests/integration/user-story-2.test.ts (播放/暫停)
-- [ ] T073 [P] [US2] 時間軸滑桿整合測試 in tests/integration/user-story-2.test.ts (拖曳到 commit)
+- [x] T071 [P] [US2] 鍵盤導航整合測試 in tests/integration/user-story-2.test.ts (左/右方向鍵)
+- [x] T072 [P] [US2] 播放控制整合測試 in tests/integration/user-story-2.test.ts (播放/暫停)
+- [x] T073 [P] [US2] 時間軸滑桿整合測試 in tests/integration/user-story-2.test.ts (拖曳到 commit)
 
 ### User Story 2 實作
 
 #### 導航 Hooks
 
-- [ ] T074 [P] [US2] 實作 useKeyboardNav hook in src/hooks/useKeyboardNav.ts (方向鍵, 上一個/下一個 commit)
-- [ ] T075 [P] [US2] 實作 usePlayback hook in src/hooks/usePlayback.ts (播放/暫停, 速度控制, 自動前進)
+- [x] T074 [P] [US2] 實作 useKeyboardNav hook in src/hooks/useKeyboardNav.ts (方向鍵, 上一個/下一個 commit)
+- [x] T075 [P] [US2] 實作 usePlayback hook in src/hooks/usePlayback.ts (播放/暫停, 速度控制, 自動前進)
 
 #### 時間軸滑桿元件
 
-- [ ] T076 [US2] 建立 TimelineSlider 元件 in src/components/timeline/TimelineSlider.tsx (可拖曳, 位置指示器)
+- [x] T076 [US2] 建立 TimelineSlider 元件 in src/components/timeline/TimelineSlider.tsx (可拖曳, 位置指示器)
 
 #### 播放控制 UI
 
-- [ ] T077 [P] [US2] 建立 PlaybackControls 元件 in src/components/timeline/PlaybackControls.tsx (播放/暫停按鈕, 速度選擇器)
-- [ ] T078 [US2] 整合鍵盤導航到歷史檢視器頁面
-- [ ] T079 [US2] 整合播放控制到歷史檢視器頁面
-- [ ] T080 [US2] 整合時間軸滑桿到歷史檢視器頁面
+- [x] T077 [P] [US2] 建立 PlaybackControls 元件 in src/components/timeline/PlaybackControls.tsx (播放/暫停按鈕, 速度選擇器)
+- [x] T078 [US2] 整合鍵盤導航到歷史檢視器頁面
+- [x] T079 [US2] 整合播放控制到歷史檢視器頁面
+- [x] T080 [US2] 整合時間軸滑桿到歷史檢視器頁面
 
 #### 無障礙與焦點管理
 
-- [ ] T081 [P] [US2] 加入 ARIA 標籤到導航控制
-- [ ] T082 [P] [US2] 實作焦點管理用於鍵盤導航
-- [ ] T083 [P] [US2] 加入鍵盤快捷鍵提示到 UI
+- [x] T081 [P] [US2] 加入 ARIA 標籤到導航控制
+- [x] T082 [P] [US2] 實作焦點管理用於鍵盤導航
+- [x] T083 [P] [US2] 加入鍵盤快捷鍵提示到 UI
 
 **Checkpoint**: 此時 User Stories 1 和 2 應都能獨立運作
 
@@ -432,6 +432,7 @@ Task: "處理 Pencil MCP 截圖生成錯誤"
 
 **總任務數**: 116 tasks
 **每個 User Story 的任務數**:
+
 - Setup (Phase 1): 14 tasks
 - Foundational (Phase 2): 19 tasks
 - User Story 1 (P1): 37 tasks (T034-T070)
@@ -442,6 +443,7 @@ Task: "處理 Pencil MCP 截圖生成錯誤"
 **平行機會**: 50+ 任務標記為 [P] 可平行執行
 
 **獨立測試標準**:
+
 - US1: 使用者可輸入 URL 並查看 commit 時間軸和視覺化內容
 - US2: 使用者可使用鍵盤/滑桿/播放功能切換 commits
 - US3: 使用者可選擇兩個 commits 查看並排差異比較

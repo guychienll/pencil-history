@@ -23,7 +23,7 @@
 - Q: Package manager choice (npm vs pnpm vs yarn)? → A: 使用 npm 作為 package manager
 - Q: Deployment platform (Vercel vs Netlify vs GitHub Pages vs self-hosted)? → A: 使用 Vercel 部署（支援 serverless functions、自動 HTTPS、全球 CDN）
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - 檢視 .pen 檔案的 Git 歷史時間軸 (Priority: P1)
 
@@ -91,7 +91,7 @@
 - 當 GitHub API 速率限制時，系統顯示錯誤訊息並建議稍後再試
 - 當兩個連續的 commit 之間沒有實質變化時，系統仍顯示該 commit 節點但在視覺化內容中標示「無變更」
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -129,7 +129,7 @@
 - **視覺化設計 (Visual Design)**: .pen 檔案渲染後的視覺化呈現，包含設計元素、版面配置、樣式
 - **差異比較 (Diff Comparison)**: 兩個不同 commit 版本之間的變更資訊，使用 node-level structural diff 演算法產生，包含新增的節點清單、刪除的節點清單、修改的節點清單及其屬性變更詳情（節點 ID、屬性名稱、舊值、新值）
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
@@ -142,7 +142,7 @@
 - **SC-007**: 自動播放功能的播放速度可調整，並且在預設速度下使用者能清楚觀察每個 commit 的變化（建議每個 commit 停留 2-3 秒）
 - **SC-008**: 錯誤訊息清楚易懂，95% 的使用者能根據錯誤訊息理解問題並採取正確的下一步行動
 
-## Out of Scope *(optional)*
+## Out of Scope _(optional)_
 
 以下功能不在此版本的範圍內：
 
@@ -156,7 +156,7 @@
 - 顯示 branch 或 tag 資訊（僅支援單一 branch 的 commit 歷史）
 - 註解或標記特定 commit 的功能
 
-## Assumptions *(optional)*
+## Assumptions _(optional)_
 
 1. .pen 檔案格式有明確的規格定義，且 Pencil MCP server 提供可在瀏覽器環境執行的渲染引擎（瀏覽器版本或 WebAssembly port）
 2. 使用者輸入的 URL 會遵循標準的 GitHub URL 格式（例如：`https://github.com/user/repo/blob/branch/path/to/file.pen`）
@@ -171,14 +171,14 @@
 11. 採用 lazy loading 策略後，使用者在短時間內實際檢視的 commit 數量有限（相較於載入的 100 筆 commit 清單），可以接受 GitHub API 匿名呼叫的 60 請求/小時速率限制；當達到限制時使用者需等待至下一個小時週期
 12. 已載入的 .pen 檔案內容可以在使用者的瀏覽器記憶體中快取，使用者在同一 session 中切換回已瀏覽過的 commit 不需重複載入
 
-## Dependencies *(optional)*
+## Dependencies _(optional)_
 
 1. GitHub API 存取：系統依賴 GitHub 提供的公開 API 來擷取 commit 歷史和檔案內容（使用匿名呼叫，速率限制為 60 請求/小時/IP）
 2. Pencil MCP .pen 檔案渲染引擎：系統需要 Pencil MCP server 的瀏覽器版本或 WebAssembly port 來解析和渲染 .pen 檔案格式（必須可在瀏覽器環境執行）
 3. 瀏覽器支援：系統需要使用者的瀏覽器支援現代 Web 標準（HTML5、CSS3、JavaScript ES6+）及 WebAssembly（如果使用 WASM port）
 4. 靜態網站託管平台：系統需要部署於支援靜態網站託管的平台（如 GitHub Pages、Vercel、Netlify），網域名稱為 pencilhistory.xyz
 
-## Open Questions *(optional)*
+## Open Questions _(optional)_
 
 1. 是否需要提供永久連結（permalink）功能，讓使用者可以分享特定 commit 的檢視畫面？
 2. 是否需要支援不同的 .pen 檔案格式版本？如果舊版本格式與新版本不相容，如何處理？

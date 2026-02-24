@@ -40,33 +40,28 @@ export function CommitNode({ commit, isActive, onClick, className = "" }: Commit
       <div className="mb-2 flex items-center justify-between">
         <span
           className={`
-            rounded px-2 py-0.5 text-xs font-mono
-            ${isActive ? "bg-blue-200 text-blue-800" : "bg-gray-100 text-gray-700"}
+            rounded px-2 py-0.5 text-xs font-mono font-semibold
+            ${isActive ? "bg-blue-200 text-blue-800" : "bg-gray-100 text-gray-900"}
           `}
         >
           {shortSha}
         </span>
-        <span className="text-xs text-gray-500">{formattedDate}</span>
+        <span className="text-xs text-gray-700 font-medium">{formattedDate}</span>
       </div>
 
       {/* Commit message */}
       <p
         className={`
-          mb-2 text-sm font-medium
-          ${isActive ? "text-gray-900" : "text-gray-700"}
+          mb-2 text-sm font-semibold
+          ${isActive ? "text-gray-900" : "text-gray-900"}
         `}
       >
         {displayMessage}
       </p>
 
       {/* Author info */}
-      <div className="flex items-center text-xs text-gray-500">
-        <svg
-          className="mr-1 h-3 w-3"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
+      <div className="flex items-center text-xs text-gray-700 font-medium">
+        <svg className="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"

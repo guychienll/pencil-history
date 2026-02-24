@@ -83,9 +83,7 @@ function decodeBase64Content(base64Content: string): string {
  * @param options - File fetch options
  * @returns FileVersion object with parsed content
  */
-export async function fetchPenFileVersion(
-  options: FetchFileContentOptions
-): Promise<FileVersion> {
+export async function fetchPenFileVersion(options: FetchFileContentOptions): Promise<FileVersion> {
   const { content, size, encoding } = await fetchFileContent(options);
 
   try {

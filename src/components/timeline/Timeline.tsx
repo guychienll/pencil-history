@@ -38,10 +38,7 @@ export function Timeline({
       const activeRect = activeNode.getBoundingClientRect();
 
       // Check if active node is outside visible area
-      if (
-        activeRect.top < timelineRect.top ||
-        activeRect.bottom > timelineRect.bottom
-      ) {
+      if (activeRect.top < timelineRect.top || activeRect.bottom > timelineRect.bottom) {
         activeNode.scrollIntoView({
           behavior: "smooth",
           block: "center",
@@ -63,19 +60,13 @@ export function Timeline({
       {/* Timeline header */}
       <div className="border-b border-gray-200 bg-white px-4 py-3">
         <h2 className="text-lg font-semibold text-gray-900">Commit 時間軸</h2>
-        <p className="text-sm text-gray-500">{commits.length} 個 commits</p>
+        <p className="text-sm text-gray-700 font-medium">{commits.length} 個 commits</p>
       </div>
 
       {/* Timeline scroll area */}
-      <div
-        ref={timelineRef}
-        className="flex-1 space-y-2 overflow-y-auto p-4"
-      >
+      <div ref={timelineRef} className="flex-1 space-y-2 overflow-y-auto p-4">
         {commits.map((commit, index) => (
-          <div
-            key={commit.sha}
-            ref={index === currentIndex ? activeNodeRef : null}
-          >
+          <div key={commit.sha} ref={index === currentIndex ? activeNodeRef : null}>
             <CommitNode
               commit={commit}
               isActive={index === currentIndex}

@@ -34,12 +34,7 @@ export function usePenFile(options: UsePenFileOptions): UsePenFileResult {
   const [localLoading, setLocalLoading] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
 
-  const {
-    fileVersions,
-    setFileVersion,
-    setLoadingFileVersion,
-    setFileError,
-  } = useHistoryStore();
+  const { fileVersions, setFileVersion, setLoadingFileVersion, setFileError } = useHistoryStore();
 
   const fileVersion = fileVersions.get(sha) || null;
 
@@ -78,10 +73,7 @@ export function usePenFile(options: UsePenFileOptions): UsePenFileResult {
       console.log(`Fetched .pen file in ${duration}ms`);
 
       // Validate .pen file
-      const validation = validatePenFile(
-        fetchedFileVersion.content,
-        fetchedFileVersion.size
-      );
+      const validation = validatePenFile(fetchedFileVersion.content, fetchedFileVersion.size);
 
       if (!validation.valid) {
         throw new Error(validation.error);
@@ -93,8 +85,7 @@ export function usePenFile(options: UsePenFileOptions): UsePenFileResult {
       // Update store
       setFileVersion(sha, fetchedFileVersion);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "無法載入 .pen 檔案";
+      const errorMessage = error instanceof Error ? error.message : "無法載入 .pen 檔案";
       setLocalError(errorMessage);
       setFileError(errorMessage);
     } finally {

@@ -24,32 +24,34 @@
 
 **欄位**：
 
-| 欄位名稱 | 型別 | 必填 | 說明 | 驗證規則 |
-|---------|------|------|------|---------|
-| `owner` | string | ✓ | GitHub 使用者/組織名稱 | 1-39 字元，英數字與連字號 |
-| `repo` | string | ✓ | GitHub repository 名稱 | 1-100 字元，不含空白 |
-| `path` | string | ✓ | 檔案在 repository 中的路徑 | 必須以 `.pen` 結尾 |
-| `branch` | string | ✓ | Git 分支名稱 | 預設 `main`，從 URL 解析 |
-| `size` | number | - | 檔案大小（bytes） | 最大 10MB (10485760 bytes) |
-| `url` | string | ✓ | GitHub 檔案 URL | 必須為有效 GitHub URL 格式 |
+| 欄位名稱 | 型別   | 必填 | 說明                       | 驗證規則                   |
+| -------- | ------ | ---- | -------------------------- | -------------------------- |
+| `owner`  | string | ✓    | GitHub 使用者/組織名稱     | 1-39 字元，英數字與連字號  |
+| `repo`   | string | ✓    | GitHub repository 名稱     | 1-100 字元，不含空白       |
+| `path`   | string | ✓    | 檔案在 repository 中的路徑 | 必須以 `.pen` 結尾         |
+| `branch` | string | ✓    | Git 分支名稱               | 預設 `main`，從 URL 解析   |
+| `size`   | number | -    | 檔案大小（bytes）          | 最大 10MB (10485760 bytes) |
+| `url`    | string | ✓    | GitHub 檔案 URL            | 必須為有效 GitHub URL 格式 |
 
 **關聯**：
+
 - 屬於一個 `Repository`
 - 有多個 `FileVersion`（每個 commit 一個）
 
 **驗證規則**：
+
 ```typescript
 function validatePenFile(file: PenFile): ValidationResult {
-  if (!file.path.endsWith('.pen')) {
-    return { valid: false, error: '檔案必須為 .pen 格式' };
+  if (!file.path.endsWith(".pen")) {
+    return { valid: false, error: "檔案必須為 .pen 格式" };
   }
 
   if (file.size && file.size > 10485760) {
-    return { valid: false, error: '檔案大小超過 10MB 限制' };
+    return { valid: false, error: "檔案大小超過 10MB 限制" };
   }
 
   if (!isValidGitHubURL(file.url)) {
-    return { valid: false, error: '無效的 GitHub URL' };
+    return { valid: false, error: "無效的 GitHub URL" };
   }
 
   return { valid: true };
@@ -64,28 +66,30 @@ function validatePenFile(file: PenFile): ValidationResult {
 
 **欄位**：
 
-| 欄位名稱 | 型別 | 必填 | 說明 | 驗證規則 |
-|---------|------|------|------|---------|
-| `owner` | string | ✓ | 擁有者名稱 | 1-39 字元 |
-| `name` | string | ✓ | Repository 名稱 | 1-100 字元 |
-| `fullName` | string | ✓ | 完整名稱 (owner/name) | 格式：`{owner}/{name}` |
-| `branch` | string | ✓ | 預設分支 | 通常為 `main` 或 `master` |
-| `isPrivate` | boolean | ✓ | 是否為私有 repository | 必須為 `false`（不支援私有） |
-| `url` | string | ✓ | Repository URL | GitHub repository URL |
+| 欄位名稱    | 型別    | 必填 | 說明                  | 驗證規則                     |
+| ----------- | ------- | ---- | --------------------- | ---------------------------- |
+| `owner`     | string  | ✓    | 擁有者名稱            | 1-39 字元                    |
+| `name`      | string  | ✓    | Repository 名稱       | 1-100 字元                   |
+| `fullName`  | string  | ✓    | 完整名稱 (owner/name) | 格式：`{owner}/{name}`       |
+| `branch`    | string  | ✓    | 預設分支              | 通常為 `main` 或 `master`    |
+| `isPrivate` | boolean | ✓    | 是否為私有 repository | 必須為 `false`（不支援私有） |
+| `url`       | string  | ✓    | Repository URL        | GitHub repository URL        |
 
 **關聯**：
+
 - 包含多個 `PenFile`
 - 有多個 `Commit`
 
 **驗證規則**：
+
 ```typescript
 function validateRepository(repo: Repository): ValidationResult {
   if (repo.isPrivate) {
-    return { valid: false, error: '僅支援公開儲存庫' };
+    return { valid: false, error: "僅支援公開儲存庫" };
   }
 
-  if (!repo.url.includes('github.com')) {
-    return { valid: false, error: '僅支援 GitHub 平台' };
+  if (!repo.url.includes("github.com")) {
+    return { valid: false, error: "僅支援 GitHub 平台" };
   }
 
   return { valid: true };
@@ -100,31 +104,34 @@ Git commit 記錄，代表檔案的某個版本。
 
 **欄位**：
 
-| 欄位名稱 | 型別 | 必填 | 說明 | 驗證規則 |
-|---------|------|------|------|---------|
-| `sha` | string | ✓ | Commit SHA (唯一識別碼) | 40 字元 hex 字串 |
-| `message` | string | ✓ | Commit 訊息 | 最多 72 字元（標題） |
-| `author` | Author | ✓ | 作者資訊 | 見 Author 型別 |
-| `committer` | Author | ✓ | Committer 資訊 | 見 Author 型別 |
-| `date` | Date | ✓ | Commit 日期 | ISO 8601 格式 |
-| `parents` | string[] | - | 父 commit SHA 列表 | 每個為 40 字元 hex |
-| `url` | string | ✓ | Commit 在 GitHub 的 URL | GitHub commit URL |
+| 欄位名稱    | 型別     | 必填 | 說明                    | 驗證規則             |
+| ----------- | -------- | ---- | ----------------------- | -------------------- |
+| `sha`       | string   | ✓    | Commit SHA (唯一識別碼) | 40 字元 hex 字串     |
+| `message`   | string   | ✓    | Commit 訊息             | 最多 72 字元（標題） |
+| `author`    | Author   | ✓    | 作者資訊                | 見 Author 型別       |
+| `committer` | Author   | ✓    | Committer 資訊          | 見 Author 型別       |
+| `date`      | Date     | ✓    | Commit 日期             | ISO 8601 格式        |
+| `parents`   | string[] | -    | 父 commit SHA 列表      | 每個為 40 字元 hex   |
+| `url`       | string   | ✓    | Commit 在 GitHub 的 URL | GitHub commit URL    |
 
 **Author 子型別**：
+
 ```typescript
 interface Author {
-  name: string;        // 作者名稱
-  email: string;       // 作者 email
-  date: Date;          // 時間戳記
+  name: string; // 作者名稱
+  email: string; // 作者 email
+  date: Date; // 時間戳記
 }
 ```
 
 **關聯**：
+
 - 屬於一個 `Repository`
 - 有一個 `FileVersion`（該 commit 的檔案內容）
 - 有零到多個父 `Commit`（merge commits 有多個父節點）
 
 **排序規則**：
+
 - 預設按 `date` 降序排列（最新在前）
 - 分頁：每次載入 100 筆
 
@@ -136,20 +143,22 @@ interface Author {
 
 **欄位**：
 
-| 欄位名稱 | 型別 | 必填 | 說明 | 驗證規則 |
-|---------|------|------|------|---------|
-| `sha` | string | ✓ | Commit SHA (關聯 Commit) | 40 字元 hex 字串 |
-| `content` | PenFileContent | ✓ | .pen 檔案解析後的 JSON 內容 | 見 PenFileContent 型別 |
-| `size` | number | ✓ | 檔案大小（bytes） | 最大 10MB |
-| `encoding` | string | - | 檔案編碼 | 通常為 `utf-8` |
-| `rawContent` | string | - | 原始檔案內容（base64） | GitHub API 回傳格式 |
+| 欄位名稱     | 型別           | 必填 | 說明                        | 驗證規則               |
+| ------------ | -------------- | ---- | --------------------------- | ---------------------- |
+| `sha`        | string         | ✓    | Commit SHA (關聯 Commit)    | 40 字元 hex 字串       |
+| `content`    | PenFileContent | ✓    | .pen 檔案解析後的 JSON 內容 | 見 PenFileContent 型別 |
+| `size`       | number         | ✓    | 檔案大小（bytes）           | 最大 10MB              |
+| `encoding`   | string         | -    | 檔案編碼                    | 通常為 `utf-8`         |
+| `rawContent` | string         | -    | 原始檔案內容（base64）      | GitHub API 回傳格式    |
 
 **PenFileContent 子型別**：
+
 ```typescript
 interface PenFileContent {
-  version: string;          // .pen 格式版本
-  root: PenNode;            // 根節點
-  metadata?: {              // 可選 metadata
+  version: string; // .pen 格式版本
+  root: PenNode; // 根節點
+  metadata?: {
+    // 可選 metadata
     createdAt?: Date;
     modifiedAt?: Date;
     author?: string;
@@ -157,18 +166,20 @@ interface PenFileContent {
 }
 
 interface PenNode {
-  id: string;               // 節點唯一 ID
-  type: string;             // 節點類型 (frame, text, etc.)
-  properties: Record<string, any>;  // 節點屬性
-  children?: PenNode[];     // 子節點
+  id: string; // 節點唯一 ID
+  type: string; // 節點類型 (frame, text, etc.)
+  properties: Record<string, any>; // 節點屬性
+  children?: PenNode[]; // 子節點
 }
 ```
 
 **關聯**：
+
 - 屬於一個 `Commit`
 - 屬於一個 `PenFile`
 
 **快取規則**：
+
 - 快取 key：`${owner}/${repo}/${path}@${sha}`
 - 不可變：commit SHA 不變，內容永不過期
 - LRU 淘汰：記憶體快取最多 50 個 FileVersion
@@ -181,30 +192,33 @@ interface PenNode {
 
 **欄位**：
 
-| 欄位名稱 | 型別 | 必填 | 說明 | 驗證規則 |
-|---------|------|------|------|---------|
-| `sha` | string | ✓ | 關聯的 Commit SHA | 40 字元 hex |
-| `screenshotUrl` | string | - | 截圖 URL（Phase 2） | 有效 URL |
-| `renderedNodes` | RenderedNode[] | - | 渲染後的節點資訊 | - |
-| `width` | number | ✓ | 畫布寬度（px） | > 0 |
-| `height` | number | ✓ | 畫布高度（px） | > 0 |
-| `generatedAt` | Date | ✓ | 生成時間 | ISO 8601 |
+| 欄位名稱        | 型別           | 必填 | 說明                | 驗證規則    |
+| --------------- | -------------- | ---- | ------------------- | ----------- |
+| `sha`           | string         | ✓    | 關聯的 Commit SHA   | 40 字元 hex |
+| `screenshotUrl` | string         | -    | 截圖 URL（Phase 2） | 有效 URL    |
+| `renderedNodes` | RenderedNode[] | -    | 渲染後的節點資訊    | -           |
+| `width`         | number         | ✓    | 畫布寬度（px）      | > 0         |
+| `height`        | number         | ✓    | 畫布高度（px）      | > 0         |
+| `generatedAt`   | Date           | ✓    | 生成時間            | ISO 8601    |
 
 **RenderedNode 子型別**：
+
 ```typescript
 interface RenderedNode {
-  id: string;               // 節點 ID（對應 PenNode.id）
-  boundingBox: {            // 邊界框
+  id: string; // 節點 ID（對應 PenNode.id）
+  boundingBox: {
+    // 邊界框
     x: number;
     y: number;
     width: number;
     height: number;
   };
-  visible: boolean;         // 是否可見
+  visible: boolean; // 是否可見
 }
 ```
 
 **關聯**：
+
 - 對應一個 `FileVersion`
 
 ---
@@ -215,39 +229,42 @@ interface RenderedNode {
 
 **欄位**：
 
-| 欄位名稱 | 型別 | 必填 | 說明 | 驗證規則 |
-|---------|------|------|------|---------|
-| `fromSha` | string | ✓ | 比較起點 commit SHA | 40 字元 hex |
-| `toSha` | string | ✓ | 比較終點 commit SHA | 40 字元 hex |
-| `added` | NodeDiff[] | ✓ | 新增的節點 | - |
-| `deleted` | NodeDiff[] | ✓ | 刪除的節點 | - |
-| `modified` | NodeDiff[] | ✓ | 修改的節點 | - |
-| `moved` | NodeDiff[] | ✓ | 移動的節點 | - |
-| `computedAt` | Date | ✓ | Diff 計算時間 | ISO 8601 |
+| 欄位名稱     | 型別       | 必填 | 說明                | 驗證規則    |
+| ------------ | ---------- | ---- | ------------------- | ----------- |
+| `fromSha`    | string     | ✓    | 比較起點 commit SHA | 40 字元 hex |
+| `toSha`      | string     | ✓    | 比較終點 commit SHA | 40 字元 hex |
+| `added`      | NodeDiff[] | ✓    | 新增的節點          | -           |
+| `deleted`    | NodeDiff[] | ✓    | 刪除的節點          | -           |
+| `modified`   | NodeDiff[] | ✓    | 修改的節點          | -           |
+| `moved`      | NodeDiff[] | ✓    | 移動的節點          | -           |
+| `computedAt` | Date       | ✓    | Diff 計算時間       | ISO 8601    |
 
 **NodeDiff 子型別**：
+
 ```typescript
 interface NodeDiff {
-  nodeId: string;                    // 節點 ID
-  type: 'added' | 'deleted' | 'modified' | 'moved';
-  path: string[];                    // 節點路徑（從 root）
-  oldNode?: PenNode;                 // 舊節點（deleted/modified）
-  newNode?: PenNode;                 // 新節點（added/modified）
+  nodeId: string; // 節點 ID
+  type: "added" | "deleted" | "modified" | "moved";
+  path: string[]; // 節點路徑（從 root）
+  oldNode?: PenNode; // 舊節點（deleted/modified）
+  newNode?: PenNode; // 新節點（added/modified）
   propertyChanges?: PropertyChange[]; // 屬性變更（modified）
 }
 
 interface PropertyChange {
-  property: string;                  // 屬性名稱（JSON pointer）
-  operation: 'add' | 'remove' | 'replace';
+  property: string; // 屬性名稱（JSON pointer）
+  operation: "add" | "remove" | "replace";
   oldValue?: any;
   newValue?: any;
 }
 ```
 
 **關聯**：
+
 - 關聯兩個 `FileVersion`（from 和 to）
 
 **快取規則**：
+
 - 快取 key：`diff:${fromSha}:${toSha}`
 - Diff 結果可快取（commit pair 不變）
 - 使用 Memoization 避免重複計算
@@ -272,12 +289,12 @@ interface PropertyChange {
 
 **狀態定義**：
 
-| 狀態 | 說明 | 可能操作 |
-|------|------|---------|
-| 未載入 | FileVersion 尚未載入 | 發起載入 |
-| 載入中 | API 請求進行中 | 顯示 loading indicator，可取消 |
-| 已載入 | 內容已載入並渲染 | 檢視、切換、比較 |
-| 錯誤狀態 | 載入失敗 | 重試、返回 |
+| 狀態     | 說明                 | 可能操作                       |
+| -------- | -------------------- | ------------------------------ |
+| 未載入   | FileVersion 尚未載入 | 發起載入                       |
+| 載入中   | API 請求進行中       | 顯示 loading indicator，可取消 |
+| 已載入   | 內容已載入並渲染     | 檢視、切換、比較               |
+| 錯誤狀態 | 載入失敗             | 重試、返回                     |
 
 ### DiffComparison 計算狀態
 
@@ -459,7 +476,7 @@ export interface DiffComparison {
 
 export interface NodeDiff {
   nodeId: string;
-  type: 'added' | 'deleted' | 'modified' | 'moved';
+  type: "added" | "deleted" | "modified" | "moved";
   path: string[];
   oldNode?: PenNode;
   newNode?: PenNode;
@@ -468,7 +485,7 @@ export interface NodeDiff {
 
 export interface PropertyChange {
   property: string;
-  operation: 'add' | 'remove' | 'replace';
+  operation: "add" | "remove" | "replace";
   oldValue?: any;
   newValue?: any;
 }
@@ -486,6 +503,7 @@ export interface ValidationResult {
 ### 記憶體快取索引
 
 **LRU Cache by Commit SHA**：
+
 - Key: `${owner}/${repo}/${path}@${sha}`
 - Value: `FileVersion`
 - Max size: 50 items
@@ -494,11 +512,13 @@ export interface ValidationResult {
 ### LocalStorage 索引
 
 **最近檢視的 Repositories**：
+
 - Key: `pencilhistory:recentRepos`
 - Value: `Array<{ owner, repo, path, lastViewed }>`
 - Max: 10 items
 
 **UI 偏好**：
+
 - Key: `pencilhistory:preferences`
 - Value: `{ playbackSpeed: number }`
 
@@ -506,13 +526,13 @@ export interface ValidationResult {
 
 ## 資料驗證規則總結
 
-| 實體 | 關鍵驗證 |
-|------|---------|
-| PenFile | 必須 `.pen` 結尾，檔案 < 10MB，有效 GitHub URL |
-| Repository | 必須公開，必須 GitHub 平台 |
-| Commit | SHA 必須 40 字元 hex |
-| FileVersion | Content 必須可解析為 JSON，符合 .pen schema |
-| DiffComparison | fromSha ≠ toSha，兩個 SHA 必須存在 |
+| 實體           | 關鍵驗證                                       |
+| -------------- | ---------------------------------------------- |
+| PenFile        | 必須 `.pen` 結尾，檔案 < 10MB，有效 GitHub URL |
+| Repository     | 必須公開，必須 GitHub 平台                     |
+| Commit         | SHA 必須 40 字元 hex                           |
+| FileVersion    | Content 必須可解析為 JSON，符合 .pen schema    |
+| DiffComparison | fromSha ≠ toSha，兩個 SHA 必須存在             |
 
 ---
 

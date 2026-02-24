@@ -12,8 +12,8 @@
   "children": [
     {
       "type": "rectangle",
-      "x": 47,    // 相對於 Frame
-      "y": 88,    // 相對於 Frame
+      "x": 47, // 相對於 Frame
+      "y": 88, // 相對於 Frame
       "width": 200,
       "height": 200
     }
@@ -24,15 +24,18 @@
 ### 計算
 
 **Frame:**
+
 - 位置: (180, 228)
 - 尺寸: 294 x 376
 
 **Rectangle (圖片):**
+
 - 相對位置: (47, 88)
 - 絕對位置: (180+47, 228+88) = **(227, 316)**
 - 尺寸: 200 x 200
 
 **居中驗證:**
+
 - 水平: (294 - 200) / 2 = 47 ✓
 - 垂直: (376 - 200) / 2 = 88 ✓
 
@@ -71,14 +74,16 @@ Rendering rectangle (KYrZB): {
 ### 3. 視覺描述
 
 目前圖片的位置：
+
 - [ ] 在 Frame 左上角
 - [ ] 在 Frame 右下角
 - [ ] 偏離中心（往哪個方向？）
-- [ ] 其他：__________
+- [ ] 其他：****\_\_****
 
 ### 4. 截圖對比
 
 如果可以的話，提供：
+
 - 原始設計圖（已提供）
 - 目前渲染結果的截圖
 
@@ -91,13 +96,14 @@ Rendering rectangle (KYrZB): {
 ```javascript
 // calculateBounds() 函數
 const padding = 20;
-minX = minX - padding;  // 這可能導致偏移
+minX = minX - padding; // 這可能導致偏移
 minY = minY - padding;
 ```
 
 ### 問題 2: 座標系統理解錯誤
 
 是否子節點座標是：
+
 - [ ] 相對於父節點左上角（目前假設）
 - [ ] 相對於畫布原點
 - [ ] 其他座標系統
@@ -105,7 +111,7 @@ minY = minY - padding;
 ### 問題 3: transform/rotation 影響
 
 ```javascript
-rotation: 2.4251729446159314e-14
+rotation: 2.4251729446159314e-14;
 ```
 
 這個極小的 rotation 值可能導致浮點數誤差？

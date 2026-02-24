@@ -14,6 +14,7 @@ The application uses **browser-side SVG rendering** for .pen file visualization.
 - Client displays SVG image directly
 
 **Benefits:**
+
 - ✅ No external dependencies
 - ✅ Fast rendering (< 100ms)
 - ✅ Small bundle size
@@ -22,6 +23,7 @@ The application uses **browser-side SVG rendering** for .pen file visualization.
 - ✅ Accurate representation of .pen structure
 
 **Supported Features:**
+
 - ✅ Frames, rectangles, ellipses, text
 - ✅ Position, size, rotation
 - ✅ Fill colors (solid, gradients as simplified)
@@ -31,6 +33,7 @@ The application uses **browser-side SVG rendering** for .pen file visualization.
 - ✅ Nested nodes and hierarchy
 
 **Limitations:**
+
 - Image fills render as placeholder gray (#e5e7eb)
 - Complex gradients simplified to first color
 - Path geometry not fully supported yet
@@ -53,6 +56,7 @@ PENCIL_MCP_ARGS="--timeout 30000"
 ```
 
 **Fallback Strategy:**
+
 - If MCP server is configured → Try MCP first
 - If MCP rendering fails → Fallback to SVG rendering
 - If MCP not configured → Use SVG rendering directly
@@ -77,25 +81,29 @@ For this .pen file:
 ```json
 {
   "version": "2.8",
-  "children": [{
-    "type": "frame",
-    "id": "BCm8s",
-    "x": 180,
-    "y": 228,
-    "width": 294,
-    "height": 376,
-    "fill": "#FFFFFF",
-    "children": [{
-      "type": "rectangle",
-      "id": "KYrZB",
-      "x": 47,
-      "y": 88,
-      "width": 200,
-      "height": 200,
-      "cornerRadius": 100,
-      "fill": "#e5e7eb"
-    }]
-  }]
+  "children": [
+    {
+      "type": "frame",
+      "id": "BCm8s",
+      "x": 180,
+      "y": 228,
+      "width": 294,
+      "height": 376,
+      "fill": "#FFFFFF",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "KYrZB",
+          "x": 47,
+          "y": 88,
+          "width": 200,
+          "height": 200,
+          "cornerRadius": 100,
+          "fill": "#e5e7eb"
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -160,6 +168,7 @@ Based on research (see `specs/001-pen-history-viewer/research.md`):
 5. **Production Ready**: SVG rendering is simpler and works today
 
 **The Hybrid Approach:**
+
 - Primary: Browser-side SVG rendering (production-ready)
 - Optional: Pencil MCP fallback (when available, for enhanced fidelity)
 - Result: Best of both worlds - works today, enhanceable tomorrow

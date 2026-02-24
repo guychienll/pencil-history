@@ -110,10 +110,7 @@ export class GitHubClient {
       }
 
       if (status === 403 && this.isRateLimitExceeded()) {
-        return new RateLimitError(
-          "GitHub API 呼叫次數已達上限，請稍後再試",
-          this.rateLimitReset
-        );
+        return new RateLimitError("GitHub API 呼叫次數已達上限，請稍後再試", this.rateLimitReset);
       }
 
       if (status === 404) {
@@ -135,14 +132,9 @@ export class GitHubClient {
   /**
    * Execute API request with rate limit handling
    */
-  async executeWithRateLimitCheck<T>(
-    fn: () => Promise<T>
-  ): Promise<T> {
+  async executeWithRateLimitCheck<T>(fn: () => Promise<T>): Promise<T> {
     if (this.isRateLimitExceeded()) {
-      throw new RateLimitError(
-        "GitHub API 呼叫次數已達上限，請稍後再試",
-        this.rateLimitReset
-      );
+      throw new RateLimitError("GitHub API 呼叫次數已達上限，請稍後再試", this.rateLimitReset);
     }
 
     try {

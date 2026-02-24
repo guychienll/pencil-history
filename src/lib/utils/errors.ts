@@ -13,7 +13,10 @@ export class GitHubAPIError extends Error {
 }
 
 export class PenFileError extends Error {
-  constructor(message: string, public filePath?: string) {
+  constructor(
+    message: string,
+    public filePath?: string
+  ) {
     super(message);
     this.name = "PenFileError";
     Object.setPrototypeOf(this, PenFileError.prototype);
@@ -21,7 +24,10 @@ export class PenFileError extends Error {
 }
 
 export class ValidationError extends Error {
-  constructor(message: string, public field?: string) {
+  constructor(
+    message: string,
+    public field?: string
+  ) {
     super(message);
     this.name = "ValidationError";
     Object.setPrototypeOf(this, ValidationError.prototype);

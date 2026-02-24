@@ -35,29 +35,33 @@
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 根據憲章 v1.0.0 檢查以下項目：
 
 ### I. 程式碼品質 (Code Quality)
+
 - [ ] 程式碼結構清晰，遵循單一職責原則
 - [ ] 避免過度工程化，只實作當前需求
 - [ ] 配置 linting 工具（ESLint/Prettier 等）
 - [ ] 無明顯安全漏洞（OWASP Top 10）
 
 ### II. 測試標準 (Testing Standards)
+
 - [ ] 計畫包含測試優先策略（Red-Green-Refactor）
 - [ ] 識別需要契約測試的 API 端點
 - [ ] 識別需要整合測試的使用者旅程
 - [ ] 測試覆蓋率目標：核心業務邏輯 ≥ 80%
 
 ### III. 使用者體驗一致性 (UX Consistency)
+
 - [ ] 使用統一的設計系統（若有 UI 元件）
 - [ ] 錯誤訊息和成功提示格式一致
 - [ ] 多語系支援完整（優先 zh-TW）
 - [ ] 無障礙功能已考慮
 
 ### IV. 效能要求 (Performance Requirements)
+
 - [ ] API P95 延遲目標 < 200ms
 - [ ] 前端 FCP < 1.5s, TTI < 3.0s（若適用）
 - [ ] JavaScript bundle < 500KB gzipped（若適用）
@@ -65,6 +69,7 @@
 - [ ] 已建立效能基準測試
 
 ### V. 文件與可觀測性 (Documentation & Observability)
+
 - [ ] 所有文件使用繁體中文（zh-TW）撰寫
 - [ ] 包含完整的 API 契約文件
 - [ ] 計畫包含結構化日誌策略（JSON 格式）
@@ -88,6 +93,7 @@ specs/[###-feature]/
 ```
 
 ### Source Code (repository root)
+
 <!--
   ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
   for this feature. Delete unused options and expand the chosen structure with
@@ -138,7 +144,7 @@ directories captured above]
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Violation                  | Why Needed         | Simpler Alternative Rejected Because |
+| -------------------------- | ------------------ | ------------------------------------ |
+| [e.g., 4th project]        | [current need]     | [why 3 projects insufficient]        |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient]  |

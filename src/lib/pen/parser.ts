@@ -53,7 +53,11 @@ export function stringifyPenFile(penDoc: PenDocument): string {
  * @param node - Starting node
  * @param fn - Function to apply to each node
  */
-export function traverseNodes(node: PenNode, fn: (node: PenNode, path: string[]) => void, path: string[] = []): void {
+export function traverseNodes(
+  node: PenNode,
+  fn: (node: PenNode, path: string[]) => void,
+  path: string[] = []
+): void {
   fn(node, path);
 
   if (node.children) {
@@ -118,9 +122,7 @@ export function getNodeByPath(penDoc: PenDocument, path: string[]): PenNode | un
   }
 
   // Find the first node in path from children
-  let current: PenNode | undefined = penDoc.children.find(
-    (child) => child.id === path[0]
-  );
+  let current: PenNode | undefined = penDoc.children.find((child) => child.id === path[0]);
 
   if (!current) {
     return undefined;

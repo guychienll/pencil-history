@@ -43,6 +43,7 @@ After extensive research into Pencil MCP's architecture and WebAssembly feasibil
 ### 1.1 Pencil MCP 現況分析
 
 **Findings**:
+
 - Pencil MCP 是一個 Model Context Protocol (MCP) 伺服器
 - 主要功能包括：
   - 讀取和操作 .pen 設計檔案
@@ -53,6 +54,7 @@ After extensive research into Pencil MCP's architecture and WebAssembly feasibil
 - 執行環境：Node.js 伺服器端環境
 
 **可用的 Pencil MCP 工具**（來自系統環境）:
+
 - `mcp__pencil__batch_design` - 執行設計操作
 - `mcp__pencil__batch_get` - 批次讀取節點
 - `mcp__pencil__get_screenshot` - 生成節點截圖
@@ -63,6 +65,7 @@ After extensive research into Pencil MCP's architecture and WebAssembly feasibil
 ### 1.2 瀏覽器版本或 WASM Port 評估
 
 **Findings**:
+
 - **無官方瀏覽器版本**：Pencil MCP 沒有官方的瀏覽器版本或 WebAssembly port
 - **無社群 WASM Port**：經搜尋沒有發現社群維護的 WASM 版本
 - **架構不適合 WASM 移植**：
@@ -99,6 +102,7 @@ After extensive research into Pencil MCP's architecture and WebAssembly feasibil
    - 瀏覽器相容性測試成本高
 
 **Estimated Effort**: 如果強行實施 WASM 方案，預估需要：
+
 - 研究和 POC：2-3 週
 - 完整實作：6-8 週
 - 測試和最佳化：3-4 週
@@ -109,10 +113,11 @@ After extensive research into Pencil MCP's architecture and WebAssembly feasibil
 **Findings** (如果使用 WASM):
 
 1. **載入策略**
+
    ```typescript
    // 使用 dynamic import 延遲載入
    const loadPencilWASM = async () => {
-     const { default: init, render } = await import('./wasm/pencil_renderer.js');
+     const { default: init, render } = await import("./wasm/pencil_renderer.js");
      await init(); // 初始化 WASM 模組
      return { render };
    };
@@ -141,11 +146,13 @@ After extensive research into Pencil MCP's architecture and WebAssembly feasibil
 ### 1.5 WASM Bundle 大小影響評估
 
 **Estimated Sizes** (基於類似專案的經驗):
+
 - 最小化 WASM 模組（僅基本 .pen 解析）：~2-3 MB
 - 包含圖形渲染庫的 WASM 模組：~10-15 MB
 - Gzipped 後：~30-40% 的原始大小 = 3-6 MB
 
 **Impact on Performance Goals**:
+
 - **JavaScript bundle 目標**：<500KB gzipped
 - **WASM bundle 實際大小**：3-6 MB gzipped (即使 dynamic import)
 - **FCP 目標**：<1.5s → 實際可能：3-5s（WASM 載入和初始化）
@@ -161,12 +168,14 @@ After extensive research into Pencil MCP's architecture and WebAssembly feasibil
 **Description**: 從頭實作一個輕量級的 .pen 檔案渲染器，使用 HTML5 Canvas 或 SVG。
 
 **Pros**:
+
 - 完全掌控 bundle 大小
 - 無 WASM 載入延遲
 - 易於 debug 和維護
 - 可以針對瀏覽器環境最佳化
 
 **Cons**:
+
 - 需要完整理解 .pen 檔案格式規格
 - 需要實作所有渲染邏輯（文字、形狀、圖片、布局等）
 - 與 Pencil MCP 的渲染結果可能有差異（100% 準確度難以保證）
@@ -184,6 +193,7 @@ After extensive research into Pencil MCP's architecture and WebAssembly feasibil
 **Description**: 在伺服器上執行 Pencil MCP，生成 .pen 檔案的截圖（PNG/SVG），前端僅顯示圖片。
 
 **Architecture**:
+
 ```
 User Input URL
     ↓
@@ -201,6 +211,7 @@ Frontend Display + Cache
 ```
 
 **Pros**:
+
 - 利用現有的 Pencil MCP 功能，無需重新實作
 - 100% 渲染準確度（使用官方渲染器）
 - 前端 bundle 小（僅需圖片顯示邏輯）
@@ -208,6 +219,7 @@ Frontend Display + Cache
 - 可以針對不同螢幕尺寸生成最佳化的圖片
 
 **Cons**:
+
 - ❌ **違反純前端靜態網站架構要求**（spec.md FR-022）
 - 需要後端伺服器或 serverless functions
 - 增加部署複雜度（無法直接部署到 GitHub Pages）
@@ -223,6 +235,7 @@ Frontend Display + Cache
 **Description**: 使用一個輕量的 screenshot service（可選自架或第三方），但透過激進的快取策略讓大部分使用者享有「靜態網站」的體驗。
 
 **Architecture**:
+
 ```
 User Input URL
     ↓
@@ -240,12 +253,14 @@ Check Local Cache (IndexedDB)
 ```
 
 **Cache Strategy**:
+
 1. **IndexedDB 快取**：永久儲存已渲染的截圖（以 `{owner}/{repo}/{path}:{commit_sha}` 為 key）
 2. **ServiceWorker**：攔截 screenshot 請求，優先從快取返回
 3. **CDN 快取**：screenshot service 的回應設定長期 cache headers
 4. **預載入**：使用者在時間軸上移動時，預先載入相鄰 commit 的截圖
 
 **Pros**:
+
 - ✅ 100% 渲染準確度
 - ✅ 前端 bundle 小（僅需快取和圖片顯示邏輯）
 - ✅ 大部分使用者體驗類似靜態網站（快取命中時）
@@ -254,6 +269,7 @@ Check Local Cache (IndexedDB)
 - ✅ 可選擇第三方 screenshot service（降低運營成本）
 
 **Cons**:
+
 - ⚠️ 首次載入需要等待 screenshot 生成（2-5 秒）
 - ⚠️ 仍需要一個後端服務（但可以是輕量的 serverless function）
 - ⚠️ 技術上不是「純靜態網站」，但對使用者體驗影響最小
@@ -267,11 +283,13 @@ Check Local Cache (IndexedDB)
 **Description**: 將 .pen 檔案轉換為 SVG 格式（在伺服器端或前端），然後在瀏覽器中直接渲染 SVG。
 
 **Pros**:
+
 - SVG 可以嵌入 HTML，支援互動和動畫
 - 可縮放無損（vector graphics）
 - 檔案大小比 PNG 小（對於簡單設計）
 
 **Cons**:
+
 - 需要實作 .pen → SVG 轉換邏輯
 - 複雜的 .pen 設計可能產生巨大的 SVG（效能問題）
 - .pen 的某些功能可能無法直接對應到 SVG（如特殊混合模式、濾鏡）
@@ -286,6 +304,7 @@ Check Local Cache (IndexedDB)
 ### 3.1 匿名 API 速率限制
 
 **Official Limits**:
+
 - **未驗證請求**：60 requests / hour / IP address
 - **已驗證請求**：5,000 requests / hour / user
 - **速率限制 headers**：
@@ -296,11 +315,13 @@ Check Local Cache (IndexedDB)
   ```
 
 **Recovery Behavior**:
+
 - 速率限制以小時為單位重置（非滑動窗口）
 - 達到限制後返回 HTTP 403 + 錯誤訊息
 - 可以從 `X-RateLimit-Reset` header 計算恢復時間
 
 **Recommendation**:
+
 - 在 UI 顯示剩餘 API quota（從 response headers 讀取）
 - 達到限制時顯示倒數計時器
 - 實作 exponential backoff 重試機制
@@ -317,10 +338,10 @@ Check Local Cache (IndexedDB)
      - `since` / `until`: 時間範圍過濾
    - 範例：
      ```typescript
-     const response = await octokit.request('GET /repos/{owner}/{repo}/commits', {
-       owner: 'facebook',
-       repo: 'react',
-       path: 'packages/react/src/React.js',
+     const response = await octokit.request("GET /repos/{owner}/{repo}/commits", {
+       owner: "facebook",
+       repo: "react",
+       path: "packages/react/src/React.js",
        per_page: 100,
        page: 1,
      });
@@ -333,6 +354,7 @@ Check Local Cache (IndexedDB)
 **Best Practices**:
 
 1. **使用 path 參數過濾**
+
    ```typescript
    // ✅ Good: 只獲取特定檔案的 commits
    GET /repos/{owner}/{repo}/commits?path=designs/app.pen
@@ -342,6 +364,7 @@ Check Local Cache (IndexedDB)
    ```
 
 2. **分頁載入**
+
    ```typescript
    // 第一次載入 100 筆
    const firstPage = await fetchCommits({ page: 1, per_page: 100 });
@@ -360,14 +383,15 @@ Check Local Cache (IndexedDB)
 **Conditional Requests**:
 
 1. **使用 ETag**
+
    ```typescript
    // 首次請求
    const response1 = await fetch(url);
-   const etag = response1.headers.get('ETag');
+   const etag = response1.headers.get("ETag");
 
    // 後續請求（檢查是否有更新）
    const response2 = await fetch(url, {
-     headers: { 'If-None-Match': etag }
+     headers: { "If-None-Match": etag },
    });
 
    if (response2.status === 304) {
@@ -378,17 +402,19 @@ Check Local Cache (IndexedDB)
    ```
 
 2. **使用 Last-Modified**
+
    ```typescript
-   const lastModified = response.headers.get('Last-Modified');
+   const lastModified = response.headers.get("Last-Modified");
 
    const nextResponse = await fetch(url, {
-     headers: { 'If-Modified-Since': lastModified }
+     headers: { "If-Modified-Since": lastModified },
    });
    ```
 
 **Caching Strategy**:
 
 1. **記憶體快取**（session 內）
+
    ```typescript
    const commitCache = new Map<string, Commit[]>();
    const fileCache = new Map<string, string>(); // key: `${owner}/${repo}/${path}:${sha}`
@@ -402,6 +428,7 @@ Check Local Cache (IndexedDB)
    ```
 
 2. **IndexedDB 快取**（跨 session）
+
    ```typescript
    // 儲存已檢視過的 commit 內容
    await db.commits.put({
@@ -418,6 +445,7 @@ Check Local Cache (IndexedDB)
 ### 3.4 錯誤處理和 Rate Limit Headers
 
 **Error Response Structure**:
+
 ```json
 {
   "message": "API rate limit exceeded for 203.0.113.1.",
@@ -426,6 +454,7 @@ Check Local Cache (IndexedDB)
 ```
 
 **Implementation**:
+
 ```typescript
 const handleGitHubError = async (response: Response) => {
   const remaining = response.headers.get('X-RateLimit-Remaining');
@@ -474,12 +503,14 @@ const RateLimitBanner = ({ resetTime }: { resetTime: Date }) => {
 ### 4.1 現有樹狀結構 Diff 演算法
 
 **Myers Diff Algorithm**:
+
 - 用途：文字檔案的 line-by-line diff（git diff 使用）
-- 時間複雜度：O((N+M) * D)，其中 D 是編輯距離
+- 時間複雜度：O((N+M) \* D)，其中 D 是編輯距離
 - 優點：產生最小編輯腳本
 - 缺點：不適合深層樹狀結構
 
 **Tree Diff Algorithm** (React Reconciliation):
+
 - 用途：Virtual DOM diff
 - 策略：
   1. 不同類型的元素產生不同的樹
@@ -490,6 +521,7 @@ const RateLimitBanner = ({ resetTime }: { resetTime: Date }) => {
 - 缺點：可能不是最小編輯腳本（trade-off for speed）
 
 **X-Tree Diff**:
+
 - 用途：XML 文件 diff
 - 策略：使用 hash 值快速識別相同子樹
 - 時間複雜度：O(N log N)
@@ -501,11 +533,12 @@ const RateLimitBanner = ({ resetTime }: { resetTime: Date }) => {
 **Recommended: Modified React Reconciliation**
 
 **Assumptions about .pen structure**:
+
 ```typescript
 interface PenNode {
-  id?: string;          // 唯一識別符（可能存在）
-  type: string;         // 節點類型（frame, text, rectangle, etc.）
-  properties: object;   // 節點屬性（width, height, fill, etc.）
+  id?: string; // 唯一識別符（可能存在）
+  type: string; // 節點類型（frame, text, rectangle, etc.）
+  properties: object; // 節點屬性（width, height, fill, etc.）
   children?: PenNode[]; // 子節點
 }
 ```
@@ -513,6 +546,7 @@ interface PenNode {
 **Algorithm**:
 
 1. **Level-by-level comparison**:
+
    ```typescript
    function diffNodes(oldNode: PenNode, newNode: PenNode): DiffResult {
      const result: DiffResult = {
@@ -549,13 +583,11 @@ interface PenNode {
    ```
 
 2. **Child nodes comparison with ID tracking**:
+
    ```typescript
-   function diffChildren(
-     oldChildren: PenNode[],
-     newChildren: PenNode[]
-   ): DiffResult {
-     const oldMap = new Map(oldChildren.map(c => [c.id || hash(c), c]));
-     const newMap = new Map(newChildren.map(c => [c.id || hash(c), c]));
+   function diffChildren(oldChildren: PenNode[], newChildren: PenNode[]): DiffResult {
+     const oldMap = new Map(oldChildren.map((c) => [c.id || hash(c), c]));
+     const newMap = new Map(newChildren.map((c) => [c.id || hash(c), c]));
 
      const added: PenNode[] = [];
      const removed: PenNode[] = [];
@@ -586,17 +618,12 @@ interface PenNode {
    ```
 
 3. **Property diff**:
+
    ```typescript
-   function diffProperties(
-     oldProps: object,
-     newProps: object
-   ): PropertyChange[] {
+   function diffProperties(oldProps: object, newProps: object): PropertyChange[] {
      const changes: PropertyChange[] = [];
 
-     const allKeys = new Set([
-       ...Object.keys(oldProps),
-       ...Object.keys(newProps),
-     ]);
+     const allKeys = new Set([...Object.keys(oldProps), ...Object.keys(newProps)]);
 
      for (const key of allKeys) {
        const oldValue = oldProps[key];
@@ -615,22 +642,24 @@ interface PenNode {
    }
    ```
 
-**Time Complexity**: O(N * M)，其中 N 和 M 是兩棵樹的節點數量。實際上因為使用 Map 查找，平均情況下接近 O(N + M)。
+**Time Complexity**: O(N \* M)，其中 N 和 M 是兩棵樹的節點數量。實際上因為使用 Map 查找，平均情況下接近 O(N + M)。
 
 **Space Complexity**: O(N + M)（儲存 ID maps）
 
 ### 4.3 節點 ID 追蹤策略
 
 **Case 1: .pen 檔案有穩定的節點 ID**
+
 ```typescript
 // ✅ Best case: 使用 id 屬性
 const nodeKey = node.id;
 ```
 
 **Case 2: .pen 檔案沒有穩定的節點 ID**
+
 ```typescript
 // ⚠️ Fallback: 使用內容 hash
-import { createHash } from 'crypto';
+import { createHash } from "crypto";
 
 function hashNode(node: PenNode): string {
   const content = JSON.stringify({
@@ -638,11 +667,12 @@ function hashNode(node: PenNode): string {
     properties: node.properties,
     // 不包含 children，避免 hash 依賴整個子樹
   });
-  return createHash('sha256').update(content).digest('hex');
+  return createHash("sha256").update(content).digest("hex");
 }
 ```
 
 **Case 3: 混合策略**
+
 ```typescript
 function getNodeKey(node: PenNode): string {
   // 優先使用 id
@@ -659,12 +689,14 @@ function getNodeKey(node: PenNode): string {
 ```
 
 **Recommendation**:
+
 - 首選：假設 .pen 檔案有穩定的 `id` 屬性（需要在 Phase 1 驗證）
 - Fallback：使用混合策略（id → type+name → hash）
 
 ### 4.4 差異視覺化最佳實踐
 
 **Approach 1: Side-by-Side Comparison**
+
 ```
 ┌─────────────────┬─────────────────┐
 │   Commit A      │   Commit B      │
@@ -678,6 +710,7 @@ function getNodeKey(node: PenNode): string {
 ```
 
 **Approach 2: Overlay Highlight**
+
 ```
 ┌─────────────────────────────┐
 │   Commit A → B (overlay)    │
@@ -689,6 +722,7 @@ function getNodeKey(node: PenNode): string {
 ```
 
 **Approach 3: Unified View with Annotations**
+
 ```
 ┌─────────────────────────────┐
 │   Commit B (with diff)      │
@@ -703,11 +737,13 @@ function getNodeKey(node: PenNode): string {
 **Recommendation**: 實作 Side-by-Side (Approach 1) + Overlay (Approach 2) 雙模式，讓使用者切換。
 
 **Visual Indicators**:
+
 - ✅ Added: 綠色邊框 + `opacity: 0.8` + 淡入動畫
 - ❌ Removed: 紅色邊框 + `opacity: 0.4` + 刪除線
 - ⚠️ Modified: 黃色邊框 + 閃爍動畫（1 次）
 
 **Hover Tooltip**:
+
 ```typescript
 <Tooltip>
   <TooltipTrigger>
@@ -747,10 +783,12 @@ export default function HistoryPage({ params }: { params: { owner: string; repo:
 ```
 
 **ISR (Incremental Static Regeneration) - 不適用**:
+
 - ISR 需要 Node.js 伺服器
 - PencilHistory.xyz 是純前端靜態網站，不使用 ISR
 
 **Client-Side Rendering (CSR) - 推薦**:
+
 ```typescript
 // app/history/[owner]/[repo]/[...path]/page.tsx
 'use client'; // 標記為 client component
@@ -781,13 +819,14 @@ export default function HistoryPage() {
 // 範例：如果我們要預先生成熱門儲存庫的頁面
 export async function generateStaticParams() {
   return [
-    { owner: 'facebook', repo: 'react', path: ['src', 'React.js'] },
-    { owner: 'vercel', repo: 'next.js', path: ['packages', 'next', 'src', 'server.ts'] },
+    { owner: "facebook", repo: "react", path: ["src", "React.js"] },
+    { owner: "vercel", repo: "next.js", path: ["packages", "next", "src", "server.ts"] },
   ];
 }
 ```
 
 但對於 PencilHistory.xyz：
+
 - 使用者輸入任意 GitHub URL
 - 無法預先知道所有可能的 URL
 - ❌ 不使用 `generateStaticParams`
@@ -836,12 +875,12 @@ function HistoryViewer() {
 ```typescript
 // 只在需要時載入大型 library
 const loadOctokit = async () => {
-  const { Octokit } = await import('@octokit/rest');
+  const { Octokit } = await import("@octokit/rest");
   return new Octokit();
 };
 
 const loadDiffLibrary = async () => {
-  const diff = await import('fast-json-patch');
+  const diff = await import("fast-json-patch");
   return diff;
 };
 ```
@@ -864,6 +903,7 @@ module.exports = withBundleAnalyzer({
 ```
 
 **Target Sizes** (gzipped):
+
 - Homepage (URL input): ~50 KB
 - History Viewer (without .pen rendering): ~150 KB
 - .pen Viewer Component: ~100 KB (lazy loaded)
@@ -877,10 +917,7 @@ module.exports = withBundleAnalyzer({
 ```javascript
 // tailwind.config.js
 module.exports = {
-  content: [
-    './app/**/*.{js,ts,jsx,tsx}',
-    './src/components/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ["./app/**/*.{js,ts,jsx,tsx}", "./src/components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       // 自訂 design tokens
@@ -930,16 +967,17 @@ module.exports = {
 
 **Map vs WeakMap**:
 
-| Feature | Map | WeakMap |
-|---------|-----|---------|
-| Key type | Any | Object only |
-| Garbage collection | No | Yes (keys can be GC'd) |
-| Iteration | Yes | No |
-| Use case | Short-lived cache | Long-lived cache with auto cleanup |
+| Feature            | Map               | WeakMap                            |
+| ------------------ | ----------------- | ---------------------------------- |
+| Key type           | Any               | Object only                        |
+| Garbage collection | No                | Yes (keys can be GC'd)             |
+| Iteration          | Yes               | No                                 |
+| Use case           | Short-lived cache | Long-lived cache with auto cleanup |
 
 **Recommendation**: 使用 **Map** for commit/file cache
 
 理由：
+
 - 需要 iteration（顯示已載入的 commits）
 - 需要 string keys（`${owner}/${repo}/${path}:${sha}`）
 - Session-based（不需要跨頁面保留）
@@ -990,6 +1028,7 @@ const fileCache = new MemoryCache<string>(100);
    - 適合有限記憶體環境
 
 2. **TTL (Time To Live)** - 可選
+
    ```typescript
    interface CacheEntry<T> {
      value: T;
@@ -1014,17 +1053,18 @@ const fileCache = new MemoryCache<string>(100);
 
 **Comparison**:
 
-| Feature | LocalStorage | SessionStorage | IndexedDB |
-|---------|-------------|----------------|-----------|
-| Storage Limit | ~5-10 MB | ~5-10 MB | ~50 MB - unlimited |
-| API | Synchronous | Synchronous | Asynchronous |
-| Data Type | String only | String only | Any (structured clone) |
-| Persistence | Permanent | Tab session | Permanent |
-| Performance | Fast (small data) | Fast (small data) | Fast (large data) |
+| Feature       | LocalStorage      | SessionStorage    | IndexedDB              |
+| ------------- | ----------------- | ----------------- | ---------------------- |
+| Storage Limit | ~5-10 MB          | ~5-10 MB          | ~50 MB - unlimited     |
+| API           | Synchronous       | Synchronous       | Asynchronous           |
+| Data Type     | String only       | String only       | Any (structured clone) |
+| Persistence   | Permanent         | Tab session       | Permanent              |
+| Performance   | Fast (small data) | Fast (small data) | Fast (large data)      |
 
 **Recommendation**: 使用 **IndexedDB** for .pen file content cache
 
 理由：
+
 - .pen 檔案可能很大（up to 10MB）
 - 需要儲存大量 commits 的內容
 - 需要跨 session 保留（permanent cache）
@@ -1034,7 +1074,7 @@ const fileCache = new MemoryCache<string>(100);
 
 ```typescript
 // src/lib/cache/indexed-db.ts
-import Dexie, { Table } from 'dexie';
+import Dexie, { Table } from "dexie";
 
 interface CachedFile {
   key: string; // `${owner}/${repo}/${path}:${sha}`
@@ -1047,9 +1087,9 @@ class PencilHistoryDB extends Dexie {
   files!: Table<CachedFile>;
 
   constructor() {
-    super('PencilHistoryDB');
+    super("PencilHistoryDB");
     this.version(1).stores({
-      files: 'key, timestamp',
+      files: "key, timestamp",
     });
   }
 }
@@ -1073,7 +1113,7 @@ export async function setCachedFile(key: string, content: string): Promise<void>
 
 export async function clearOldCache(maxAge: number = 7 * 24 * 60 * 60 * 1000): Promise<void> {
   const cutoff = Date.now() - maxAge;
-  await db.files.where('timestamp').below(cutoff).delete();
+  await db.files.where("timestamp").below(cutoff).delete();
 }
 ```
 
@@ -1082,7 +1122,7 @@ export async function clearOldCache(maxAge: number = 7 * 24 * 60 * 60 * 1000): P
 ```typescript
 // 檢查 storage quota
 async function checkStorageQuota() {
-  if ('storage' in navigator && 'estimate' in navigator.storage) {
+  if ("storage" in navigator && "estimate" in navigator.storage) {
     const estimate = await navigator.storage.estimate();
     const percentUsed = (estimate.usage! / estimate.quota!) * 100;
 
@@ -1101,6 +1141,7 @@ async function checkStorageQuota() {
 **Not in MVP Scope**, but research findings:
 
 **Benefits**:
+
 - Offline support
 - Network request interception
 - Background sync
@@ -1109,19 +1150,22 @@ async function checkStorageQuota() {
 
 ```typescript
 // public/sw.js
-self.addEventListener('fetch', (event) => {
+self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
 
   // 攔截 .pen 檔案請求
-  if (url.pathname.includes('/api/pen-content/')) {
+  if (url.pathname.includes("/api/pen-content/")) {
     event.respondWith(
       caches.match(event.request).then((response) => {
-        return response || fetch(event.request).then((fetchResponse) => {
-          return caches.open('pen-files-v1').then((cache) => {
-            cache.put(event.request, fetchResponse.clone());
-            return fetchResponse;
-          });
-        });
+        return (
+          response ||
+          fetch(event.request).then((fetchResponse) => {
+            return caches.open("pen-files-v1").then((cache) => {
+              cache.put(event.request, fetchResponse.clone());
+              return fetchResponse;
+            });
+          })
+        );
       })
     );
   }
@@ -1137,6 +1181,7 @@ self.addEventListener('fetch', (event) => {
 問題：使用者檢視的 .pen 檔案可能在 GitHub 上被更新（force push, rebase）
 
 解決方案：
+
 - ✅ 使用 commit SHA 作為快取 key（SHA 是 immutable 的）
 - ✅ 即使檔案更新，舊的 commit SHA 仍然有效
 
@@ -1150,18 +1195,19 @@ const cacheKey = `${owner}/${repo}/${path}:${commitSha}`;
 問題：如果 .pen 格式規格更新，舊的快取可能無法正確渲染
 
 解決方案：
+
 - ✅ 在快取 key 中包含格式版本號
 - ✅ 當偵測到新版本時，清除舊快取
 
 ```typescript
-const PEN_FORMAT_VERSION = '1.0'; // 從 .pen 檔案中讀取
+const PEN_FORMAT_VERSION = "1.0"; // 從 .pen 檔案中讀取
 
 const cacheKey = `v${PEN_FORMAT_VERSION}:${owner}/${repo}/${path}:${commitSha}`;
 
 // 在 app 啟動時檢查版本
 if (storedVersion !== PEN_FORMAT_VERSION) {
   await db.files.clear(); // 清除所有舊快取
-  localStorage.setItem('pen-format-version', PEN_FORMAT_VERSION);
+  localStorage.setItem("pen-format-version", PEN_FORMAT_VERSION);
 }
 ```
 
@@ -1170,6 +1216,7 @@ if (storedVersion !== PEN_FORMAT_VERSION) {
 問題：IndexedDB 快取無限增長
 
 解決方案：
+
 - ✅ 實作 LRU eviction（最多保留 N 個檔案）
 - ✅ 定期清理超過 7 天未存取的快取
 
@@ -1179,8 +1226,8 @@ const MAX_CACHED_FILES = 500;
 async function evictOldestCache() {
   const count = await db.files.count();
   if (count > MAX_CACHED_FILES) {
-    const oldest = await db.files.orderBy('timestamp').limit(100).toArray();
-    await db.files.bulkDelete(oldest.map(f => f.key));
+    const oldest = await db.files.orderBy("timestamp").limit(100).toArray();
+    await db.files.bulkDelete(oldest.map((f) => f.key));
   }
 }
 ```
@@ -1196,22 +1243,22 @@ async function evictOldestCache() {
 ```typescript
 // src/lib/utils/performance.ts
 export function measurePageLoad() {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
 
-  window.addEventListener('load', () => {
+  window.addEventListener("load", () => {
     const perfData = window.performance.timing;
     const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
     const domReadyTime = perfData.domContentLoadedEventEnd - perfData.navigationStart;
     const ttfb = perfData.responseStart - perfData.navigationStart;
 
-    console.log('Performance Metrics:', {
+    console.log("Performance Metrics:", {
       pageLoadTime: `${pageLoadTime}ms`,
       domReadyTime: `${domReadyTime}ms`,
       ttfb: `${ttfb}ms`,
     });
 
     // 可選：發送到 analytics
-    sendToAnalytics('page_load', {
+    sendToAnalytics("page_load", {
       pageLoadTime,
       domReadyTime,
       ttfb,
@@ -1247,13 +1294,13 @@ fetch(penFileUrl).then((response) => {
 
 ```typescript
 // 標記關鍵時間點
-performance.mark('commits-fetch-start');
+performance.mark("commits-fetch-start");
 await fetchCommits();
-performance.mark('commits-fetch-end');
+performance.mark("commits-fetch-end");
 
-performance.measure('commits-fetch-duration', 'commits-fetch-start', 'commits-fetch-end');
+performance.measure("commits-fetch-duration", "commits-fetch-start", "commits-fetch-end");
 
-const measure = performance.getEntriesByName('commits-fetch-duration')[0];
+const measure = performance.getEntriesByName("commits-fetch-duration")[0];
 console.log(`Commits fetched in ${measure.duration}ms`);
 
 // 清理
@@ -1263,12 +1310,12 @@ performance.clearMeasures();
 
 **Recommended Measurements**:
 
-| Metric | Mark Start | Mark End | Target |
-|--------|-----------|----------|--------|
-| URL Input → Timeline Display | `timeline-load-start` | `timeline-load-end` | < 10s |
-| Commit Selection → .pen Render | `pen-render-start` | `pen-render-end` | < 2s |
-| Timeline Navigation (arrow key) | `nav-start` | `nav-end` | < 500ms |
-| Diff Calculation | `diff-start` | `diff-end` | < 1s |
+| Metric                          | Mark Start            | Mark End            | Target  |
+| ------------------------------- | --------------------- | ------------------- | ------- |
+| URL Input → Timeline Display    | `timeline-load-start` | `timeline-load-end` | < 10s   |
+| Commit Selection → .pen Render  | `pen-render-start`    | `pen-render-end`    | < 2s    |
+| Timeline Navigation (arrow key) | `nav-start`           | `nav-end`           | < 500ms |
+| Diff Calculation                | `diff-start`          | `diff-end`          | < 1s    |
 
 ### 7.2 使用者互動延遲追蹤
 
@@ -1280,10 +1327,10 @@ performance.clearMeasures();
 // 簡化的 TTI 測量（實際上應使用 Lighthouse）
 export function estimateTTI() {
   return new Promise((resolve) => {
-    if (document.readyState === 'complete') {
+    if (document.readyState === "complete") {
       resolve(performance.now());
     } else {
-      window.addEventListener('load', () => {
+      window.addEventListener("load", () => {
         // 等待 idle period（沒有 long tasks）
         requestIdleCallback(() => {
           resolve(performance.now());
@@ -1296,7 +1343,7 @@ export function estimateTTI() {
 // Usage
 estimateTTI().then((tti) => {
   console.log(`TTI: ${tti}ms`);
-  sendToAnalytics('tti', { value: tti });
+  sendToAnalytics("tti", { value: tti });
 });
 ```
 
@@ -1305,16 +1352,16 @@ estimateTTI().then((tti) => {
 ```typescript
 // 使用 PerformanceObserver 測量 FID
 export function measureFID() {
-  if ('PerformanceObserver' in window) {
+  if ("PerformanceObserver" in window) {
     const observer = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
         const fid = entry.processingStart - entry.startTime;
         console.log(`FID: ${fid}ms`);
-        sendToAnalytics('fid', { value: fid });
+        sendToAnalytics("fid", { value: fid });
       }
     });
 
-    observer.observe({ type: 'first-input', buffered: true });
+    observer.observe({ type: "first-input", buffered: true });
   }
 }
 ```
@@ -1334,7 +1381,7 @@ export function trackInteraction(action: string, startMark: string) {
 
     const measure = performance.getEntriesByName(action)[0];
     console.log(`${action}: ${measure.duration}ms`);
-    sendToAnalytics('interaction', {
+    sendToAnalytics("interaction", {
       action,
       duration: measure.duration,
     });
@@ -1342,7 +1389,7 @@ export function trackInteraction(action: string, startMark: string) {
 }
 
 // Usage
-const trackCommitSwitch = trackInteraction('commit-switch', 'commit-switch-start');
+const trackCommitSwitch = trackInteraction("commit-switch", "commit-switch-start");
 // ... 執行切換 commit 的邏輯
 trackCommitSwitch(); // 完成時呼叫
 ```
@@ -1363,7 +1410,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install dependencies
         run: npm ci
@@ -1388,21 +1435,21 @@ jobs:
 module.exports = {
   ci: {
     collect: {
-      startServerCommand: 'npm start',
-      url: ['http://localhost:3000'],
+      startServerCommand: "npm start",
+      url: ["http://localhost:3000"],
       numberOfRuns: 3,
     },
     assert: {
       assertions: {
-        'categories:performance': ['error', { minScore: 0.9 }],
-        'categories:accessibility': ['warn', { minScore: 0.9 }],
-        'first-contentful-paint': ['error', { maxNumericValue: 1500 }],
-        'interactive': ['error', { maxNumericValue: 3000 }],
-        'total-blocking-time': ['error', { maxNumericValue: 300 }],
+        "categories:performance": ["error", { minScore: 0.9 }],
+        "categories:accessibility": ["warn", { minScore: 0.9 }],
+        "first-contentful-paint": ["error", { maxNumericValue: 1500 }],
+        interactive: ["error", { maxNumericValue: 3000 }],
+        "total-blocking-time": ["error", { maxNumericValue: 300 }],
       },
     },
     upload: {
-      target: 'temporary-public-storage',
+      target: "temporary-public-storage",
     },
   },
 };
@@ -1449,17 +1496,17 @@ module.exports = {
 
 ```typescript
 // src/lib/monitoring/sentry.ts
-import * as Sentry from '@sentry/nextjs';
+import * as Sentry from "@sentry/nextjs";
 
 export function initSentry() {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     Sentry.init({
       dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
       environment: process.env.NODE_ENV,
       tracesSampleRate: 0.1, // 10% of transactions
       beforeSend(event, hint) {
         // 過濾掉不重要的錯誤
-        if (event.exception?.values?.[0]?.type === 'RateLimitError') {
+        if (event.exception?.values?.[0]?.type === "RateLimitError") {
           // Rate limit errors 是預期的，不需要報告
           return null;
         }
@@ -1517,11 +1564,11 @@ class ErrorTracker {
     if (this.errors.length > 100) {
       this.errors.shift();
     }
-    localStorage.setItem('error-logs', JSON.stringify(this.errors));
+    localStorage.setItem("error-logs", JSON.stringify(this.errors));
 
     // 在 development 環境中 console.error
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Error tracked:', log);
+    if (process.env.NODE_ENV === "development") {
+      console.error("Error tracked:", log);
     }
   }
 
@@ -1531,7 +1578,7 @@ class ErrorTracker {
 
   clear() {
     this.errors = [];
-    localStorage.removeItem('error-logs');
+    localStorage.removeItem("error-logs");
   }
 }
 
@@ -1539,6 +1586,7 @@ export const errorTracker = new ErrorTracker();
 ```
 
 **Recommendation**:
+
 - MVP: 使用 custom error tracking（免費，簡單）
 - 未來：如果流量大且需要進階功能，考慮 Sentry（有免費方案，每月 5,000 errors）
 
@@ -1605,22 +1653,22 @@ export const errorTracker = new ErrorTracker();
 
 ### Performance Impact Analysis
 
-| Approach | Bundle Size | FCP | TTI | Rendering Accuracy | Development Time |
-|----------|-------------|-----|-----|--------------------|------------------|
-| **WASM Port** | 3-6 MB | 3-5s | 5-8s | 100% | 3-4 months |
-| **Pure JS Renderer** | 150-300 KB | 1-2s | 2-3s | ~95% | 2-3 months |
-| **Screenshot Service** | 200 KB | 1.5s | 2.5s | 100% | 7-10 weeks |
-| **Manual Screenshots (MVP)** | 150 KB | 1s | 2s | 100% | 4-6 weeks |
+| Approach                     | Bundle Size | FCP  | TTI  | Rendering Accuracy | Development Time |
+| ---------------------------- | ----------- | ---- | ---- | ------------------ | ---------------- |
+| **WASM Port**                | 3-6 MB      | 3-5s | 5-8s | 100%               | 3-4 months       |
+| **Pure JS Renderer**         | 150-300 KB  | 1-2s | 2-3s | ~95%               | 2-3 months       |
+| **Screenshot Service**       | 200 KB      | 1.5s | 2.5s | 100%               | 7-10 weeks       |
+| **Manual Screenshots (MVP)** | 150 KB      | 1s   | 2s   | 100%               | 4-6 weeks        |
 
 ### Risk Mitigation
 
-| Risk | Mitigation Strategy |
-|------|---------------------|
-| Screenshot service 成本過高 | 使用 Vercel serverless function 免費額度；實作 aggressive caching |
-| GitHub API rate limit | 顯示清楚的錯誤訊息；實作 local cache；lazy loading |
-| .pen 檔案格式變更 | 版本化快取 key；監控 .pen 格式版本 |
-| 大型 .pen 檔案渲染慢 | 檔案大小限制（10MB）；顯示 loading indicator |
-| 無法保證 100% 準確度（Pure JS） | ❌ 因此不選擇此方案 |
+| Risk                            | Mitigation Strategy                                               |
+| ------------------------------- | ----------------------------------------------------------------- |
+| Screenshot service 成本過高     | 使用 Vercel serverless function 免費額度；實作 aggressive caching |
+| GitHub API rate limit           | 顯示清楚的錯誤訊息；實作 local cache；lazy loading                |
+| .pen 檔案格式變更               | 版本化快取 key；監控 .pen 格式版本                                |
+| 大型 .pen 檔案渲染慢            | 檔案大小限制（10MB）；顯示 loading indicator                      |
+| 無法保證 100% 準確度（Pure JS） | ❌ 因此不選擇此方案                                               |
 
 ---
 
@@ -1629,6 +1677,7 @@ export const errorTracker = new ErrorTracker();
 ### Primary Decision: Screenshot Service with Aggressive Caching
 
 **Rationale**:
+
 1. ✅ 100% 渲染準確度（使用官方 Pencil MCP）
 2. ✅ 符合效能目標（FCP < 1.5s, TTI < 3.0s, bundle < 500KB）
 3. ✅ 合理的開發時間（7-10 週）
@@ -1636,6 +1685,7 @@ export const errorTracker = new ErrorTracker();
 5. ⚠️ 需要輕量後端服務（但可以最小化並使用 serverless）
 
 **Alternative for MVP**: Manual Screenshots
+
 - 更快實現（4-6 週）
 - 可以先驗證產品概念
 - 後續再整合 screenshot service
@@ -1643,28 +1693,34 @@ export const errorTracker = new ErrorTracker();
 ### Technologies & Libraries
 
 **Core Stack**:
+
 - Next.js 15 (App Router, Static Export)
 - React 18
 - TypeScript 5.x
 - Tailwind CSS v4
 
 **GitHub Integration**:
+
 - `@octokit/rest` - GitHub API client
 
 **Caching**:
+
 - `dexie` - IndexedDB wrapper
 - Built-in `Map` - Memory cache
 
 **Diff Algorithm**:
+
 - Custom implementation（基於 React reconciliation）
 - `fast-json-patch` - JSON diff utility（backup）
 
 **Performance Monitoring**:
+
 - Web Performance API（內建）
 - Lighthouse CI（GitHub Actions）
 - Custom error tracker（MVP）
 
 **Screenshot Service** (Phase 2):
+
 - Vercel Serverless Functions
 - Pencil MCP Server（Node.js）
 - 或第三方 API（如 ScreenshotOne, ApiFlash）

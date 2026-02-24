@@ -28,9 +28,7 @@ export async function initializePencilMCPClient(): Promise<Client | null> {
     // Create transport for Pencil MCP server
     const transport = new StdioClientTransport({
       command: process.env.PENCIL_MCP_SERVER || "pencil-mcp-server",
-      args: process.env.PENCIL_MCP_ARGS
-        ? process.env.PENCIL_MCP_ARGS.split(" ")
-        : [],
+      args: process.env.PENCIL_MCP_ARGS ? process.env.PENCIL_MCP_ARGS.split(" ") : [],
     });
 
     mcpClient = new Client(

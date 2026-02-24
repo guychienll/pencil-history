@@ -46,6 +46,7 @@
 ### Scope Update (2026-02-24)
 
 The specification has been updated to narrow platform support to **GitHub only**:
+
 - ✅ GitHub support: Full support for public GitHub repositories
 - ❌ GitLab support: Out of scope
 - ❌ Bitbucket support: Out of scope
@@ -56,6 +57,7 @@ This simplifies implementation and reduces the initial development effort while 
 ### Next Steps
 
 The specification is now ready for:
+
 - `/speckit.clarify` - If you need to ask more clarification questions to refine the spec
 - `/speckit.plan` - To create the implementation plan based on this specification
 

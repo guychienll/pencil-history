@@ -13,10 +13,7 @@ const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
  * @param fileSize - Optional file size in bytes
  * @returns Validation result
  */
-export function validatePenFile(
-  penDoc: PenDocument,
-  fileSize?: number
-): ValidationResult {
+export function validatePenFile(penDoc: PenDocument, fileSize?: number): ValidationResult {
   // Check file size
   if (fileSize && fileSize > MAX_FILE_SIZE) {
     return {
@@ -238,10 +235,7 @@ export function validateFileSize(content: string): ValidationResult {
  * @param nodeType - Expected node type
  * @returns Validation result
  */
-export function validateNodeStructure(
-  node: PenNode,
-  nodeType: string
-): ValidationResult {
+export function validateNodeStructure(node: PenNode, nodeType: string): ValidationResult {
   if (node.type !== nodeType) {
     return {
       valid: false,

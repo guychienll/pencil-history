@@ -28,6 +28,7 @@
 ### 瀏覽器支援
 
 開發和測試需支援以下瀏覽器：
+
 - Chrome 90+
 - Firefox 88+
 - Safari 14+
@@ -78,6 +79,7 @@ npm install
 ```
 
 **預期輸出**：
+
 ```
 added 523 packages, and audited 524 packages in 18s
 
@@ -106,6 +108,7 @@ npm dev
 ```
 
 **預期輸出**：
+
 ```
 ▲ Next.js 15.0.0
 - Local:        http://localhost:3000
@@ -119,6 +122,7 @@ npm dev
 ### 檔案監聽與熱重載
 
 Next.js 會自動監聽檔案變更並即時重載：
+
 - **頁面變更**：自動刷新
 - **元件變更**：熱模組替換（HMR）
 - **樣式變更**：即時更新
@@ -126,6 +130,7 @@ Next.js 會自動監聽檔案變更並即時重載：
 ### 開發工具
 
 **建議使用的 VSCode 擴充功能**：
+
 - ESLint
 - Prettier - Code formatter
 - Tailwind CSS IntelliSense
@@ -229,6 +234,7 @@ npm build
 ```
 
 **預期輸出**：
+
 ```
 Route (app)                              Size     First Load JS
 ┌ ○ /                                    1.2 kB         85.2 kB
@@ -310,6 +316,7 @@ npm deploy
 ```
 
 **`package.json` 添加**：
+
 ```json
 {
   "scripts": {
@@ -485,6 +492,7 @@ ANALYZE=true npm build
 **問題**：`EACCES: permission denied`
 
 **解決**：
+
 ```bash
 # 清除 npm cache
 npm store prune
@@ -498,6 +506,7 @@ npm install
 **問題**：IDE 顯示型別錯誤但程式碼正確
 
 **解決**：
+
 ```bash
 # 重新啟動 TypeScript 伺服器（VSCode）
 Cmd/Ctrl + Shift + P → "TypeScript: Restart TS Server"
@@ -512,6 +521,7 @@ npm install
 **問題**：E2E 測試無法找到元素
 
 **解決**：
+
 ```bash
 # 確保瀏覽器已安裝
 npm exec playwright install
@@ -523,6 +533,7 @@ npm test:e2e:ui
 ### Q: Port 3000 已被佔用
 
 **解決**：
+
 ```bash
 # 方式 1：使用不同 port
 PORT=3001 npm dev
@@ -538,6 +549,7 @@ taskkill /PID <PID> /F
 ### Q: Husky hooks 未執行
 
 **解決**：
+
 ```bash
 # 重新安裝 Husky
 npx husky install
@@ -565,18 +577,18 @@ chmod +x .husky/*
 
 ## 有用的命令速查
 
-| 命令 | 說明 |
-|------|------|
-| `npm dev` | 啟動開發伺服器 |
-| `npm build` | 生產建置 |
-| `npm test` | 執行所有測試 |
-| `npm test:watch` | Watch 模式測試 |
-| `npm lint` | ESLint 檢查 |
-| `npm format` | Prettier 格式化 |
-| `npm type-check` | TypeScript 型別檢查 |
-| `npm test:e2e` | Playwright E2E 測試 |
-| `ANALYZE=true npm build` | Bundle 分析 |
-| `npm lighthouse` | Lighthouse 審計 |
+| 命令                     | 說明                |
+| ------------------------ | ------------------- |
+| `npm dev`                | 啟動開發伺服器      |
+| `npm build`              | 生產建置            |
+| `npm test`               | 執行所有測試        |
+| `npm test:watch`         | Watch 模式測試      |
+| `npm lint`               | ESLint 檢查         |
+| `npm format`             | Prettier 格式化     |
+| `npm type-check`         | TypeScript 型別檢查 |
+| `npm test:e2e`           | Playwright E2E 測試 |
+| `ANALYZE=true npm build` | Bundle 分析         |
+| `npm lighthouse`         | Lighthouse 審計     |
 
 ---
 

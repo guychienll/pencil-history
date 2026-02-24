@@ -48,7 +48,7 @@ export async function renderPenToSVG(
   const imageFills = collectImageFills(penDoc);
   console.log("Collected image fills:", {
     count: imageFills.length,
-    fills: imageFills.map(f => ({ imageUrl: f.imageUrl || f.url }))
+    fills: imageFills.map((f) => ({ imageUrl: f.imageUrl || f.url })),
   });
 
   if (imageFills.length > 0) {
@@ -159,20 +159,22 @@ function renderNode(node: PenNode, parentX: number = 0, parentY: number = 0): st
   const absoluteX = parentX + relativeX;
   const absoluteY = parentY + relativeY;
 
-  const width =
-    typeof node.width === "number" ? node.width : parseFloat(String(node.width)) || 100;
+  const width = typeof node.width === "number" ? node.width : parseFloat(String(node.width)) || 100;
   const height =
     typeof node.height === "number" ? node.height : parseFloat(String(node.height)) || 100;
   const rotation = node.rotation || 0;
   const opacity = node.opacity !== undefined ? node.opacity : 1;
 
   // Debug logging for position
-  if (node.type === "frame" || (node.fill && typeof node.fill === "object" && node.fill.type === "image")) {
+  if (
+    node.type === "frame" ||
+    (node.fill && typeof node.fill === "object" && node.fill.type === "image")
+  ) {
     console.log(`Rendering ${node.type} (${node.id}):`, {
       relative: { x: relativeX, y: relativeY },
       parent: { x: parentX, y: parentY },
       absolute: { x: absoluteX, y: absoluteY },
-      size: { width, height }
+      size: { width, height },
     });
   }
 
@@ -184,9 +186,7 @@ function renderNode(node: PenNode, parentX: number = 0, parentY: number = 0): st
   // Rotation center should be in absolute coordinates
   const centerX = absoluteX + width / 2;
   const centerY = absoluteY + height / 2;
-  const transform = rotation !== 0
-    ? `transform="rotate(${rotation} ${centerX} ${centerY})"`
-    : "";
+  const transform = rotation !== 0 ? `transform="rotate(${rotation} ${centerX} ${centerY})"` : "";
 
   let svg = "";
 
@@ -274,11 +274,7 @@ function renderEllipse(
 /**
  * Render text node
  */
-function renderText(
-  node: PenNode,
-  x: number,
-  y: number
-): string {
+function renderText(node: PenNode, x: number, y: number): string {
   const content = node.content || "";
   const fontSize = node.fontSize || 16;
   const fontFamily = node.fontFamily || "system-ui, sans-serif";
@@ -417,7 +413,7 @@ function collectImageFills(penDoc: PenDocument): PenFill[] {
 
   function traverse(node: PenNode, depth = 0) {
     const indent = "  ".repeat(depth);
-    console.log(`${indent}Node: ${node.type} (${node.id || 'no-id'})`);
+    console.log(`${indent}Node: ${node.type} (${node.id || "no-id"})`);
 
     // Check node's fill
     if (node.fill) {
@@ -427,7 +423,9 @@ function collectImageFills(penDoc: PenDocument): PenFill[] {
         if (typeof fill === "object") {
           // Support both 'imageUrl' and 'url' properties
           const imageUrl = fill.imageUrl || fill.url;
-          console.log(`${indent}    Fill type: ${fill.type}, imageUrl: ${fill.imageUrl || 'none'}, url: ${fill.url || 'none'}`);
+          console.log(
+            `${indent}    Fill type: ${fill.type}, imageUrl: ${fill.imageUrl || "none"}, url: ${fill.url || "none"}`
+          );
           if (fill.type === "image" && imageUrl) {
             console.log(`${indent}    ✅ Found image fill: ${imageUrl}`);
             imageFills.push(fill);
@@ -517,7 +515,7 @@ function resolveImageUrl(imageUrl: string): string {
   console.log("Resolved image URL:", {
     original: imageUrl,
     resolved: resolvedUrl,
-    context: { owner, repo, ref }
+    context: { owner, repo, ref },
   });
 
   return resolvedUrl;
@@ -587,7 +585,7 @@ function simpleHash(str: string): string {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash &= hash; // Convert to 32bit integer
   }
   return Math.abs(hash).toString(36);

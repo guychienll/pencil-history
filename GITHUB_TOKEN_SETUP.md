@@ -16,11 +16,13 @@
 ## 步驟 2: 設定環境變數
 
 1. 在專案根目錄建立 `.env.local` 檔案:
+
    ```bash
    cp .env.example .env.local
    ```
 
 2. 編輯 `.env.local` 檔案，將 `your_github_token_here` 替換為剛才複製的 token:
+
    ```env
    GITHUB_TOKEN=ghp_your_actual_token_here
    ```
@@ -50,6 +52,7 @@ npm run dev
 ## 驗證設定
 
 啟動 server 後，查看 console log 應該會看到:
+
 ```
 GitHub API Rate Limit: xxxx/5000
 ```
@@ -59,11 +62,13 @@ GitHub API Rate Limit: xxxx/5000
 ## Troubleshooting
 
 ### Token 無效
+
 - 確認 token 已複製完整 (通常以 `ghp_` 開頭)
 - 確認 token 權限已正確勾選
 - 確認 `.env.local` 檔案格式正確 (沒有多餘空格或引號)
 
 ### 仍然遇到 rate limit
+
 - 確認有重新啟動開發伺服器
 - 檢查 `GITHUB_TOKEN` 環境變數是否正確載入:
   ```bash
@@ -71,5 +76,6 @@ GitHub API Rate Limit: xxxx/5000
   ```
 
 ### API 錯誤
+
 - 確認要存取的 repository 是公開的，或 token 有對應權限
 - 檢查 GitHub token 是否過期或被刪除

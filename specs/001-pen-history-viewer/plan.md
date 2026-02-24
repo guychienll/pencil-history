@@ -16,6 +16,7 @@
 PencilHistory.xyz 是一個類似於 githistory.xyz 的網站應用程式，用於視覺化檢視 GitHub 上 .pen 設計檔案的 commit 歷史。使用者輸入 GitHub .pen 檔案 URL 後，系統會顯示該檔案的 commit 時間軸，並以視覺化方式呈現每個版本的設計內容（而非程式碼）。
 
 **架構特點**：
+
 - **前端**：Next.js 15 靜態網站，處理 UI、時間軸、使用者互動
 - **後端**：Serverless API（Vercel Functions 或 Node.js server），整合 Pencil MCP server 生成 .pen 截圖
 - **渲染策略**：透過後端呼叫 Pencil MCP 的 `get_screenshot` 工具，將 .pen 檔案轉換為截圖
@@ -28,28 +29,29 @@ PencilHistory.xyz 是一個類似於 githistory.xyz 的網站應用程式，用�
 **Language/Version**: TypeScript 5.x, Node.js 18+
 **Package Manager**: npm 9.x+
 **Primary Dependencies**:
+
 - **Frontend**: Next.js 15 (App Router), React 18, Tailwind CSS v4, Octokit (GitHub API client)
 - **Backend**: Pencil MCP Server (for .pen screenshot generation), @modelcontextprotocol/sdk
-**Storage**:
+  **Storage**:
 - **Frontend**: IndexedDB (截圖快取，持久化), Memory cache (session 資料), LocalStorage (UI 偏好)
 - **Backend**: 無狀態（stateless）serverless functions
-**Testing**: Vitest (unit/integration), Playwright (E2E), React Testing Library
-**Target Platform**:
+  **Testing**: Vitest (unit/integration), Playwright (E2E), React Testing Library
+  **Target Platform**:
 - **Frontend**: 現代瀏覽器（Chrome 90+, Firefox 88+, Safari 14+, Edge 90+）
 - **Backend**: Node.js 18+ runtime（Vercel Functions 或自架 server）
-**Project Type**: Full-stack Web Application（前端靜態 + 後端 serverless API）
-**Performance Goals**:
+  **Project Type**: Full-stack Web Application（前端靜態 + 後端 serverless API）
+  **Performance Goals**:
 - URL 輸入到顯示時間軸 < 10 秒（100 commits）
 - Commit 切換視覺化更新 < 2 秒（首次）、< 500ms（快取命中）
 - FCP < 1.5s, TTI < 3.0s
 - JavaScript bundle < 500KB gzipped
 - Screenshot 生成 < 3 秒/檔案
-**Constraints**:
+  **Constraints**:
 - 僅支援 GitHub 公開儲存庫
 - GitHub API 匿名呼叫限制 60 請求/小時/IP
 - .pen 檔案大小上限 10MB
 - Serverless function timeout < 10 秒（Vercel 限制）
-**Scale/Scope**:
+  **Scale/Scope**:
 - 支援檢視至少 1000 筆 commit 歷史
 - 每次載入 100 筆 commit（分頁）
 - 預期並發使用者數：數百至數千
@@ -57,29 +59,33 @@ PencilHistory.xyz 是一個類似於 githistory.xyz 的網站應用程式，用�
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 根據憲章 v1.0.0 檢查以下項目：
 
 ### I. 程式碼品質 (Code Quality)
+
 - [x] 程式碼結構清晰，遵循單一職責原則 - 使用 Next.js App Router 清晰分層
 - [x] 避免過度工程化，只實作當前需求 - 無不必要的抽象層或框架
 - [x] 配置 linting 工具（ESLint/Prettier 等） - 使用 Husky + ESLint + Prettier 作為 quality gate
 - [x] 無明顯安全漏洞（OWASP Top 10） - 純前端靜態網站，無伺服器端攻擊面；輸入驗證防止 XSS
 
 ### II. 測試標準 (Testing Standards)
+
 - [x] 計畫包含測試優先策略（Red-Green-Refactor） - 見 Phase 2 任務規劃
 - [x] 識別需要契約測試的 API 端點 - GitHub API 回應格式、.pen 檔案結構驗證
 - [x] 識別需要整合測試的使用者旅程 - P1/P2/P3 使用者故事全流程測試
 - [x] 測試覆蓋率目標：核心業務邏輯 ≥ 80% - URL 解析、GitHub API 整合、.pen 渲染、diff 演算法
 
 ### III. 使用者體驗一致性 (UX Consistency)
+
 - [x] 使用統一的設計系統（若有 UI 元件） - Tailwind v4 + 自訂 design tokens
 - [x] 錯誤訊息和成功提示格式一致 - 統一的 ErrorBoundary 和 Toast 元件
 - [x] 多語系支援完整（優先 zh-TW） - 此版本僅支援英文介面（類似 githistory.xyz），未來可擴展
 - [x] 無障礙功能已考慮 - 鍵盤導航（方向鍵）、ARIA 標籤、focus management
 
 ### IV. 效能要求 (Performance Requirements)
+
 - [x] API P95 延遲目標 < 200ms - 無自有 API，依賴 GitHub API（通常 < 200ms）
 - [x] 前端 FCP < 1.5s, TTI < 3.0s（若適用） - Next.js SSG 優化，程式碼分割
 - [x] JavaScript bundle < 500KB gzipped（若適用） - 使用 dynamic import、tree shaking、Pencil WASM 按需載入
@@ -87,6 +93,7 @@ PencilHistory.xyz 是一個類似於 githistory.xyz 的網站應用程式，用�
 - [x] 已建立效能基準測試 - 使用 Lighthouse CI 和自訂效能測試
 
 ### V. 文件與可觀測性 (Documentation & Observability)
+
 - [x] 所有文件使用繁體中文（zh-TW）撰寫 - spec.md、plan.md、tasks.md 均使用 zh-TW
 - [x] 包含完整的 API 契約文件 - GitHub API 整合契約、.pen 檔案結構契約
 - [x] 計畫包含結構化日誌策略（JSON 格式） - 前端使用 console 和 analytics events（結構化）
@@ -262,6 +269,7 @@ pencil-history/
 ### Phase 0 Output
 
 執行研究任務後，將產生 `/specs/001-pen-history-viewer/research.md`，包含：
+
 - 每個研究任務的決策（Decision）
 - 決策理由（Rationale）
 - 評估過的替代方案（Alternatives Considered）
@@ -320,11 +328,13 @@ pencil-history/
 **Note**: Phase 2（任務分解）由 `/speckit.tasks` 命令執行，不在 `/speckit.plan` 的範圍內。
 
 此計畫完成後，使用者應執行：
+
 ```bash
 /speckit.tasks
 ```
 
 預期產生的任務結構：
+
 - 按使用者故事分組（P1, P2, P3）
 - 測試任務在實作任務之前
 - 標註任務相依性和可平行執行的任務

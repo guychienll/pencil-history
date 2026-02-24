@@ -51,9 +51,11 @@ async function generateWithMCP(
 ): Promise<PenScreenshotResponse> {
   try {
     // Call Pencil MCP's get_screenshot tool
-    const response = await (client as {
-      callTool: (args: unknown) => Promise<unknown>;
-    }).callTool({
+    const response = await (
+      client as {
+        callTool: (args: unknown) => Promise<unknown>;
+      }
+    ).callTool({
       name: "get_screenshot",
       arguments: {
         filePath: "temp.pen",
@@ -122,11 +124,7 @@ function extractImageDataFromMCPResponse(response: unknown): string {
     Array.isArray(response.content)
   ) {
     const imageContent = response.content.find(
-      (item: unknown) =>
-        item &&
-        typeof item === "object" &&
-        "type" in item &&
-        item.type === "image"
+      (item: unknown) => item && typeof item === "object" && "type" in item && item.type === "image"
     );
 
     if (
@@ -145,9 +143,10 @@ function extractImageDataFromMCPResponse(response: unknown): string {
 /**
  * Validate screenshot request
  */
-export function validateScreenshotRequest(
-  request: PenScreenshotRequest
-): { valid: boolean; error?: string } {
+export function validateScreenshotRequest(request: PenScreenshotRequest): {
+  valid: boolean;
+  error?: string;
+} {
   if (!request.penContent) {
     return { valid: false, error: "penContent 不能為空" };
   }

@@ -30,21 +30,22 @@
 
 ```typescript
 interface PenFile {
-  version: string;              // .pen 格式版本（例如 "1.0.0"）
-  root: PenNode;                // 根節點（通常為 document 或 canvas）
-  metadata?: PenMetadata;       // 可選的檔案 metadata
+  version: string; // .pen 格式版本（例如 "1.0.0"）
+  root: PenNode; // 根節點（通常為 document 或 canvas）
+  metadata?: PenMetadata; // 可選的檔案 metadata
 }
 
 interface PenMetadata {
-  createdAt?: string;           // ISO 8601 日期
-  modifiedAt?: string;          // ISO 8601 日期
-  author?: string;              // 作者名稱
-  description?: string;         // 檔案說明
-  [key: string]: any;           // 其他自訂 metadata
+  createdAt?: string; // ISO 8601 日期
+  modifiedAt?: string; // ISO 8601 日期
+  author?: string; // 作者名稱
+  description?: string; // 檔案說明
+  [key: string]: any; // 其他自訂 metadata
 }
 ```
 
 **最小有效 .pen 檔案範例**：
+
 ```json
 {
   "version": "1.0.0",
@@ -64,49 +65,49 @@ interface PenMetadata {
 
 ```typescript
 interface PenNode {
-  id: string;                   // 節點唯一識別碼（必填）
-  type: string;                 // 節點類型（必填，見下方）
-  name?: string;                // 節點名稱（可選，用於 UI 顯示）
-  properties: NodeProperties;   // 節點屬性（視 type 而定）
-  children?: PenNode[];         // 子節點（可選，某些類型無 children）
+  id: string; // 節點唯一識別碼（必填）
+  type: string; // 節點類型（必填，見下方）
+  name?: string; // 節點名稱（可選，用於 UI 顯示）
+  properties: NodeProperties; // 節點屬性（視 type 而定）
+  children?: PenNode[]; // 子節點（可選，某些類型無 children）
 }
 
 interface NodeProperties {
   // 通用屬性（所有節點）
-  visible?: boolean;            // 是否可見（預設 true）
-  locked?: boolean;             // 是否鎖定（預設 false）
-  opacity?: number;             // 不透明度（0-1）
+  visible?: boolean; // 是否可見（預設 true）
+  locked?: boolean; // 是否鎖定（預設 false）
+  opacity?: number; // 不透明度（0-1）
 
   // 佈局屬性（container 節點）
-  layout?: 'horizontal' | 'vertical' | 'absolute';
-  gap?: number;                 // 間距（px）
-  padding?: number | number[];  // 內距（px）
+  layout?: "horizontal" | "vertical" | "absolute";
+  gap?: number; // 間距（px）
+  padding?: number | number[]; // 內距（px）
 
   // 尺寸屬性
-  width?: number | 'auto' | 'fill';
-  height?: number | 'auto' | 'fill';
+  width?: number | "auto" | "fill";
+  height?: number | "auto" | "fill";
   minWidth?: number;
   maxWidth?: number;
   minHeight?: number;
   maxHeight?: number;
 
   // 位置屬性（absolute layout）
-  x?: number;                   // X 座標（px）
-  y?: number;                   // Y 座標（px）
+  x?: number; // X 座標（px）
+  y?: number; // Y 座標（px）
 
   // 樣式屬性
-  fill?: string | Fill;         // 填充顏色或漸層
-  stroke?: string;              // 邊框顏色
-  strokeWidth?: number;         // 邊框寬度
+  fill?: string | Fill; // 填充顏色或漸層
+  stroke?: string; // 邊框顏色
+  strokeWidth?: number; // 邊框寬度
   cornerRadius?: number | number[]; // 圓角半徑
 
   // 文字屬性（text 節點）
-  content?: string;             // 文字內容
-  fontSize?: number;            // 字體大小
-  fontFamily?: string;          // 字體家族
+  content?: string; // 文字內容
+  fontSize?: number; // 字體大小
+  fontFamily?: string; // 字體家族
   fontWeight?: number | string; // 字重
-  textAlign?: 'left' | 'center' | 'right' | 'justify';
-  lineHeight?: number;          // 行高
+  textAlign?: "left" | "center" | "right" | "justify";
+  lineHeight?: number; // 行高
 
   // 其他自訂屬性
   [key: string]: any;
@@ -115,15 +116,15 @@ interface NodeProperties {
 type Fill = string | GradientFill | ImageFill;
 
 interface GradientFill {
-  type: 'linear' | 'radial';
+  type: "linear" | "radial";
   stops: Array<{ offset: number; color: string }>;
-  angle?: number;               // 角度（線性漸層）
+  angle?: number; // 角度（線性漸層）
 }
 
 interface ImageFill {
-  type: 'image';
+  type: "image";
   url: string;
-  fit?: 'fill' | 'contain' | 'cover';
+  fit?: "fill" | "contain" | "cover";
 }
 ```
 
@@ -136,10 +137,12 @@ interface ImageFill {
 根節點，代表整個文件。
 
 **屬性**：
+
 - `width`: number
 - `height`: number
 
 **範例**：
+
 ```json
 {
   "id": "document",
@@ -159,6 +162,7 @@ interface ImageFill {
 容器節點，可包含子節點。
 
 **支援屬性**：
+
 - 通用屬性
 - 佈局屬性（`layout`, `gap`, `padding`）
 - 尺寸屬性
@@ -166,6 +170,7 @@ interface ImageFill {
 - 樣式屬性（`fill`, `stroke`, `cornerRadius`）
 
 **範例**：
+
 ```json
 {
   "id": "frame1",
@@ -191,12 +196,14 @@ interface ImageFill {
 文字節點。
 
 **支援屬性**：
+
 - 通用屬性
 - 尺寸屬性（通常 auto）
 - 位置屬性
 - 文字屬性（`content`, `fontSize`, `fontFamily`, etc.）
 
 **範例**：
+
 ```json
 {
   "id": "text1",
@@ -220,12 +227,14 @@ interface ImageFill {
 矩形節點。
 
 **支援屬性**：
+
 - 通用屬性
 - 尺寸屬性
 - 位置屬性
 - 樣式屬性
 
 **範例**：
+
 ```json
 {
   "id": "rect1",
@@ -248,12 +257,14 @@ interface ImageFill {
 橢圓/圓形節點。
 
 **支援屬性**：
+
 - 通用屬性
 - 尺寸屬性
 - 位置屬性
 - 樣式屬性
 
 **範例**：
+
 ```json
 {
   "id": "circle1",
@@ -275,6 +286,7 @@ interface ImageFill {
 任意路徑節點（SVG path）。
 
 **支援屬性**：
+
 - 通用屬性
 - 尺寸屬性
 - 位置屬性
@@ -282,6 +294,7 @@ interface ImageFill {
 - `geometry`: SVG path data
 
 **範例**：
+
 ```json
 {
   "id": "path1",
@@ -301,6 +314,7 @@ interface ImageFill {
 圖片節點。
 
 **支援屬性**：
+
 - 通用屬性
 - 尺寸屬性
 - 位置屬性
@@ -308,6 +322,7 @@ interface ImageFill {
 - `fit`: 'fill' | 'contain' | 'cover'
 
 **範例**：
+
 ```json
 {
   "id": "img1",
@@ -328,10 +343,12 @@ interface ImageFill {
 元件實例，引用可重複使用的元件。
 
 **支援屬性**：
+
 - `ref`: 被引用的元件 ID
 - `overrides`: 覆寫子節點屬性
 
 **範例**：
+
 ```json
 {
   "id": "button-instance-1",
@@ -358,12 +375,14 @@ interface ImageFill {
 - ID 格式：字母開頭，可包含字母、數字、連字號、底線
 
 **有效 ID**：
+
 - `document`
 - `frame-1`
 - `text_title`
 - `button123`
 
 **無效 ID**：
+
 - `123-frame`（數字開頭）
 - `frame 1`（包含空白）
 - `frame/1`（包含非法字元）
@@ -371,10 +390,12 @@ interface ImageFill {
 ### ID 穩定性
 
 **重要**：節點 ID 在編輯過程中應保持穩定，以便：
+
 - Diff 演算法能追蹤同一節點的屬性變更
 - 避免誤判為「刪除 + 新增」
 
 **不好**（每次儲存重新生成 ID）：
+
 ```json
 // Commit 1
 { "id": "temp_abc123", "type": "frame", ... }
@@ -384,6 +405,7 @@ interface ImageFill {
 ```
 
 **好**（ID 穩定）：
+
 ```json
 // Commit 1
 { "id": "header-frame", "type": "frame", ... }
@@ -402,11 +424,11 @@ interface ImageFill {
 function validatePenFile(file: any): ValidationResult {
   // 檢查根結構
   if (!file.version) {
-    return { valid: false, error: '缺少 version 欄位' };
+    return { valid: false, error: "缺少 version 欄位" };
   }
 
   if (!file.root) {
-    return { valid: false, error: '缺少 root 節點' };
+    return { valid: false, error: "缺少 root 節點" };
   }
 
   // 驗證根節點
@@ -415,7 +437,7 @@ function validatePenFile(file: any): ValidationResult {
 
 function validateNode(node: any): ValidationResult {
   if (!node.id) {
-    return { valid: false, error: '節點缺少 id' };
+    return { valid: false, error: "節點缺少 id" };
   }
 
   if (!node.type) {
@@ -465,19 +487,19 @@ function validateUniqueIds(root: PenNode): ValidationResult {
 ```typescript
 function validateNodeType(node: PenNode): ValidationResult {
   switch (node.type) {
-    case 'text':
+    case "text":
       if (!node.properties.content) {
         return { valid: false, error: `text 節點 ${node.id} 缺少 content` };
       }
       break;
 
-    case 'ref':
+    case "ref":
       if (!node.properties.ref) {
         return { valid: false, error: `ref 節點 ${node.id} 缺少 ref 屬性` };
       }
       break;
 
-    case 'path':
+    case "path":
       if (!node.properties.geometry) {
         return { valid: false, error: `path 節點 ${node.id} 缺少 geometry` };
       }
@@ -495,6 +517,7 @@ function validateNodeType(node: PenNode): ValidationResult {
 **最大檔案大小**：10MB（10,485,760 bytes）
 
 **驗證**：
+
 ```typescript
 function validateFileSize(content: string): ValidationResult {
   const sizeInBytes = new Blob([content]).size;
@@ -503,7 +526,7 @@ function validateFileSize(content: string): ValidationResult {
   if (sizeInBytes > maxSize) {
     return {
       valid: false,
-      error: `檔案大小 ${(sizeInBytes / 1024 / 1024).toFixed(2)} MB 超過 10MB 限制`
+      error: `檔案大小 ${(sizeInBytes / 1024 / 1024).toFixed(2)} MB 超過 10MB 限制`,
     };
   }
 
@@ -520,15 +543,17 @@ function validateFileSize(content: string): ValidationResult {
 **情境**：.pen 檔案不是有效 JSON
 
 **處理**：
+
 ```typescript
 try {
   const penFile = JSON.parse(fileContent);
 } catch (error) {
-  throw new Error('無效的 .pen 檔案格式：JSON 解析失敗');
+  throw new Error("無效的 .pen 檔案格式：JSON 解析失敗");
 }
 ```
 
 **使用者訊息**：
+
 ```
 無法解析 .pen 檔案
 檔案格式損壞或不符合 JSON 規範
@@ -539,8 +564,9 @@ try {
 **情境**：.pen 檔案版本與系統支援版本不符
 
 **處理**：
+
 ```typescript
-const supportedVersions = ['1.0.0', '1.1.0'];
+const supportedVersions = ["1.0.0", "1.1.0"];
 
 if (!supportedVersions.includes(penFile.version)) {
   throw new Error(`不支援的 .pen 格式版本：${penFile.version}`);
@@ -548,6 +574,7 @@ if (!supportedVersions.includes(penFile.version)) {
 ```
 
 **使用者訊息**：
+
 ```
 此 .pen 檔案使用版本 ${version}
 目前僅支援版本 1.0.0 和 1.1.0
@@ -556,6 +583,7 @@ if (!supportedVersions.includes(penFile.version)) {
 ### 缺少必填欄位
 
 **使用者訊息**：
+
 ```
 .pen 檔案格式不完整
 缺少必要欄位：${missingField}
@@ -568,63 +596,63 @@ if (!supportedVersions.includes(penFile.version)) {
 ### 契約測試（Contract Tests）
 
 ```typescript
-describe('.pen File Contract Tests', () => {
-  it('解析有效的 .pen 檔案', () => {
+describe(".pen File Contract Tests", () => {
+  it("解析有效的 .pen 檔案", () => {
     const validPenFile = {
-      version: '1.0.0',
+      version: "1.0.0",
       root: {
-        id: 'document',
-        type: 'document',
+        id: "document",
+        type: "document",
         properties: {},
-        children: []
-      }
+        children: [],
+      },
     };
 
     const result = validatePenFile(validPenFile);
     expect(result.valid).toBe(true);
   });
 
-  it('拒絕缺少 version 的檔案', () => {
+  it("拒絕缺少 version 的檔案", () => {
     const invalidFile = {
-      root: { id: 'document', type: 'document', children: [] }
+      root: { id: "document", type: "document", children: [] },
     };
 
     const result = validatePenFile(invalidFile);
     expect(result.valid).toBe(false);
-    expect(result.error).toContain('version');
+    expect(result.error).toContain("version");
   });
 
-  it('偵測重複的節點 ID', () => {
+  it("偵測重複的節點 ID", () => {
     const fileWithDuplicateIds = {
-      version: '1.0.0',
+      version: "1.0.0",
       root: {
-        id: 'document',
-        type: 'document',
+        id: "document",
+        type: "document",
         children: [
-          { id: 'frame1', type: 'frame', properties: {} },
-          { id: 'frame1', type: 'frame', properties: {} } // 重複！
-        ]
-      }
+          { id: "frame1", type: "frame", properties: {} },
+          { id: "frame1", type: "frame", properties: {} }, // 重複！
+        ],
+      },
     };
 
     const result = validateUniqueIds(fileWithDuplicateIds.root);
     expect(result.valid).toBe(false);
-    expect(result.error).toContain('重複的 ID');
+    expect(result.error).toContain("重複的 ID");
   });
 
-  it('驗證檔案大小限制', () => {
+  it("驗證檔案大小限制", () => {
     const largeContent = JSON.stringify({
-      version: '1.0.0',
+      version: "1.0.0",
       root: {
-        id: 'document',
-        type: 'document',
-        children: Array(100000).fill({ id: 'test', type: 'frame', properties: {} })
-      }
+        id: "document",
+        type: "document",
+        children: Array(100000).fill({ id: "test", type: "frame", properties: {} }),
+      },
     });
 
     const result = validateFileSize(largeContent);
     expect(result.valid).toBe(false);
-    expect(result.error).toContain('10MB');
+    expect(result.error).toContain("10MB");
   });
 });
 ```
@@ -634,6 +662,7 @@ describe('.pen File Contract Tests', () => {
 ## 完整範例
 
 **簡單的設計檔案**：
+
 ```json
 {
   "version": "1.0.0",
@@ -735,10 +764,12 @@ describe('.pen File Contract Tests', () => {
 ## 參考資源
 
 **相關標準**：
+
 - JSON Schema: https://json-schema.org/
 - SVG Path Specification: https://www.w3.org/TR/SVG/paths.html
 
 **工具**：
+
 - JSON Schema Validator
 - .pen Linter（未來開發）
 

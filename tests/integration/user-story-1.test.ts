@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 
 /**
  * Integration Test: User Story 1
@@ -190,7 +190,6 @@ describe("T038: User Story 1 Integration Test", () => {
       };
 
       // Mock a file that's too large
-      const largeContent = JSON.stringify(largePenDoc);
       const size = 11 * 1024 * 1024; // 11MB
 
       // This should fail validation

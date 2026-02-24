@@ -12,12 +12,14 @@
 ## 實際範例
 
 假設：
+
 - Owner: `guychienll`
 - Repo: `pen-diff`
 - Commit SHA: `abc123def456...`
 - 圖片路徑: `232543043.jpeg`
 
 解析結果：
+
 ```
 https://raw.githubusercontent.com/guychienll/pen-diff/abc123def456.../232543043.jpeg
 ```
@@ -37,16 +39,19 @@ https://raw.githubusercontent.com/guychienll/pen-diff/abc123def456.../232543043.
 以下格式都可以正常工作：
 
 1. **Commit SHA (推薦)**
+
    ```
    https://raw.githubusercontent.com/guychienll/pen-diff/abc123def/232543043.jpeg
    ```
 
 2. **Branch name**
+
    ```
    https://raw.githubusercontent.com/guychienll/pen-diff/main/232543043.jpeg
    ```
 
 3. **Full branch reference**
+
    ```
    https://raw.githubusercontent.com/guychienll/pen-diff/refs/heads/main/232543043.jpeg
    ```
@@ -93,7 +98,7 @@ curl -I "https://raw.githubusercontent.com/guychienll/pen-diff/{commit-sha}/2325
   "type": "rectangle",
   "fill": {
     "type": "image",
-    "imageUrl": "232543043.jpeg"  // ← 相對路徑
+    "imageUrl": "232543043.jpeg" // ← 相對路徑
   }
 }
 ```
@@ -104,7 +109,7 @@ curl -I "https://raw.githubusercontent.com/guychienll/pen-diff/{commit-sha}/2325
 {
   "fill": {
     "type": "image",
-    "imageUrl": "https://raw.githubusercontent.com/guychienll/pen-diff/main/232543043.jpeg"  // ← 完整 URL
+    "imageUrl": "https://raw.githubusercontent.com/guychienll/pen-diff/main/232543043.jpeg" // ← 完整 URL
   }
 }
 ```
@@ -114,12 +119,14 @@ curl -I "https://raw.githubusercontent.com/guychienll/pen-diff/{commit-sha}/2325
 ### Q: 圖片顯示為灰色
 
 **可能原因：**
+
 1. 圖片在該 commit 中不存在
 2. 路徑錯誤（檢查大小寫）
 3. GitHub token 權限不足
 4. 網路問題或 CORS
 
 **解決方法：**
+
 ```bash
 # 檢查圖片是否存在
 curl -I "https://raw.githubusercontent.com/{owner}/{repo}/{sha}/{path}"
@@ -143,6 +150,7 @@ repoContext: owner && repo
 ```
 
 ⚠️ **注意：** 使用 branch 會導致：
+
 - 歷史版本的圖片可能改變
 - 無法追溯到準確的設計版本
 

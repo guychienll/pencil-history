@@ -27,10 +27,7 @@ export async function GET(request: NextRequest) {
 
     // Validate pagination parameters
     if (page < 1 || perPage < 1 || perPage > 100) {
-      return NextResponse.json(
-        { error: "Invalid pagination parameters" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid pagination parameters" }, { status: 400 });
     }
 
     // Use server-side GitHub token if available
@@ -82,15 +79,9 @@ export async function GET(request: NextRequest) {
       }
 
       // Handle other errors
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

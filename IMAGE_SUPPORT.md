@@ -9,6 +9,7 @@
 系統支援兩種圖片填充格式：
 
 ### 格式 1: Pencil 格式 (推薦)
+
 ```json
 {
   "type": "image",
@@ -19,6 +20,7 @@
 ```
 
 ### 格式 2: 標準格式
+
 ```json
 {
   "type": "image",
@@ -35,6 +37,7 @@
 如果 .pen 檔案中的圖片使用相對路徑，系統會自動轉換為 GitHub raw URL：
 
 **Pencil 格式：**
+
 ```json
 {
   "type": "rectangle",
@@ -46,6 +49,7 @@
 ```
 
 **標準格式：**
+
 ```json
 {
   "type": "rectangle",
@@ -57,6 +61,7 @@
 ```
 
 都會被解析為：
+
 ```
 https://raw.githubusercontent.com/{owner}/{repo}/{commit-sha}/232543043.jpeg
 https://raw.githubusercontent.com/{owner}/{repo}/{commit-sha}/assets/logo.png
@@ -73,6 +78,7 @@ https://raw.githubusercontent.com/{owner}/{repo}/{commit-sha}/assets/logo.png
 ```
 
 解析為：
+
 ```
 https://raw.githubusercontent.com/{owner}/{repo}/{commit-sha}/public/banner.jpg
 ```
@@ -170,6 +176,7 @@ my-design-repo/
 ### 快取機制
 
 圖片解析結果會被快取，快取 key 包含：
+
 - .pen 檔案內容的 hash
 - node ID
 - 寬高尺寸
@@ -187,12 +194,14 @@ my-design-repo/
 ### ⚠️ 路徑大小寫敏感
 
 GitHub 路徑是大小寫敏感的：
+
 - ✅ `assets/Logo.png`
 - ❌ `assets/logo.png` (如果檔案名稱是 Logo.png)
 
 ### ⚠️ 圖片格式支援
 
 瀏覽器支援的所有圖片格式：
+
 - PNG, JPG, JPEG
 - SVG
 - WebP
@@ -214,6 +223,7 @@ GitHub raw URLs 支援 CORS，但其他外部 URL 可能會有跨域限制。
 ### 顯示為灰色佔位符
 
 如果圖片顯示為灰色（#e5e7eb），表示：
+
 - `imageUrl` 未設定
 - 路徑解析失敗
 - 圖片載入失敗

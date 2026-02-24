@@ -64,7 +64,9 @@ function generateCacheKey(request: PenScreenshotRequest): string {
     request.nodeId || "root",
     request.width || 800,
     request.height || 600,
-    request.repoContext ? `${request.repoContext.owner}/${request.repoContext.repo}/${request.repoContext.ref}` : "no-repo",
+    request.repoContext
+      ? `${request.repoContext.owner}/${request.repoContext.repo}/${request.repoContext.ref}`
+      : "no-repo",
   ];
 
   return parts.join(":");
@@ -77,7 +79,7 @@ function simpleHash(str: string): string {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash &= hash; // Convert to 32bit integer
   }
   return Math.abs(hash).toString(36);
@@ -86,10 +88,7 @@ function simpleHash(str: string): string {
 /**
  * Prefetch screenshot for a commit
  */
-export async function prefetchScreenshot(
-  penContent: string,
-  nodeId?: string
-): Promise<void> {
+export async function prefetchScreenshot(penContent: string, nodeId?: string): Promise<void> {
   try {
     await requestScreenshot({
       penContent,

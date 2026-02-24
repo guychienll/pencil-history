@@ -18,10 +18,7 @@ export async function POST(request: NextRequest) {
     // Validate request
     const validation = validateScreenshotRequest(body);
     if (!validation.valid) {
-      return NextResponse.json(
-        { error: validation.error },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: validation.error }, { status: 400 });
     }
 
     // Generate screenshot with timeout
@@ -37,16 +34,10 @@ export async function POST(request: NextRequest) {
     console.error("Screenshot API error:", error);
 
     if (error instanceof Error) {
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json(
-      { error: "截圖生成失敗" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "截圖生成失敗" }, { status: 500 });
   }
 }
 

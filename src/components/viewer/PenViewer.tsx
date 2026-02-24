@@ -37,13 +37,14 @@ export function PenViewer({
   } = useScreenshot({
     penContent: fileVersion ? JSON.stringify(fileVersion.content) : "",
     enabled: !!fileVersion,
-    repoContext: owner && repo && commit
-      ? {
-          owner,
-          repo,
-          ref: commit.sha, // Use commit SHA for exact version
-        }
-      : undefined,
+    repoContext:
+      owner && repo && commit
+        ? {
+            owner,
+            repo,
+            ref: commit.sha, // Use commit SHA for exact version
+          }
+        : undefined,
   });
 
   // Debug logging
@@ -66,14 +67,14 @@ export function PenViewer({
           <div>
             <h2 className="text-lg font-semibold text-gray-900">設計檢視器</h2>
             {commit && (
-              <div className="mt-1 flex items-center space-x-4 text-sm text-gray-500">
-                <span className="font-mono">{commit.sha.slice(0, 7)}</span>
+              <div className="mt-1 flex items-center space-x-4 text-sm text-gray-700 font-medium">
+                <span className="font-mono font-semibold">{commit.sha.slice(0, 7)}</span>
                 <span>{commit.message.split("\n")[0]}</span>
               </div>
             )}
           </div>
           {fileVersion && (
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-gray-700 font-medium">
               版本: {fileVersion.content.version}
             </div>
           )}
@@ -84,28 +85,18 @@ export function PenViewer({
       <div className="flex-1 overflow-hidden">
         {displayError ? (
           <div className="flex h-full items-center justify-center p-6">
-            <ErrorMessage
-              message={displayError}
-              title="載入失敗"
-              onRetry={onRetry}
-            />
+            <ErrorMessage message={displayError} title="載入失敗" onRetry={onRetry} />
           </div>
         ) : (
-          <PenRenderer
-            imageData={imageData}
-            loading={isLoading}
-            className="h-full w-full"
-          />
+          <PenRenderer imageData={imageData} loading={isLoading} className="h-full w-full" />
         )}
       </div>
 
       {/* Viewer footer / stats */}
       {fileVersion && !displayError && (
         <div className="border-t border-gray-200 bg-white px-6 py-3">
-          <div className="flex items-center justify-between text-xs text-gray-500">
-            <span>
-              檔案大小: {(fileVersion.size / 1024).toFixed(2)} KB
-            </span>
+          <div className="flex items-center justify-between text-xs text-gray-700 font-medium">
+            <span>檔案大小: {(fileVersion.size / 1024).toFixed(2)} KB</span>
             {fileVersion.content.metadata && (
               <span>
                 修改時間:{" "}

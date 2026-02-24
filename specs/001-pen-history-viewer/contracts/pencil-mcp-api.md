@@ -29,6 +29,7 @@ Pencil MCP Server (get_screenshot tool)
 ```
 
 **關鍵決策**：
+
 - 使用 Next.js API Routes（Vercel Serverless Functions）
 - 透過 `@modelcontextprotocol/sdk` 與 Pencil MCP server 通訊
 - 呼叫 Pencil MCP 的 `get_screenshot` 工具
@@ -47,20 +48,20 @@ Pencil MCP Server (get_screenshot tool)
 ```typescript
 interface ScreenshotRequest {
   penFile: {
-    version: string;          // .pen 格式版本
-    root: PenNode;            // .pen 根節點
-    metadata?: any;           // 可選 metadata
+    version: string; // .pen 格式版本
+    root: PenNode; // .pen 根節點
+    metadata?: any; // 可選 metadata
   };
   options?: {
-    width?: number;           // 截圖寬度（預設：自動）
-    height?: number;          // 截圖高度（預設：自動）
-    format?: 'png' | 'jpg';   // 圖片格式（預設：png）
-    quality?: number;         // 品質 0-100（jpg 專用，預設：90）
-    nodeId?: string;          // 特定節點 ID（可選，預設：root）
+    width?: number; // 截圖寬度（預設：自動）
+    height?: number; // 截圖高度（預設：自動）
+    format?: "png" | "jpg"; // 圖片格式（預設：png）
+    quality?: number; // 品質 0-100（jpg 專用，預設：90）
+    nodeId?: string; // 特定節點 ID（可選，預設：root）
   };
   cache?: {
-    key: string;              // 快取 key（通常為 commit SHA）
-    ttl?: number;             // 快取 TTL（秒，預設：86400 = 24 小時）
+    key: string; // 快取 key（通常為 commit SHA）
+    ttl?: number; // 快取 TTL（秒，預設：86400 = 24 小時）
   };
 }
 ```
@@ -102,21 +103,21 @@ Content-Type: application/json
 interface ScreenshotResponse {
   success: boolean;
   screenshot: {
-    format: 'png' | 'jpg';
+    format: "png" | "jpg";
     width: number;
     height: number;
-    dataUrl?: string;         // Base64 data URL（小圖）
-    url?: string;             // CDN URL（大圖，Phase 2）
-    size: number;             // 檔案大小（bytes）
+    dataUrl?: string; // Base64 data URL（小圖）
+    url?: string; // CDN URL（大圖，Phase 2）
+    size: number; // 檔案大小（bytes）
   };
   cache: {
     key: string;
-    hit: boolean;             // 是否快取命中
-    expiresAt: string;        // 快取過期時間（ISO 8601）
+    hit: boolean; // 是否快取命中
+    expiresAt: string; // 快取過期時間（ISO 8601）
   };
   performance: {
-    generationTime: number;   // 生成時間（ms）
-    totalTime: number;        // 總時間（ms）
+    generationTime: number; // 生成時間（ms）
+    totalTime: number; // 總時間（ms）
   };
 }
 ```
@@ -182,8 +183,8 @@ interface ScreenshotError {
 
 ```typescript
 // app/api/screenshot/pencil-mcp-client.ts
-import { Client } from '@modelcontextprotocol/sdk/client/index.js';
-import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 
 let mcpClient: Client | null = null;
 
@@ -194,19 +195,22 @@ export async function getMCPClient(): Promise<Client> {
 
   // 啟動 Pencil MCP server process
   const transport = new StdioClientTransport({
-    command: 'node',
-    args: ['/path/to/pencil-mcp-server/build/index.js'],
+    command: "node",
+    args: ["/path/to/pencil-mcp-server/build/index.js"],
     env: process.env,
   });
 
-  mcpClient = new Client({
-    name: 'pencilhistory-client',
-    version: '1.0.0',
-  }, {
-    capabilities: {
-      tools: {},
+  mcpClient = new Client(
+    {
+      name: "pencilhistory-client",
+      version: "1.0.0",
     },
-  });
+    {
+      capabilities: {
+        tools: {},
+      },
+    }
+  );
 
   await mcpClient.connect(transport);
 
@@ -218,7 +222,7 @@ export async function getMCPClient(): Promise<Client> {
 
 ```typescript
 // app/api/screenshot/generate.ts
-import { getMCPClient } from './pencil-mcp-client';
+import { getMCPClient } from "./pencil-mcp-client";
 
 interface GenerateScreenshotOptions {
   penFile: any;
@@ -234,11 +238,11 @@ export async function generateScreenshot(
 
   // 呼叫 Pencil MCP 的 get_screenshot 工具
   const result = await client.callTool({
-    name: 'get_screenshot',
+    name: "get_screenshot",
     arguments: {
       filePath: null, // 不使用檔案路徑，直接傳入內容
       fileContent: JSON.stringify(options.penFile),
-      nodeId: options.nodeId || 'root',
+      nodeId: options.nodeId || "root",
       width: options.width,
       height: options.height,
     },
@@ -246,16 +250,16 @@ export async function generateScreenshot(
 
   // 解析回應
   if (!result.content || result.content.length === 0) {
-    throw new Error('Pencil MCP returned empty response');
+    throw new Error("Pencil MCP returned empty response");
   }
 
   const content = result.content[0];
 
-  if (content.type === 'image') {
+  if (content.type === "image") {
     return {
       dataUrl: content.data, // Base64 data URL
-      width: content.mimeType.includes('png') ? options.width || 800 : options.width || 800,
-      height: content.mimeType.includes('png') ? options.height || 600 : options.height || 600,
+      width: content.mimeType.includes("png") ? options.width || 800 : options.width || 800,
+      height: content.mimeType.includes("png") ? options.height || 600 : options.height || 600,
     };
   }
 
@@ -267,12 +271,12 @@ export async function generateScreenshot(
 
 ```typescript
 // app/api/screenshot/route.ts
-import { NextRequest, NextResponse } from 'next/server';
-import { generateScreenshot } from './generate';
-import { validatePenFile } from '@/lib/pen/validator';
+import { NextRequest, NextResponse } from "next/server";
+import { generateScreenshot } from "./generate";
+import { validatePenFile } from "@/lib/pen/validator";
 
-export const runtime = 'nodejs'; // 必須使用 Node.js runtime（非 Edge）
-export const maxDuration = 10;   // Vercel timeout 限制
+export const runtime = "nodejs"; // 必須使用 Node.js runtime（非 Edge）
+export const maxDuration = 10; // Vercel timeout 限制
 
 export async function POST(request: NextRequest) {
   try {
@@ -284,8 +288,8 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           error: {
-            code: 'MISSING_PEN_FILE',
-            message: 'penFile is required',
+            code: "MISSING_PEN_FILE",
+            message: "penFile is required",
           },
         },
         { status: 400 }
@@ -299,7 +303,7 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           error: {
-            code: 'INVALID_PEN_FILE',
+            code: "INVALID_PEN_FILE",
             message: validation.error,
           },
         },
@@ -315,7 +319,7 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           error: {
-            code: 'FILE_TOO_LARGE',
+            code: "FILE_TOO_LARGE",
             message: `File size ${(penFileSize / 1024 / 1024).toFixed(2)}MB exceeds 10MB limit`,
           },
         },
@@ -337,14 +341,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       screenshot: {
-        format: 'png',
+        format: "png",
         width: screenshot.width,
         height: screenshot.height,
         dataUrl: screenshot.dataUrl,
         size: screenshot.dataUrl.length,
       },
       cache: {
-        key: body.cache?.key || 'no-cache',
+        key: body.cache?.key || "no-cache",
         hit: false,
         expiresAt: new Date(Date.now() + 86400000).toISOString(),
       },
@@ -353,17 +357,16 @@ export async function POST(request: NextRequest) {
         totalTime: Date.now() - startTime,
       },
     });
-
   } catch (error: any) {
-    console.error('Screenshot generation error:', error);
+    console.error("Screenshot generation error:", error);
 
     return NextResponse.json(
       {
         success: false,
         error: {
-          code: 'SCREENSHOT_GENERATION_FAILED',
-          message: error.message || 'Unknown error',
-          details: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+          code: "SCREENSHOT_GENERATION_FAILED",
+          message: error.message || "Unknown error",
+          details: process.env.NODE_ENV === "development" ? error.stack : undefined,
         },
       },
       { status: 500 }
@@ -380,7 +383,7 @@ export async function POST(request: NextRequest) {
 
 ```typescript
 // src/lib/pen/screenshot-service.ts
-import { get, set } from 'idb-keyval';
+import { get, set } from "idb-keyval";
 
 interface ScreenshotOptions {
   penFile: any;
@@ -394,19 +397,19 @@ export async function getScreenshot(
   options: ScreenshotOptions
 ): Promise<string> {
   // 1. 檢查 IndexedDB 快取
-  const cacheKey = `screenshot:${commitSha}:${options.nodeId || 'root'}`;
+  const cacheKey = `screenshot:${commitSha}:${options.nodeId || "root"}`;
   const cached = await get<string>(cacheKey);
 
   if (cached) {
-    console.log('Screenshot cache hit:', cacheKey);
+    console.log("Screenshot cache hit:", cacheKey);
     return cached;
   }
 
   // 2. 呼叫 API 生成截圖
-  const response = await fetch('/api/screenshot', {
-    method: 'POST',
+  const response = await fetch("/api/screenshot", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       penFile: options.penFile,
@@ -414,7 +417,7 @@ export async function getScreenshot(
         nodeId: options.nodeId,
         width: options.width || 800,
         height: options.height,
-        format: 'png',
+        format: "png",
       },
       cache: {
         key: commitSha,
@@ -425,13 +428,13 @@ export async function getScreenshot(
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.error?.message || 'Screenshot generation failed');
+    throw new Error(error.error?.message || "Screenshot generation failed");
   }
 
   const data = await response.json();
 
   if (!data.success) {
-    throw new Error(data.error?.message || 'Unknown error');
+    throw new Error(data.error?.message || "Unknown error");
   }
 
   // 3. 快取截圖
@@ -445,14 +448,10 @@ export async function getScreenshot(
 
 ```typescript
 // src/hooks/useScreenshot.ts
-import { useState, useEffect } from 'react';
-import { getScreenshot } from '@/lib/pen/screenshot-service';
+import { useState, useEffect } from "react";
+import { getScreenshot } from "@/lib/pen/screenshot-service";
 
-export function useScreenshot(
-  commitSha: string,
-  penFile: any,
-  nodeId?: string
-) {
+export function useScreenshot(commitSha: string, penFile: any, nodeId?: string) {
   const [screenshot, setScreenshot] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -528,39 +527,36 @@ export function CommitViewer({ commit, penFile }: Props) {
 
 ### 錯誤碼定義
 
-| 錯誤碼 | HTTP 狀態碼 | 說明 | 使用者訊息 |
-|-------|-----------|------|-----------|
-| `MISSING_PEN_FILE` | 400 | 缺少 penFile 欄位 | 無效的請求格式 |
-| `INVALID_PEN_FILE` | 400 | .pen 檔案格式錯誤 | .pen 檔案格式不正確 |
-| `FILE_TOO_LARGE` | 413 | 檔案超過 10MB | 檔案過大，無法生成截圖 |
-| `SCREENSHOT_GENERATION_FAILED` | 500 | Pencil MCP 生成失敗 | 截圖生成失敗，請稍後再試 |
-| `MCP_SERVER_UNAVAILABLE` | 503 | Pencil MCP server 無法連線 | 服務暫時不可用 |
-| `TIMEOUT` | 504 | 生成時間超過 10 秒 | 處理超時，請稍後再試 |
+| 錯誤碼                         | HTTP 狀態碼 | 說明                       | 使用者訊息               |
+| ------------------------------ | ----------- | -------------------------- | ------------------------ |
+| `MISSING_PEN_FILE`             | 400         | 缺少 penFile 欄位          | 無效的請求格式           |
+| `INVALID_PEN_FILE`             | 400         | .pen 檔案格式錯誤          | .pen 檔案格式不正確      |
+| `FILE_TOO_LARGE`               | 413         | 檔案超過 10MB              | 檔案過大，無法生成截圖   |
+| `SCREENSHOT_GENERATION_FAILED` | 500         | Pencil MCP 生成失敗        | 截圖生成失敗，請稍後再試 |
+| `MCP_SERVER_UNAVAILABLE`       | 503         | Pencil MCP server 無法連線 | 服務暫時不可用           |
+| `TIMEOUT`                      | 504         | 生成時間超過 10 秒         | 處理超時，請稍後再試     |
 
 ### Timeout 處理
 
 ```typescript
 // app/api/screenshot/route.ts
 export async function POST(request: NextRequest) {
-  const timeoutPromise = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error('TIMEOUT')), 9000) // 9 秒（留 1 秒緩衝）
+  const timeoutPromise = new Promise(
+    (_, reject) => setTimeout(() => reject(new Error("TIMEOUT")), 9000) // 9 秒（留 1 秒緩衝）
   );
 
   try {
-    const result = await Promise.race([
-      generateScreenshot(options),
-      timeoutPromise,
-    ]);
+    const result = await Promise.race([generateScreenshot(options), timeoutPromise]);
 
     // ...
   } catch (error: any) {
-    if (error.message === 'TIMEOUT') {
+    if (error.message === "TIMEOUT") {
       return NextResponse.json(
         {
           success: false,
           error: {
-            code: 'TIMEOUT',
-            message: 'Screenshot generation timeout (>9s)',
+            code: "TIMEOUT",
+            message: "Screenshot generation timeout (>9s)",
           },
         },
         { status: 504 }
@@ -578,16 +574,19 @@ export async function POST(request: NextRequest) {
 ### 1. 快取策略
 
 **層級 1：IndexedDB（客戶端）**
+
 - Key: `screenshot:${commitSha}:${nodeId}`
 - TTL: 24 小時（可調整）
 - 大小限制：無（IndexedDB 通常 > 50MB）
 
 **層級 2：Memory Cache（客戶端，Session）**
+
 - 用於當前 session 快速存取
 - 最多快取 50 個截圖
 - LRU 淘汰
 
 **層級 3：CDN（Phase 2，可選）**
+
 - 將截圖上傳至 CDN（如 Cloudinary、Vercel Blob）
 - 回傳 CDN URL 而非 Base64
 - 減少 API payload 大小
@@ -635,15 +634,15 @@ export function prefetchAdjacentScreenshots(
 ### 契約測試
 
 ```typescript
-describe('POST /api/screenshot Contract Tests', () => {
-  it('接受有效的 .pen 檔案並返回截圖', async () => {
-    const response = await fetch('/api/screenshot', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+describe("POST /api/screenshot Contract Tests", () => {
+  it("接受有效的 .pen 檔案並返回截圖", async () => {
+    const response = await fetch("/api/screenshot", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         penFile: validPenFile,
         options: { width: 800 },
-        cache: { key: 'test-key' },
+        cache: { key: "test-key" },
       }),
     });
 
@@ -651,17 +650,17 @@ describe('POST /api/screenshot Contract Tests', () => {
 
     const data = await response.json();
     expect(data.success).toBe(true);
-    expect(data.screenshot).toHaveProperty('dataUrl');
+    expect(data.screenshot).toHaveProperty("dataUrl");
     expect(data.screenshot.dataUrl).toMatch(/^data:image\/png;base64,/);
     expect(data.screenshot.width).toBe(800);
   });
 
-  it('拒絕無效的 .pen 檔案', async () => {
-    const response = await fetch('/api/screenshot', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+  it("拒絕無效的 .pen 檔案", async () => {
+    const response = await fetch("/api/screenshot", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        penFile: { version: '1.0.0' }, // 缺少 root
+        penFile: { version: "1.0.0" }, // 缺少 root
       }),
     });
 
@@ -669,27 +668,27 @@ describe('POST /api/screenshot Contract Tests', () => {
 
     const data = await response.json();
     expect(data.success).toBe(false);
-    expect(data.error.code).toBe('INVALID_PEN_FILE');
+    expect(data.error.code).toBe("INVALID_PEN_FILE");
   });
 
-  it('拒絕過大的檔案', async () => {
+  it("拒絕過大的檔案", async () => {
     const largePenFile = {
-      version: '1.0.0',
+      version: "1.0.0",
       root: {
-        id: 'root',
-        type: 'frame',
-        children: Array(100000).fill({ id: 'node', type: 'frame' }),
+        id: "root",
+        type: "frame",
+        children: Array(100000).fill({ id: "node", type: "frame" }),
       },
     };
 
-    const response = await fetch('/api/screenshot', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch("/api/screenshot", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ penFile: largePenFile }),
     });
 
     expect(response.status).toBe(413);
-    expect(data.error.code).toBe('FILE_TOO_LARGE');
+    expect(data.error.code).toBe("FILE_TOO_LARGE");
   });
 });
 ```

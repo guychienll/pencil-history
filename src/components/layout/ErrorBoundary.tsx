@@ -35,9 +35,7 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="flex min-h-screen items-center justify-center p-4">
           <div className="max-w-md rounded-lg border border-red-300 bg-red-50 p-6">
-            <h2 className="mb-2 text-xl font-semibold text-red-800">
-              發生錯誤
-            </h2>
+            <h2 className="mb-2 text-xl font-semibold text-red-800">發生錯誤</h2>
             <p className="mb-4 text-red-700">
               {this.state.error?.message || "應用程式遇到未預期的錯誤"}
             </p>

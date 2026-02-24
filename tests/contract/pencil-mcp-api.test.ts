@@ -85,7 +85,8 @@ describe("T037: Pencil MCP Screenshot API Contract Tests", () => {
   describe("Screenshot Response structure", () => {
     it("should validate screenshot response structure", () => {
       const response: PenScreenshotResponse = {
-        imageData: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+        imageData:
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
         width: 800,
         height: 600,
         generatedAt: "2024-01-01T00:00:00Z",
@@ -100,7 +101,8 @@ describe("T037: Pencil MCP Screenshot API Contract Tests", () => {
 
     it("should validate base64 image data format", () => {
       const response: PenScreenshotResponse = {
-        imageData: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+        imageData:
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
         width: 1,
         height: 1,
         generatedAt: new Date().toISOString(),

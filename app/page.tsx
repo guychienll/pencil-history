@@ -41,12 +41,8 @@ export default function Home() {
       <div className="w-full max-w-2xl">
         {/* Hero section */}
         <div className="mb-8 text-center">
-          <h1 className="mb-4 text-4xl font-bold text-gray-900">
-            PencilHistory.xyz
-          </h1>
-          <p className="text-lg text-gray-600">
-            檢視 GitHub .pen 設計檔案的 commit 歷史
-          </p>
+          <h1 className="mb-4 text-4xl font-bold text-gray-900">PencilHistory.xyz</h1>
+          <p className="text-lg text-gray-600">檢視 GitHub .pen 設計檔案的 commit 歷史</p>
           <p className="mt-2 text-sm text-gray-500">
             視覺化呈現每個版本的設計內容，如同 githistory.xyz
           </p>
@@ -66,20 +62,10 @@ export default function Home() {
             />
 
             {error && (
-              <ErrorMessage
-                message={error}
-                title="URL 驗證失敗"
-                onRetry={() => setError(null)}
-              />
+              <ErrorMessage message={error} title="URL 驗證失敗" onRetry={() => setError(null)} />
             )}
 
-            <Button
-              type="submit"
-              variant="primary"
-              size="lg"
-              loading={loading}
-              className="w-full"
-            >
+            <Button type="submit" variant="primary" size="lg" loading={loading} className="w-full">
               檢視歷史
             </Button>
           </form>

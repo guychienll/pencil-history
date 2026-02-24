@@ -1,13 +1,13 @@
 // Test script to debug SVG rendering with images
-const fs = require('fs');
-const path = require('path');
+import fs from "fs";
+import path from "path";
 
 // Simulate the rendering logic
 function simpleHash(str) {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash &= hash;
   }
   return Math.abs(hash).toString(36);
@@ -23,7 +23,11 @@ function escapeXml(text) {
 }
 
 function resolveImageUrl(imageUrl, repoContext) {
-  if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://") || imageUrl.startsWith("data:")) {
+  if (
+    imageUrl.startsWith("http://") ||
+    imageUrl.startsWith("https://") ||
+    imageUrl.startsWith("data:")
+  ) {
     return imageUrl;
   }
 
@@ -39,7 +43,7 @@ function resolveImageUrl(imageUrl, repoContext) {
   console.log("Resolved image URL:", {
     original: imageUrl,
     resolved: resolvedUrl,
-    context: { owner, repo, ref }
+    context: { owner, repo, ref },
   });
 
   return resolvedUrl;
@@ -69,16 +73,16 @@ const testPenDoc = {
       height: 300,
       fill: {
         type: "image",
-        imageUrl: "232543043.jpeg"
-      }
-    }
-  ]
+        imageUrl: "232543043.jpeg",
+      },
+    },
+  ],
 };
 
 const repoContext = {
   owner: "guychienll",
   repo: "pen-diff",
-  ref: "refs/heads/main" // or commit SHA
+  ref: "refs/heads/main", // or commit SHA
 };
 
 console.log("\n=== Testing Image Pattern Rendering ===\n");
@@ -105,7 +109,7 @@ console.log("\n=== Complete SVG ===\n");
 console.log(completeSvg);
 
 // Write to file for manual inspection
-const outputPath = path.join(__dirname, 'test-output.svg');
+const outputPath = path.join(__dirname, "test-output.svg");
 fs.writeFileSync(outputPath, completeSvg);
 console.log(`\n✅ SVG written to: ${outputPath}`);
 console.log("Open this file in a browser to test rendering");

@@ -24,6 +24,7 @@ SVG preview (first 1500 chars): ...
 ### 2. Network Tab
 
 檢查是否有對圖片的請求：
+
 ```
 GET https://raw.githubusercontent.com/guychienll/pen-diff/{sha}/232543043.jpeg
 ```
@@ -35,10 +36,11 @@ GET https://raw.githubusercontent.com/guychienll/pen-diff/{sha}/232543043.jpeg
 ### 3. 視覺效果
 
 描述一下「破圖」的樣子：
+
 - [ ] 完全空白（白色或灰色）
 - [ ] 看到一小部分圖片但變形
 - [ ] 圖片重複排列（tile）
-- [ ] 其他：___________
+- [ ] 其他：****\_\_\_****
 
 ### 4. 瀏覽器 DevTools Elements
 
@@ -88,11 +90,13 @@ SVG 轉 data URL 時，圖片可能還沒載入完成。
 ```
 
 優點：
+
 - 更簡單直接
 - 兼容性更好
 - 不需要處理複雜的座標系統
 
 缺點：
+
 - 需要改動渲染邏輯
 
 ### 方案 B: 動態 pattern 尺寸
@@ -126,10 +130,12 @@ function renderRectangle(node) {
 Server 端先下載圖片，轉成 base64 data URL，直接嵌入 SVG。
 
 優點：
+
 - 確保圖片已載入
 - 自包含，不依賴外部資源
 
 缺點：
+
 - 增加 SVG 大小
 - Server 端需要下載圖片
 

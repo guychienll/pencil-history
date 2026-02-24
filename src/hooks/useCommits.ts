@@ -96,8 +96,7 @@ export function useCommits(options: UseCommitsOptions): UseCommitsResult {
           setCommits(fetchedCommits, hasMore);
         }
       } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : "無法載入 commit 歷史";
+        const errorMessage = error instanceof Error ? error.message : "無法載入 commit 歷史";
         setCommitError(errorMessage);
       } finally {
         setLoadingCommits(false);
