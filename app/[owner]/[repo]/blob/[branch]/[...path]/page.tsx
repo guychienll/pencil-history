@@ -320,7 +320,7 @@ export default function HistoryPage({ params }: PageProps) {
   // Initial loading state
   if (loadingCommits && commits.length === 0) {
     return (
-      <div className="flex h-full items-center justify-center">
+      <div className="flex h-[calc(100dvh-4rem)] items-center justify-center">
         <div className="text-center">
           <LoadingSpinner size="lg" />
           <p className="mt-4 text-gray-600">正在載入 commit 歷史...</p>
@@ -332,7 +332,7 @@ export default function HistoryPage({ params }: PageProps) {
   // Error state
   if (commitError && commits.length === 0) {
     return (
-      <div className="flex h-full items-center justify-center p-6">
+      <div className="flex h-[calc(100dvh-4rem)] items-center justify-center p-6">
         <ErrorMessage message={commitError} title="無法載入 commit 歷史" onRetry={refetchCommits} />
       </div>
     );
@@ -364,10 +364,10 @@ export default function HistoryPage({ params }: PageProps) {
   }
 
   return (
-    <div className="flex h-full flex-col overflow-hidden">
+    <div className="flex h-[calc(100dvh-4rem)] flex-col overflow-hidden">
       {/* Playback controls bar - Fixed height (T092: Extended with comparison mode toggle) */}
       <div className="shrink-0 border-b border-border bg-surface px-6 py-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-x-2">
           {!comparisonMode ? (
             <>
               <PlaybackControls
@@ -385,7 +385,7 @@ export default function HistoryPage({ params }: PageProps) {
                   disabled={commits.length < 2}
                 >
                   <span className="mr-2">🔍</span>
-                  Compare Mode
+                  Diff
                 </Button>
                 <KeyboardShortcuts />
               </div>

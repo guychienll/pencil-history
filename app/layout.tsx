@@ -49,12 +49,12 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col h-dvh overflow-hidden bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-dvh bg-background text-foreground`}
       >
         <ThemeProvider>
           <ErrorBoundary>
             <Header />
-            <main className="flex-1 bg-background-secondary overflow-hidden">{children}</main>
+            <main className="flex-1 bg-background-secondary">{children}</main>
           </ErrorBoundary>
         </ThemeProvider>
       </body>

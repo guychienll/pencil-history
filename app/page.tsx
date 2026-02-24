@@ -24,8 +24,8 @@ export default function Home() {
       // Parse and validate GitHub URL
       const { owner, repo, branch, path } = parseGitHubURL(url);
 
-      // Navigate to history viewer
-      router.push(`/history/${owner}/${repo}/${branch}/${path}`);
+      // Navigate to history viewer using GitHub-like URL format
+      router.push(`/${owner}/${repo}/blob/${branch}/${path}`);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "無效的 URL";
       setError(errorMessage);
@@ -56,7 +56,7 @@ export default function Home() {
             檢視 GitHub .pen 設計檔案的 commit 歷史
           </p>
           <p className="mt-2 text-sm text-foreground-tertiary">
-            視覺化呈現每個版本的設計內容，如同 githistory.xyz
+            只要把 GitHub URL 的 domain 換成 pencilhistory.xyz 即可
           </p>
         </div>
 
@@ -90,19 +90,26 @@ export default function Home() {
 
           {/* Help text */}
           <div className="mt-6 space-y-3 text-sm text-foreground-secondary border-t border-border pt-6">
-            <p className="font-semibold text-foreground">支援格式：</p>
+            <p className="font-semibold text-foreground">快速使用：</p>
             <ul className="space-y-2 pl-1">
               <li className="flex items-start gap-2">
                 <span className="text-success mt-0.5">✓</span>
-                <span>https://github.com/owner/repo/blob/main/path/to/file.pen</span>
+                <span>
+                  將 GitHub URL 的{" "}
+                  <code className="bg-background-secondary px-1 py-0.5 rounded">github.com</code>{" "}
+                  換成{" "}
+                  <code className="bg-background-secondary px-1 py-0.5 rounded">
+                    pencilhistory.xyz
+                  </code>
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-success mt-0.5">✓</span>
-                <span>僅支援 GitHub 公開儲存庫</span>
+                <span>或在上方輸入完整的 GitHub URL</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-success mt-0.5">✓</span>
-                <span>檔案大小限制：10MB</span>
+                <span>僅支援 GitHub 公開儲存庫的 .pen 檔案</span>
               </li>
             </ul>
           </div>

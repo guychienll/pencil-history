@@ -97,26 +97,44 @@ export function PlaybackControls({
         <label htmlFor="playback-speed" className="text-sm font-medium text-foreground-secondary">
           Speed:
         </label>
-        <select
-          id="playback-speed"
-          value={speed}
-          onChange={handleSpeedChange}
-          disabled={disabled}
-          className={`
-            px-3 py-1.5 text-sm rounded-md border-2 border-border
-            text-foreground font-medium
-            focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary
-            transition-all duration-200
-            ${disabled ? "bg-surface-hover cursor-not-allowed" : "bg-surface cursor-pointer hover:border-border-secondary"}
-          `}
-          aria-label="Playback speed"
-        >
-          {SPEED_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            id="playback-speed"
+            value={speed}
+            onChange={handleSpeedChange}
+            disabled={disabled}
+            className={`
+              appearance-none pl-3 pr-10 py-1.5 text-sm rounded-md border-2 border-border
+              text-foreground font-medium
+              focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary
+              transition-all duration-200
+              ${disabled ? "bg-surface-hover cursor-not-allowed" : "bg-surface cursor-pointer hover:border-border-secondary"}
+            `}
+            aria-label="Playback speed"
+          >
+            {SPEED_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          {/* Custom dropdown arrow */}
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <svg
+              className="h-4 w-4 text-foreground-secondary"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </div>
+        </div>
       </div>
 
       {/* Playback status indicator */}
