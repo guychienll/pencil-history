@@ -1,7 +1,7 @@
 // T054: usePenFile hook implementation
 
 import { useState, useEffect, useCallback } from "react";
-import { fetchPenFileVersion } from "@/lib/github/files";
+import { fetchFileViaServer } from "@/lib/api/github-file";
 import { FileVersion } from "@/types/app";
 import { useHistoryStore } from "@/store/history-store";
 import { getFileVersionFromCache, saveFileVersionToCache } from "@/lib/pen/cache";
@@ -62,11 +62,11 @@ export function usePenFile(options: UsePenFileOptions): UsePenFileResult {
         return;
       }
 
-      // Fetch from GitHub
+      // Fetch from server API
       const { result: fetchedFileVersion, duration } = await measureAsync(
         "fetchPenFile",
         async () => {
-          return await fetchPenFileVersion({ owner, repo, path, sha });
+          return await fetchFileViaServer({ owner, repo, path, sha });
         }
       );
 

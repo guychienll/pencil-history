@@ -217,29 +217,29 @@
 
 ### User Story 3 測試 (憲章強制要求) ⚠️
 
-- [ ] T084 [P] [US3] 節點層級結構 diff 演算法單元測試 in tests/unit/node-diff.test.ts (added, deleted, modified, moved 節點)
-- [ ] T085 [US3] Diff 比較模式整合測試 in tests/integration/user-story-3.test.ts (選擇兩個 commits, 檢視 diff)
+- [x] T084 [P] [US3] 節點層級結構 diff 演算法單元測試 in tests/unit/node-diff.test.ts (added, deleted, modified, moved 節點)
+- [x] T085 [US3] Diff 比較模式整合測試 in tests/integration/user-story-3.test.ts (選擇兩個 commits, 檢視 diff)
 
 ### User Story 3 實作
 
 #### Diff 演算法
 
-- [ ] T086 [P] [US3] 實作節點層級結構 diff 演算法 in src/lib/diff/node-diff.ts (compareNodes, detectAdded, detectDeleted, detectModified)
-- [ ] T087 [P] [US3] 定義 diff 結果型別 in src/lib/diff/types.ts (DiffResult, NodeDiff, PropertyChange)
-- [ ] T088 [US3] 實作 diff 快取 in src/lib/diff/cache.ts (memoize diff 結果)
+- [x] T086 [P] [US3] 實作節點層級結構 diff 演算法 in src/lib/diff/node-diff.ts (compareNodes, detectAdded, detectDeleted, detectModified)
+- [x] T087 [P] [US3] 定義 diff 結果型別 in src/lib/diff/types.ts (DiffResult, NodeDiff, PropertyChange)
+- [x] T088 [US3] 實作 diff 快取 in src/lib/diff/cache.ts (memoize diff 結果)
 
 #### Diff 視覺化元件
 
-- [ ] T089 [P] [US3] 建立 DiffHighlight 元件 in src/components/diff/DiffHighlight.tsx (綠/紅/黃 overlays)
-- [ ] T090 [US3] 建立 DiffView 元件 in src/components/diff/DiffView.tsx (並排比較)
-- [ ] T091 [US3] 建立 DiffDetails 元件 in src/components/diff/DiffDetails.tsx (屬性變更 tooltip)
+- [x] T089 [P] [US3] 建立 DiffHighlight 元件 in src/components/diff/DiffHighlight.tsx (綠/紅/黃 overlays)
+- [x] T090 [US3] 建立 DiffView 元件 in src/components/diff/DiffView.tsx (並排比較)
+- [x] T091 [US3] 建立 DiffDetails 元件 in src/components/diff/DiffDetails.tsx (屬性變更 tooltip)
 
 #### Diff 模式 UI 整合
 
-- [ ] T092 [US3] 加入比較模式切換到歷史檢視器頁面
-- [ ] T093 [US3] 實作 commit 選擇用於 diff 比較 (選擇兩個 commits)
-- [ ] T094 [US3] 整合 DiffView 到歷史檢視器頁面
-- [ ] T095 [US3] 加入視覺標記用於新增/刪除/修改的元素
+- [x] T092 [US3] 加入比較模式切換到歷史檢視器頁面
+- [x] T093 [US3] 實作 commit 選擇用於 diff 比較 (選擇兩個 commits)
+- [x] T094 [US3] 整合 DiffView 到歷史檢視器頁面
+- [x] T095 [US3] 加入視覺標記用於新增/刪除/修改的元素
 
 **Checkpoint**: 所有使用者故事應現在都能獨立運作
 

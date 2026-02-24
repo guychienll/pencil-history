@@ -132,13 +132,12 @@ function calculateBounds(penDoc: PenDocument): {
     return { minX: 0, minY: 0, maxX: 800, maxY: 600 };
   }
 
-  // Add some padding
-  const padding = 20;
+  // No padding - fill completely
   return {
-    minX: minX - padding,
-    minY: minY - padding,
-    maxX: maxX + padding,
-    maxY: maxY + padding,
+    minX: minX,
+    minY: minY,
+    maxX: maxX,
+    maxY: maxY,
   };
 }
 
@@ -168,7 +167,10 @@ function renderNode(node: PenNode, parentX: number = 0, parentY: number = 0): st
   // Debug logging for position
   if (
     node.type === "frame" ||
-    (node.fill && typeof node.fill === "object" && node.fill.type === "image")
+    (node.fill &&
+      typeof node.fill === "object" &&
+      !Array.isArray(node.fill) &&
+      node.fill.type === "image")
   ) {
     console.log(`Rendering ${node.type} (${node.id}):`, {
       relative: { x: relativeX, y: relativeY },

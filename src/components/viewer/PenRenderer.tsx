@@ -59,13 +59,20 @@ export function PenRenderer({
   }
 
   return (
-    <div className={`flex items-center justify-center bg-gray-100 ${className}`}>
+    <div
+      className={className}
+      style={{ width: width || "100%", height: height || "100%", overflow: "hidden" }}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={imageData}
         alt="Pen file screenshot"
-        className="max-h-full max-w-full object-contain"
-        style={{ width, height }}
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "block",
+          objectFit: "fill",
+        }}
       />
     </div>
   );

@@ -163,3 +163,20 @@ export function countNodes(penDoc: PenDocument): number {
 
   return count;
 }
+
+/**
+ * Convert PenDocument to a single root PenNode for diff comparison
+ * Creates a virtual root node that contains the document's children
+ * @param penDoc - PenDocument
+ * @returns Virtual root PenNode
+ */
+export function documentToRootNode(penDoc: PenDocument): PenNode {
+  return {
+    id: "__document_root__",
+    type: "document",
+    properties: {
+      version: penDoc.version,
+    },
+    children: penDoc.children || [],
+  };
+}

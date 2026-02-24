@@ -43,7 +43,8 @@ export interface PenNode {
 
 export interface PenFileContent {
   version: string;
-  root: PenNode;
+  root?: PenNode;
+  children?: PenNode[];
   metadata?: {
     createdAt?: string;
     modifiedAt?: string;

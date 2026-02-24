@@ -40,7 +40,7 @@ GET https://raw.githubusercontent.com/guychienll/pen-diff/{sha}/232543043.jpeg
 - [ ] 完全空白（白色或灰色）
 - [ ] 看到一小部分圖片但變形
 - [ ] 圖片重複排列（tile）
-- [ ] 其他：****\_\_\_****
+- [ ] 其他：\***\*\_\_\_\*\***
 
 ### 4. 瀏覽器 DevTools Elements
 

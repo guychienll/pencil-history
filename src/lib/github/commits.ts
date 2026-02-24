@@ -22,7 +22,7 @@ export async function fetchCommits(
   options: FetchCommitsOptions,
   token?: string
 ): Promise<Commit[]> {
-  const { owner, repo, path, page = 1, perPage = 100, sha } = options;
+  const { owner, repo, path, page = 1, perPage = 5, sha } = options;
 
   const client = getGitHubClient(token);
 
@@ -78,7 +78,7 @@ function convertToCommit(githubCommit: {
 /**
  * Fetch commits with pagination support
  * @param options - Commit fetch options
- * @param maxPages - Maximum number of pages to fetch (default: 10, max 1000 commits)
+ * @param maxPages - Maximum number of pages to fetch (default: 10, max 50 commits)
  * @returns Array of all commits
  */
 export async function fetchAllCommits(
@@ -87,7 +87,7 @@ export async function fetchAllCommits(
 ): Promise<Commit[]> {
   const allCommits: Commit[] = [];
   let page = options.page || 1;
-  const perPage = options.perPage || 100;
+  const perPage = options.perPage || 5;
 
   for (let i = 0; i < maxPages; i++) {
     const commits = await fetchCommits({
