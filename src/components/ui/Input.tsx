@@ -9,22 +9,25 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, fullWidth = false, className = "", ...props }, ref) => {
     const inputClasses = `
-      flex h-10 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm
-      text-gray-900 font-medium
-      ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium
-      placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2
-      focus-visible:ring-blue-500 focus-visible:ring-offset-2
+      flex h-11 rounded-lg border-2 border-border bg-surface px-4 py-2 text-sm
+      text-foreground font-medium transition-all duration-200
+      ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium
+      placeholder:text-foreground-muted focus-visible:outline-none focus-visible:border-border-focus
+      focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-0
+      hover:border-border-secondary
       disabled:cursor-not-allowed disabled:opacity-50
-      ${error ? "border-red-500 focus-visible:ring-red-500" : ""}
+      ${error ? "border-error focus-visible:border-error focus-visible:ring-error/20" : ""}
       ${fullWidth ? "w-full" : ""}
       ${className}
     `;
 
     return (
       <div className={fullWidth ? "w-full" : ""}>
-        {label && <label className="mb-2 block text-sm font-medium text-gray-700">{label}</label>}
+        {label && (
+          <label className="mb-2 block text-sm font-semibold text-foreground">{label}</label>
+        )}
         <input ref={ref} className={inputClasses} {...props} />
-        {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+        {error && <p className="mt-2 text-sm text-error font-medium">{error}</p>}
       </div>
     );
   }

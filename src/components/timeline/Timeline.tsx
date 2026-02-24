@@ -57,7 +57,7 @@ export function Timeline({
   if (commits.length === 0 && !loading) {
     return (
       <div className={`flex items-center justify-center p-8 ${className}`}>
-        <p className="text-gray-500">尚無 commit 歷史</p>
+        <p className="text-foreground-tertiary">尚無 commit 歷史</p>
       </div>
     );
   }
@@ -65,17 +65,17 @@ export function Timeline({
   return (
     <div className={`flex h-full flex-col ${className}`}>
       {/* Timeline header */}
-      <div className="border-b border-gray-200 bg-white px-4 py-3">
-        <h2 className="text-lg font-semibold text-gray-900">Commit 時間軸</h2>
+      <div className="border-b border-border bg-surface px-4 py-3">
+        <h2 className="text-lg font-semibold text-foreground">Commit 時間軸</h2>
         {isComparisonMode ? (
-          <div className="mt-2 rounded-md bg-purple-50 border border-purple-200 px-3 py-2">
-            <p className="text-sm font-semibold text-purple-900 flex items-center gap-2">
+          <div className="mt-2 rounded-lg bg-primary-light border border-primary/30 px-3 py-2">
+            <p className="text-sm font-semibold text-primary flex items-center gap-2">
               🔍 比較模式
               {selectedCommitsForDiff && selectedCommitsForDiff[0] && selectedCommitsForDiff[1] && (
-                <span className="text-xs font-normal text-green-700">✓ 已選擇完成</span>
+                <span className="text-xs font-normal text-success">✓ 已選擇完成</span>
               )}
             </p>
-            <p className="text-xs text-purple-700 mt-1">
+            <p className="text-xs text-primary/80 mt-1">
               {!selectedCommitsForDiff || !selectedCommitsForDiff[0]
                 ? "步驟 1/2：選擇第一個 commit（Before）"
                 : !selectedCommitsForDiff[1]
@@ -84,7 +84,9 @@ export function Timeline({
             </p>
           </div>
         ) : (
-          <p className="text-sm text-gray-700 font-medium">{commits.length} 個 commits</p>
+          <p className="text-sm text-foreground-secondary font-medium">
+            {commits.length} 個 commits
+          </p>
         )}
       </div>
 
@@ -156,7 +158,7 @@ export function Timeline({
         {/* End of timeline */}
         {!loading && !hasMore && commits.length > 0 && (
           <div className="flex justify-center py-4">
-            <p className="text-sm text-gray-500">已載入所有 commits</p>
+            <p className="text-sm text-foreground-tertiary">已載入所有 commits</p>
           </div>
         )}
       </div>

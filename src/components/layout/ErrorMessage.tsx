@@ -12,11 +12,13 @@ export function ErrorMessage({
   className = "",
 }: ErrorMessageProps) {
   return (
-    <div className={`rounded-lg border border-red-300 bg-red-50 p-4 ${className}`}>
+    <div
+      className={`rounded-lg border-2 border-error/50 bg-error-light p-5 shadow-sm ${className}`}
+    >
       <div className="flex">
         <div className="flex-shrink-0">
           <svg
-            className="h-5 w-5 text-red-400"
+            className="h-5 w-5 text-error"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -29,9 +31,9 @@ export function ErrorMessage({
             />
           </svg>
         </div>
-        <div className="ml-3">
-          <h3 className="text-sm font-medium text-red-800">{title}</h3>
-          <div className="mt-2 text-sm text-red-700">
+        <div className="ml-3 flex-1">
+          <h3 className="text-sm font-semibold text-error">{title}</h3>
+          <div className="mt-2 text-sm text-error/90">
             <p>{message}</p>
           </div>
           {onRetry && (
@@ -39,7 +41,7 @@ export function ErrorMessage({
               <button
                 type="button"
                 onClick={onRetry}
-                className="rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                className="rounded-lg bg-error px-4 py-2 text-sm font-semibold text-white hover:bg-error-hover focus:outline-none focus:ring-2 focus:ring-error focus:ring-offset-2 focus:ring-offset-error-light transition-all duration-200 cursor-pointer"
               >
                 重試
               </button>

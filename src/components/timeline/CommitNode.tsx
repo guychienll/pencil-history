@@ -42,21 +42,21 @@ export function CommitNode({
   // Determine styling based on mode
   const getBorderStyle = () => {
     if (disabled) {
-      return "border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed";
+      return "border-border bg-surface-hover opacity-50 cursor-not-allowed";
     }
     if (isSelectedForDiff && diffSelectionOrder === 1) {
-      return "border-2 border-red-500 bg-red-50 shadow-md";
+      return "border-2 border-error bg-error-light shadow-md";
     }
     if (isSelectedForDiff && diffSelectionOrder === 2) {
-      return "border-2 border-green-500 bg-green-50 shadow-md";
+      return "border-2 border-success bg-success-light shadow-md";
     }
     if (isActive && !isComparisonMode) {
-      return "border-blue-500 bg-blue-50 shadow-md";
+      return "border-2 border-primary bg-primary-light shadow-md";
     }
     if (isComparisonMode) {
-      return "border-gray-300 bg-white hover:border-purple-400 hover:shadow-sm ring-2 ring-purple-200 ring-offset-2";
+      return "border-2 border-border bg-surface hover:border-primary hover:shadow cursor-pointer";
     }
-    return "border-gray-200 bg-white hover:border-blue-300 hover:shadow-sm";
+    return "border border-border bg-surface hover:border-primary/50 hover:shadow-sm cursor-pointer";
   };
 
   const handleClick = () => {
@@ -78,27 +78,27 @@ export function CommitNode({
       <div className="mb-2 flex items-center justify-between">
         <span
           className={`
-            rounded px-2 py-0.5 text-xs font-mono font-semibold
-            ${isActive ? "bg-blue-200 text-blue-800" : "bg-gray-100 text-gray-900"}
+            rounded-md px-2 py-1 text-xs font-mono font-semibold transition-colors duration-200
+            ${isActive ? "bg-primary/20 text-primary" : "bg-background-tertiary text-foreground-secondary"}
           `}
         >
           {shortSha}
         </span>
-        <span className="text-xs text-gray-700 font-medium">{formattedDate}</span>
+        <span className="text-xs text-foreground-tertiary font-medium">{formattedDate}</span>
       </div>
 
       {/* Commit message */}
       <p
         className={`
           mb-2 text-sm font-semibold
-          ${isActive ? "text-gray-900" : "text-gray-900"}
+          ${isActive ? "text-foreground" : "text-foreground"}
         `}
       >
         {displayMessage}
       </p>
 
       {/* Author info */}
-      <div className="flex items-center text-xs text-gray-700 font-medium">
+      <div className="flex items-center text-xs text-foreground-secondary font-medium">
         <svg className="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
@@ -112,23 +112,23 @@ export function CommitNode({
 
       {/* Active indicator */}
       {isActive && !isComparisonMode && (
-        <div className="absolute -left-1 top-1/2 h-8 w-1 -translate-y-1/2 rounded-r bg-blue-500"></div>
+        <div className="absolute -left-1 top-1/2 h-8 w-1 -translate-y-1/2 rounded-r bg-primary shadow-sm"></div>
       )}
 
       {/* Comparison mode selection badges (T093) */}
       {isSelectedForDiff && diffSelectionOrder && (
         <div className="absolute -top-2 -right-2 flex items-center justify-center">
           {diffSelectionOrder === 1 ? (
-            <div className="flex items-center gap-1 rounded-full bg-red-500 px-2 py-1 text-xs font-bold text-white shadow-md">
+            <div className="flex items-center gap-1 rounded-full bg-error px-2 py-1 text-xs font-bold text-white shadow-lg">
               <span>Before</span>
-              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-white text-red-500">
+              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-white text-error">
                 1
               </span>
             </div>
           ) : (
-            <div className="flex items-center gap-1 rounded-full bg-green-500 px-2 py-1 text-xs font-bold text-white shadow-md">
+            <div className="flex items-center gap-1 rounded-full bg-success px-2 py-1 text-xs font-bold text-white shadow-lg">
               <span>After</span>
-              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-white text-green-500">
+              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-white text-success">
                 2
               </span>
             </div>
@@ -139,14 +139,14 @@ export function CommitNode({
       {/* Comparison mode hint */}
       {isComparisonMode && !isSelectedForDiff && !disabled && (
         <div className="absolute -top-2 -right-2">
-          <div className="h-3 w-3 rounded-full bg-purple-400 ring-2 ring-white animate-pulse"></div>
+          <div className="h-3 w-3 rounded-full bg-primary ring-2 ring-surface animate-pulse shadow-sm"></div>
         </div>
       )}
 
       {/* Disabled overlay */}
       {disabled && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-5 rounded-lg">
-          <div className="text-xs text-gray-500 font-semibold px-2 py-1 bg-white rounded border border-gray-300 shadow-sm">
+        <div className="absolute inset-0 flex items-center justify-center bg-foreground/5 rounded-lg backdrop-blur-[1px]">
+          <div className="text-xs text-foreground-muted font-semibold px-2 py-1 bg-surface rounded-md border border-border shadow-sm">
             🔒 較早的 commit
           </div>
         </div>

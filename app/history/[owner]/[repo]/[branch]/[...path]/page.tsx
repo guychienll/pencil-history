@@ -366,7 +366,7 @@ export default function HistoryPage({ params }: PageProps) {
   return (
     <div className="flex h-full flex-col overflow-hidden">
       {/* Playback controls bar - Fixed height (T092: Extended with comparison mode toggle) */}
-      <div className="shrink-0 border-b border-gray-200 bg-white px-6 py-4">
+      <div className="shrink-0 border-b border-border bg-surface px-6 py-4">
         <div className="flex items-center justify-between">
           {!comparisonMode ? (
             <>
@@ -437,7 +437,7 @@ export default function HistoryPage({ params }: PageProps) {
       {/* Main content area - Fills remaining space */}
       <div className="flex flex-1 flex-col overflow-hidden md:flex-row min-h-0">
         {/* Timeline sidebar (T093: Extended with comparison mode props) */}
-        <div className="shrink-0 w-full h-full border-r border-gray-200 bg-white md:w-80 lg:w-96 overflow-hidden">
+        <div className="shrink-0 w-full h-full border-r border-border bg-surface md:w-80 lg:w-96 overflow-hidden">
           <Timeline
             commits={commits}
             currentIndex={currentCommitIndex}
@@ -451,15 +451,15 @@ export default function HistoryPage({ params }: PageProps) {
         </div>
 
         {/* Viewer main area - Fills remaining space */}
-        <div className="flex flex-1 flex-col overflow-hidden bg-gray-50 min-w-0">
+        <div className="flex flex-1 flex-col overflow-hidden bg-background-secondary min-w-0">
           {comparisonMode ? (
             /* Comparison mode: Show instructions */
             <div className="flex h-full flex-col">
               <div className="flex-1 flex items-center justify-center">
                 <div className="text-center max-w-md px-6">
                   <div className="text-6xl mb-4">🔍</div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">比較模式</h3>
-                  <p className="text-gray-600 mb-4">
+                  <h3 className="text-xl font-semibold text-foreground mb-2">比較模式</h3>
+                  <p className="text-foreground-secondary mb-4">
                     {!selectedCommitsForDiff || !selectedCommitsForDiff[0]
                       ? "從時間軸選擇第一個 commit (Before)"
                       : !selectedCommitsForDiff[1]
@@ -469,19 +469,19 @@ export default function HistoryPage({ params }: PageProps) {
                   {selectedCommitsForDiff &&
                     selectedCommitsForDiff[0] &&
                     selectedCommitsForDiff[1] && (
-                      <div className="mt-6 p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+                      <div className="mt-6 p-4 bg-surface rounded-lg border border-border shadow-sm">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-semibold text-red-700">🔴 Before</span>
-                          <span className="text-xs text-gray-500">→</span>
-                          <span className="text-xs font-semibold text-green-700">🟢 After</span>
+                          <span className="text-xs font-semibold text-error">🔴 Before</span>
+                          <span className="text-xs text-foreground-tertiary">→</span>
+                          <span className="text-xs font-semibold text-success">🟢 After</span>
                         </div>
-                        <div className="flex items-center justify-between text-xs font-mono text-gray-600 mb-2">
+                        <div className="flex items-center justify-between text-xs font-mono text-foreground-secondary mb-2">
                           <span>{selectedCommitsForDiff[0].substring(0, 7)}</span>
                           <span>{selectedCommitsForDiff[1].substring(0, 7)}</span>
                         </div>
                         {preloadingCommits.size > 0 && (
-                          <div className="mt-2 flex items-center justify-center gap-2 text-xs text-gray-500">
-                            <div className="animate-spin h-3 w-3 border-2 border-gray-300 border-t-blue-500 rounded-full"></div>
+                          <div className="mt-2 flex items-center justify-center gap-2 text-xs text-foreground-tertiary">
+                            <div className="animate-spin h-3 w-3 border-2 border-border border-t-primary rounded-full"></div>
                             <span>載入檔案中...</span>
                           </div>
                         )}
@@ -491,7 +491,7 @@ export default function HistoryPage({ params }: PageProps) {
               </div>
               {/* Timeline slider - Always show in comparison mode */}
               {commits.length > 0 && (
-                <div className="shrink-0 border-t border-gray-200 bg-white px-6 py-4">
+                <div className="shrink-0 border-t border-border bg-surface px-6 py-4">
                   <TimelineSlider
                     commits={commits}
                     currentIndex={currentCommitIndex ?? 0}
@@ -503,7 +503,7 @@ export default function HistoryPage({ params }: PageProps) {
           ) : !currentCommit ? (
             /* Normal mode: No commit selected */
             <div className="flex h-full items-center justify-center">
-              <p className="text-gray-500">請從時間軸選擇一個 commit</p>
+              <p className="text-foreground-tertiary">請從時間軸選擇一個 commit</p>
             </div>
           ) : (
             /* Normal mode: Commit selected */
@@ -523,7 +523,7 @@ export default function HistoryPage({ params }: PageProps) {
               </div>
 
               {/* Timeline slider - Fixed height */}
-              <div className="shrink-0 border-t border-gray-200 bg-white px-6 py-4">
+              <div className="shrink-0 border-t border-border bg-surface px-6 py-4">
                 <TimelineSlider
                   commits={commits}
                   currentIndex={currentCommitIndex ?? 0}

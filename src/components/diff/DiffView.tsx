@@ -173,72 +173,36 @@ export function DiffView({
     diff.added.length + diff.deleted.length + diff.modified.length + diff.moved.length;
 
   return (
-    <div
-      className="diff-view"
-      style={{ display: "flex", flexDirection: "column", height: "100vh" }}
-    >
+    <div className="flex flex-col h-screen bg-background">
       {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "16px 24px",
-          borderBottom: "1px solid #e5e7eb",
-          backgroundColor: "#ffffff",
-        }}
-      >
+      <div className="flex justify-between items-center px-6 py-4 border-b border-border bg-surface">
         <div>
-          <h2
-            style={{ fontSize: "18px", fontWeight: "700", color: "#111827", marginBottom: "4px" }}
-          >
-            Diff Comparison
-          </h2>
-          <div style={{ fontSize: "13px", color: "#6b7280" }}>
+          <h2 className="text-lg font-bold text-foreground mb-1">Diff Comparison</h2>
+          <div className="text-sm text-foreground-secondary">
             {totalChanges} change{totalChanges !== 1 ? "s" : ""} detected
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "12px" }}>
+        <div className="flex gap-3">
           {/* View Mode Toggle */}
-          <div
-            style={{
-              display: "flex",
-              gap: "4px",
-              backgroundColor: "#f3f4f6",
-              borderRadius: "6px",
-              padding: "2px",
-            }}
-          >
+          <div className="flex gap-1 bg-background-tertiary rounded-lg p-0.5">
             <button
               onClick={() => setViewMode("side-by-side")}
-              style={{
-                padding: "6px 12px",
-                fontSize: "13px",
-                fontWeight: "500",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-                backgroundColor: viewMode === "side-by-side" ? "#ffffff" : "transparent",
-                color: viewMode === "side-by-side" ? "#111827" : "#6b7280",
-                boxShadow: viewMode === "side-by-side" ? "0 1px 2px rgba(0,0,0,0.05)" : "none",
-              }}
+              className={`px-3 py-1.5 text-sm font-medium border-none rounded-md cursor-pointer transition-all duration-200 ${
+                viewMode === "side-by-side"
+                  ? "bg-surface text-foreground shadow-sm"
+                  : "bg-transparent text-foreground-secondary hover:text-foreground"
+              }`}
             >
               Side by Side
             </button>
             <button
               onClick={() => setViewMode("overlay")}
-              style={{
-                padding: "6px 12px",
-                fontSize: "13px",
-                fontWeight: "500",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-                backgroundColor: viewMode === "overlay" ? "#ffffff" : "transparent",
-                color: viewMode === "overlay" ? "#111827" : "#6b7280",
-                boxShadow: viewMode === "overlay" ? "0 1px 2px rgba(0,0,0,0.05)" : "none",
-              }}
+              className={`px-3 py-1.5 text-sm font-medium border-none rounded-md cursor-pointer transition-all duration-200 ${
+                viewMode === "overlay"
+                  ? "bg-surface text-foreground shadow-sm"
+                  : "bg-transparent text-foreground-secondary hover:text-foreground"
+              }`}
             >
               Overlay
             </button>
@@ -247,46 +211,23 @@ export function DiffView({
           {/* Navigation and Action Buttons */}
           <button
             onClick={() => setShowDetailsPanel(!showDetailsPanel)}
-            style={{
-              padding: "6px 16px",
-              fontSize: "13px",
-              fontWeight: "500",
-              border: "1px solid #d1d5db",
-              borderRadius: "6px",
-              cursor: "pointer",
-              backgroundColor: showDetailsPanel ? "#111827" : "#ffffff",
-              color: showDetailsPanel ? "#ffffff" : "#374151",
-            }}
+            className={`px-4 py-1.5 text-sm font-medium border-2 rounded-lg cursor-pointer transition-all duration-200 ${
+              showDetailsPanel
+                ? "bg-foreground text-background border-foreground"
+                : "bg-surface text-foreground border-border hover:border-border-secondary"
+            }`}
           >
             {showDetailsPanel ? "Hide" : "Show"} Details
           </button>
           <button
             onClick={onBack}
-            style={{
-              padding: "6px 16px",
-              fontSize: "13px",
-              fontWeight: "500",
-              border: "1px solid #3b82f6",
-              borderRadius: "6px",
-              cursor: "pointer",
-              backgroundColor: "#3b82f6",
-              color: "#ffffff",
-            }}
+            className="px-4 py-1.5 text-sm font-medium border-2 border-primary rounded-lg cursor-pointer bg-primary text-white hover:bg-primary-hover transition-all duration-200"
           >
             ← Back
           </button>
           <button
             onClick={onExitComparison}
-            style={{
-              padding: "6px 16px",
-              fontSize: "13px",
-              fontWeight: "500",
-              border: "1px solid #d1d5db",
-              borderRadius: "6px",
-              cursor: "pointer",
-              backgroundColor: "#ffffff",
-              color: "#374151",
-            }}
+            className="px-4 py-1.5 text-sm font-medium border-2 border-border rounded-lg cursor-pointer bg-surface text-foreground hover:border-border-secondary transition-all duration-200"
           >
             Exit Comparison
           </button>
@@ -294,51 +235,26 @@ export function DiffView({
       </div>
 
       {/* Main Content Area */}
-      <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+      <div className="flex flex-1 overflow-hidden">
         {/* Left/Before View */}
         {viewMode === "side-by-side" && (
           <div
             ref={leftScrollRef}
             onScroll={() => handleScroll("left")}
-            style={{
-              flex: 1,
-              overflow: "auto",
-              borderRight: "1px solid #e5e7eb",
-              position: "relative",
-            }}
+            className="flex-1 overflow-auto border-r border-border relative bg-background-secondary"
           >
-            <div
-              style={{
-                padding: "16px 24px",
-                backgroundColor: "#fef2f2",
-                borderBottom: "1px solid #fecaca",
-                position: "sticky",
-                top: 0,
-                zIndex: 10,
-              }}
-            >
-              <div style={{ fontSize: "14px", fontWeight: "600", color: "#991b1b" }}>
-                Before: {fromCommit.message}
-              </div>
-              <div
-                style={{
-                  fontSize: "12px",
-                  color: "#b91c1c",
-                  fontFamily: "monospace",
-                  marginTop: "2px",
-                }}
-              >
+            <div className="px-6 py-4 bg-error-light border-b border-error/30 sticky top-0 z-10">
+              <div className="text-sm font-semibold text-error">Before: {fromCommit.message}</div>
+              <div className="text-xs text-error font-mono mt-0.5">
                 {fromCommit.sha.substring(0, 7)}
               </div>
             </div>
 
-            <div style={{ position: "relative", padding: "24px" }}>
+            <div className="relative p-6">
               {fromError ? (
-                <div style={{ padding: "24px", textAlign: "center", color: "#ef4444" }}>
-                  截圖載入失敗: {fromError}
-                </div>
+                <div className="p-6 text-center text-error">截圖載入失敗: {fromError}</div>
               ) : (
-                <div style={{ position: "relative" }}>
+                <div className="relative">
                   <PenRenderer imageData={fromImageData} loading={fromLoading} />
 
                   {/* Highlight deleted nodes only */}
@@ -361,50 +277,18 @@ export function DiffView({
         <div
           ref={rightScrollRef}
           onScroll={() => handleScroll("right")}
-          style={{
-            flex: 1,
-            overflow: "auto",
-            position: "relative",
-          }}
+          className="flex-1 overflow-auto relative bg-background-secondary"
         >
-          <div
-            style={{
-              padding: "16px 24px",
-              backgroundColor: "#f0fdf4",
-              borderBottom: "1px solid #bbf7d0",
-              position: "sticky",
-              top: 0,
-              zIndex: 10,
-            }}
-          >
-            <div style={{ fontSize: "14px", fontWeight: "600", color: "#166534" }}>
-              After: {toCommit.message}
-            </div>
-            <div
-              style={{
-                fontSize: "12px",
-                color: "#15803d",
-                fontFamily: "monospace",
-                marginTop: "2px",
-              }}
-            >
+          <div className="px-6 py-4 bg-success-light border-b border-success/30 sticky top-0 z-10">
+            <div className="text-sm font-semibold text-success">After: {toCommit.message}</div>
+            <div className="text-xs text-success font-mono mt-0.5">
               {toCommit.sha.substring(0, 7)}
             </div>
           </div>
 
-          <div
-            style={{
-              position: "relative",
-              padding: "24px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "flex-start",
-            }}
-          >
+          <div className="relative p-6 flex justify-center items-start">
             {toError ? (
-              <div style={{ padding: "24px", textAlign: "center", color: "#ef4444" }}>
-                截圖載入失敗: {toError}
-              </div>
+              <div className="p-6 text-center text-error">截圖載入失敗: {toError}</div>
             ) : (
               <>
                 <div style={{ position: "relative" }}>
@@ -502,14 +386,7 @@ export function DiffView({
 
         {/* Details Panel */}
         {showDetailsPanel && (
-          <div
-            style={{
-              width: "350px",
-              borderLeft: "1px solid #e5e7eb",
-              backgroundColor: "#ffffff",
-              overflow: "auto",
-            }}
-          >
+          <div className="w-[350px] border-l border-border bg-surface overflow-auto">
             <DiffDetailsPanel
               selectedDiff={selectedDiff}
               onClose={() => {

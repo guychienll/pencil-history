@@ -67,13 +67,13 @@ export function PlaybackControls({
           transition-all duration-200
           ${
             disabled
-              ? "bg-gray-300 cursor-not-allowed"
+              ? "bg-border cursor-not-allowed"
               : isPlaying
-                ? "bg-orange-500 hover:bg-orange-600 active:scale-95"
-                : "bg-blue-500 hover:bg-blue-600 active:scale-95"
+                ? "bg-warning hover:bg-warning-hover active:scale-95"
+                : "bg-primary hover:bg-primary-hover active:scale-95"
           }
-          focus:outline-none focus:ring-2 focus:ring-offset-2
-          ${isPlaying ? "focus:ring-orange-500" : "focus:ring-blue-500"}
+          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface
+          ${isPlaying ? "focus:ring-warning" : "focus:ring-primary"}
           shadow-md hover:shadow-lg
         `}
         aria-label={isPlaying ? "Pause playback" : "Play playback"}
@@ -94,7 +94,7 @@ export function PlaybackControls({
 
       {/* Speed Selector */}
       <div className="flex items-center gap-2">
-        <label htmlFor="playback-speed" className="text-sm font-medium text-gray-700">
+        <label htmlFor="playback-speed" className="text-sm font-medium text-foreground-secondary">
           Speed:
         </label>
         <select
@@ -103,10 +103,11 @@ export function PlaybackControls({
           onChange={handleSpeedChange}
           disabled={disabled}
           className={`
-            px-3 py-1.5 text-sm rounded-md border border-gray-300
-            text-gray-900 font-medium
-            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-            ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white cursor-pointer"}
+            px-3 py-1.5 text-sm rounded-md border-2 border-border
+            text-foreground font-medium
+            focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary
+            transition-all duration-200
+            ${disabled ? "bg-surface-hover cursor-not-allowed" : "bg-surface cursor-pointer hover:border-border-secondary"}
           `}
           aria-label="Playback speed"
         >
@@ -120,22 +121,22 @@ export function PlaybackControls({
 
       {/* Playback status indicator */}
       {isPlaying && (
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+        <div className="flex items-center gap-2 text-sm text-foreground-secondary">
+          <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
           <span>Playing</span>
         </div>
       )}
 
       {/* Keyboard shortcuts hint */}
       <div
-        className="ml-auto text-xs text-gray-700 font-medium hidden md:block"
+        className="ml-auto text-xs text-foreground-secondary font-medium hidden md:block"
         role="status"
         aria-live="polite"
       >
         <div className="flex items-center gap-4">
           <span>
             <kbd
-              className="px-2 py-1 font-semibold text-gray-900 bg-gray-100 border border-gray-300 rounded"
+              className="px-2 py-1 font-semibold text-foreground bg-background-tertiary border border-border rounded"
               aria-label="K key"
             >
               K
@@ -144,13 +145,13 @@ export function PlaybackControls({
           </span>
           <span>
             <kbd
-              className="px-2 py-1 font-semibold text-gray-900 bg-gray-100 border border-gray-300 rounded"
+              className="px-2 py-1 font-semibold text-foreground bg-background-tertiary border border-border rounded"
               aria-label="Left arrow key"
             >
               ←
             </kbd>{" "}
             <kbd
-              className="px-2 py-1 font-semibold text-gray-900 bg-gray-100 border border-gray-300 rounded"
+              className="px-2 py-1 font-semibold text-foreground bg-background-tertiary border border-border rounded"
               aria-label="Right arrow key"
             >
               →

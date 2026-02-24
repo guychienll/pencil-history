@@ -24,7 +24,7 @@ export function KeyboardShortcuts() {
     <div className="relative">
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+        className="flex items-center gap-2 px-3 py-1.5 text-sm text-foreground-secondary hover:text-foreground hover:bg-surface-hover rounded-md transition-colors cursor-pointer"
         aria-label="Show keyboard shortcuts"
         aria-expanded={isExpanded}
       >
@@ -41,16 +41,16 @@ export function KeyboardShortcuts() {
 
       {isExpanded && (
         <div
-          className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+          className="absolute right-0 top-full mt-2 w-64 bg-surface border border-border rounded-lg shadow-lg z-50"
           role="dialog"
           aria-label="Keyboard shortcuts"
         >
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold text-gray-900">Keyboard Shortcuts</h3>
+              <h3 className="font-semibold text-foreground">Keyboard Shortcuts</h3>
               <button
                 onClick={() => setIsExpanded(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-foreground-muted hover:text-foreground-secondary cursor-pointer"
                 aria-label="Close shortcuts"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,8 +66,10 @@ export function KeyboardShortcuts() {
             <div className="space-y-2">
               {shortcuts.map((shortcut) => (
                 <div key={shortcut.key} className="flex items-center justify-between">
-                  <span className="text-sm text-gray-900 font-medium">{shortcut.description}</span>
-                  <kbd className="px-2 py-1 text-xs font-semibold text-gray-900 bg-gray-100 border border-gray-300 rounded">
+                  <span className="text-sm text-foreground font-medium">
+                    {shortcut.description}
+                  </span>
+                  <kbd className="px-2 py-1 text-xs font-semibold text-foreground bg-background-tertiary border border-border rounded">
                     {shortcut.key}
                   </kbd>
                 </div>

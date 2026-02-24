@@ -62,19 +62,19 @@ export function PenViewer({
   return (
     <div className={`flex h-full flex-col ${className}`}>
       {/* Viewer header */}
-      <div className="border-b border-gray-200 bg-white px-6 py-4">
+      <div className="border-b border-border bg-surface px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">設計檢視器</h2>
+            <h2 className="text-lg font-semibold text-foreground">設計檢視器</h2>
             {commit && (
-              <div className="mt-1 flex items-center space-x-4 text-sm text-gray-700 font-medium">
+              <div className="mt-1 flex items-center space-x-4 text-sm text-foreground-secondary font-medium">
                 <span className="font-mono font-semibold">{commit.sha.slice(0, 7)}</span>
                 <span>{commit.message.split("\n")[0]}</span>
               </div>
             )}
           </div>
           {fileVersion && (
-            <div className="text-sm text-gray-700 font-medium">
+            <div className="text-sm text-foreground-secondary font-medium">
               版本: {fileVersion.content.version}
             </div>
           )}
@@ -94,8 +94,8 @@ export function PenViewer({
 
       {/* Viewer footer / stats */}
       {fileVersion && !displayError && (
-        <div className="border-t border-gray-200 bg-white px-6 py-3">
-          <div className="flex items-center justify-between text-xs text-gray-700 font-medium">
+        <div className="border-t border-border bg-surface px-6 py-3">
+          <div className="flex items-center justify-between text-xs text-foreground-secondary font-medium">
             <span>檔案大小: {(fileVersion.size / 1024).toFixed(2)} KB</span>
             {fileVersion.content.metadata && (
               <span>

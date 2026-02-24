@@ -48,50 +48,32 @@ function PropertyChangeItem({ change }: { change: PropertyChange }) {
   const { property, operation, oldValue, newValue } = change;
 
   return (
-    <div className="property-change-item" style={{ marginBottom: "12px" }}>
-      <div
-        style={{
-          fontWeight: "600",
-          fontSize: "13px",
-          color: "#374151",
-          marginBottom: "4px",
-          fontFamily: "monospace",
-        }}
-      >
-        {property}
-      </div>
+    <div className="mb-3">
+      <div className="font-semibold text-sm text-foreground mb-1 font-mono">{property}</div>
 
       {operation === "add" && (
-        <div style={{ fontSize: "12px", color: "#22c55e" }}>
-          <span style={{ opacity: 0.7 }}>Added:</span>{" "}
-          <code style={{ backgroundColor: "#f0fdf4", padding: "2px 6px", borderRadius: "3px" }}>
-            {formatValue(newValue)}
-          </code>
+        <div className="text-xs text-success">
+          <span className="opacity-70">Added:</span>{" "}
+          <code className="bg-success-light px-1.5 py-0.5 rounded">{formatValue(newValue)}</code>
         </div>
       )}
 
       {operation === "remove" && (
-        <div style={{ fontSize: "12px", color: "#ef4444" }}>
-          <span style={{ opacity: 0.7 }}>Removed:</span>{" "}
-          <code style={{ backgroundColor: "#fef2f2", padding: "2px 6px", borderRadius: "3px" }}>
-            {formatValue(oldValue)}
-          </code>
+        <div className="text-xs text-error">
+          <span className="opacity-70">Removed:</span>{" "}
+          <code className="bg-error-light px-1.5 py-0.5 rounded">{formatValue(oldValue)}</code>
         </div>
       )}
 
       {operation === "replace" && (
-        <div style={{ fontSize: "12px" }}>
-          <div style={{ color: "#ef4444", marginBottom: "2px" }}>
-            <span style={{ opacity: 0.7 }}>From:</span>{" "}
-            <code style={{ backgroundColor: "#fef2f2", padding: "2px 6px", borderRadius: "3px" }}>
-              {formatValue(oldValue)}
-            </code>
+        <div className="text-xs">
+          <div className="text-error mb-0.5">
+            <span className="opacity-70">From:</span>{" "}
+            <code className="bg-error-light px-1.5 py-0.5 rounded">{formatValue(oldValue)}</code>
           </div>
-          <div style={{ color: "#22c55e" }}>
-            <span style={{ opacity: 0.7 }}>To:</span>{" "}
-            <code style={{ backgroundColor: "#f0fdf4", padding: "2px 6px", borderRadius: "3px" }}>
-              {formatValue(newValue)}
-            </code>
+          <div className="text-success">
+            <span className="opacity-70">To:</span>{" "}
+            <code className="bg-success-light px-1.5 py-0.5 rounded">{formatValue(newValue)}</code>
           </div>
         </div>
       )}
@@ -118,60 +100,23 @@ export function DiffDetails({ diff, asTooltip = true, position, onClose }: DiffD
     };
   }, [asTooltip, position]);
 
-  const containerStyle = {
-    ...tooltipStyle,
-    backgroundColor: "#ffffff",
-    border: "1px solid #e5e7eb",
-    borderRadius: "8px",
-    padding: "12px 16px",
-    boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)",
-    maxWidth: "400px",
-    minWidth: "250px",
-    maxHeight: "400px",
-    overflowY: "auto" as const,
-  };
+  const containerClasses = `bg-surface border border-border rounded-lg p-4 shadow-lg max-w-[400px] min-w-[250px] max-h-[400px] overflow-y-auto ${asTooltip ? "fixed" : ""}`;
 
   return (
-    <div className="diff-details" style={containerStyle}>
+    <div className={containerClasses} style={tooltipStyle}>
       {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "12px",
-          paddingBottom: "8px",
-          borderBottom: "1px solid #e5e7eb",
-        }}
-      >
+      <div className="flex justify-between items-center mb-3 pb-2 border-b border-border">
         <div>
-          <div style={{ fontSize: "14px", fontWeight: "700", color: "#111827" }}>
+          <div className="text-sm font-bold text-foreground">
             {type.charAt(0).toUpperCase() + type.slice(1)} Node
           </div>
-          <div
-            style={{
-              fontSize: "12px",
-              color: "#6b7280",
-              fontFamily: "monospace",
-              marginTop: "2px",
-            }}
-          >
-            {nodeId}
-          </div>
+          <div className="text-xs text-foreground-secondary font-mono mt-0.5">{nodeId}</div>
         </div>
 
         {onClose && (
           <button
             onClick={onClose}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: "4px",
-              color: "#6b7280",
-              fontSize: "18px",
-              lineHeight: 1,
-            }}
+            className="bg-transparent border-none cursor-pointer p-1 text-foreground-secondary hover:text-foreground text-lg leading-none"
             aria-label="Close"
           >
             ×
@@ -181,17 +126,8 @@ export function DiffDetails({ diff, asTooltip = true, position, onClose }: DiffD
 
       {/* Property Changes */}
       {hasPropertyChanges && (
-        <div style={{ marginBottom: isMoved ? "12px" : "0" }}>
-          <div
-            style={{
-              fontSize: "13px",
-              fontWeight: "600",
-              color: "#6b7280",
-              marginBottom: "8px",
-              textTransform: "uppercase" as const,
-              letterSpacing: "0.05em",
-            }}
-          >
+        <div className={isMoved ? "mb-3" : ""}>
+          <div className="text-xs font-semibold text-foreground-secondary mb-2 uppercase tracking-wider">
             Property Changes
           </div>
           {propertyChanges.map((change, index) => (
@@ -203,37 +139,28 @@ export function DiffDetails({ diff, asTooltip = true, position, onClose }: DiffD
       {/* Move Information */}
       {isMoved && (
         <div>
-          <div
-            style={{
-              fontSize: "13px",
-              fontWeight: "600",
-              color: "#6b7280",
-              marginBottom: "8px",
-              textTransform: "uppercase" as const,
-              letterSpacing: "0.05em",
-            }}
-          >
+          <div className="text-xs font-semibold text-foreground-secondary mb-2 uppercase tracking-wider">
             Move Details
           </div>
 
           {oldParentId !== newParentId && (
-            <div style={{ fontSize: "12px", marginBottom: "6px" }}>
-              <div style={{ color: "#6b7280", marginBottom: "2px" }}>Parent changed:</div>
-              <div style={{ fontFamily: "monospace" }}>
-                <span style={{ color: "#ef4444" }}>{oldParentId}</span>
+            <div className="text-xs mb-1.5">
+              <div className="text-foreground-secondary mb-0.5">Parent changed:</div>
+              <div className="font-mono">
+                <span className="text-error">{oldParentId}</span>
                 {" → "}
-                <span style={{ color: "#22c55e" }}>{newParentId}</span>
+                <span className="text-success">{newParentId}</span>
               </div>
             </div>
           )}
 
           {oldIndex !== undefined && newIndex !== undefined && oldIndex !== newIndex && (
-            <div style={{ fontSize: "12px" }}>
-              <div style={{ color: "#6b7280", marginBottom: "2px" }}>Position changed:</div>
+            <div className="text-xs">
+              <div className="text-foreground-secondary mb-0.5">Position changed:</div>
               <div>
-                Index <span style={{ color: "#ef4444" }}>{oldIndex}</span>
+                Index <span className="text-error">{oldIndex}</span>
                 {" → "}
-                <span style={{ color: "#22c55e" }}>{newIndex}</span>
+                <span className="text-success">{newIndex}</span>
               </div>
             </div>
           )}
@@ -242,13 +169,13 @@ export function DiffDetails({ diff, asTooltip = true, position, onClose }: DiffD
 
       {/* No changes message */}
       {!hasPropertyChanges && type === "modified" && (
-        <div style={{ fontSize: "12px", color: "#6b7280", fontStyle: "italic" }}>
+        <div className="text-xs text-foreground-secondary italic">
           No property changes detected (type changed only)
         </div>
       )}
 
       {(type === "added" || type === "deleted") && (
-        <div style={{ fontSize: "12px", color: "#6b7280", marginTop: "8px" }}>
+        <div className="text-xs text-foreground-secondary mt-2">
           {type === "added" && "This node was added in the new version."}
           {type === "deleted" && "This node was removed in the new version."}
         </div>
@@ -271,14 +198,7 @@ interface DiffDetailsPanelProps {
 export function DiffDetailsPanel({ selectedDiff, onClose }: DiffDetailsPanelProps) {
   if (!selectedDiff) {
     return (
-      <div
-        style={{
-          padding: "24px",
-          textAlign: "center",
-          color: "#6b7280",
-          fontSize: "14px",
-        }}
-      >
+      <div className="p-6 text-center text-foreground-secondary text-sm">
         Select a highlighted node to view details
       </div>
     );

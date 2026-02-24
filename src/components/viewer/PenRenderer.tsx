@@ -21,12 +21,12 @@ export function PenRenderer({
   if (loading) {
     return (
       <div
-        className={`flex items-center justify-center bg-gray-100 ${className}`}
+        className={`flex items-center justify-center bg-background-tertiary ${className}`}
         style={{ width, height }}
       >
         <div className="text-center">
           <LoadingSpinner size="lg" />
-          <p className="mt-4 text-sm text-gray-600">正在生成截圖...</p>
+          <p className="mt-4 text-sm text-foreground-secondary">正在生成截圖...</p>
         </div>
       </div>
     );
@@ -35,12 +35,12 @@ export function PenRenderer({
   if (!imageData) {
     return (
       <div
-        className={`flex items-center justify-center bg-gray-100 ${className}`}
+        className={`flex items-center justify-center bg-background-tertiary ${className}`}
         style={{ width, height }}
       >
-        <div className="text-center text-gray-500">
+        <div className="text-center text-foreground-tertiary">
           <svg
-            className="mx-auto h-16 w-16 text-gray-400"
+            className="mx-auto h-16 w-16 text-foreground-muted"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

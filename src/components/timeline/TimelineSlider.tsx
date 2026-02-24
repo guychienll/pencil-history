@@ -144,23 +144,23 @@ export function TimelineSlider({
       {/* Tooltip */}
       {hoverCommit && hoverIndex !== null && !isDragging && (
         <div
-          className="absolute bottom-full mb-2 left-0 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-3 py-2 rounded shadow-lg whitespace-nowrap z-10 pointer-events-none"
+          className="absolute bottom-full mb-2 left-0 transform -translate-x-1/2 bg-background-tertiary text-foreground text-xs px-3 py-2 rounded-lg shadow-lg border border-border whitespace-nowrap z-10 pointer-events-none"
           style={{
             left: `${(hoverIndex / (totalCommits - 1)) * 100}%`,
           }}
         >
           <div className="font-semibold">{hoverCommit.message}</div>
-          <div className="text-gray-400">
+          <div className="text-foreground-tertiary">
             {hoverCommit.author.name} • {new Date(hoverCommit.date).toLocaleDateString()}
           </div>
-          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-background-tertiary"></div>
         </div>
       )}
 
       {/* Slider track */}
       <div
         ref={sliderRef}
-        className="relative h-2 bg-gray-200 rounded-full cursor-pointer group"
+        className="relative h-2 bg-border rounded-full cursor-pointer group"
         onMouseDown={handleMouseDown}
         onMouseMove={(e) => handleMouseMove(e.nativeEvent)}
         onMouseLeave={handleMouseLeave}
@@ -175,7 +175,7 @@ export function TimelineSlider({
       >
         {/* Progress bar */}
         <div
-          className="absolute inset-y-0 left-0 bg-blue-500 rounded-full transition-all duration-200"
+          className="absolute inset-y-0 left-0 bg-primary rounded-full transition-all duration-200"
           style={{ width: `${progressPercent}%` }}
         />
 
@@ -183,7 +183,7 @@ export function TimelineSlider({
         {commits.map((commit, index) => (
           <div
             key={commit.sha}
-            className="absolute w-1.5 h-1.5 bg-gray-400 rounded-full pointer-events-none"
+            className="absolute w-1.5 h-1.5 bg-foreground-muted rounded-full pointer-events-none"
             style={{
               left: `${(index / (totalCommits - 1)) * 100}%`,
               top: "50%",
@@ -195,7 +195,7 @@ export function TimelineSlider({
 
         {/* Thumb */}
         <div
-          className={`absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-white border-2 border-blue-500 rounded-full shadow-md cursor-grab transition-all duration-200 ${
+          className={`absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-surface border-2 border-primary rounded-full shadow-md cursor-grab transition-all duration-200 ${
             isDragging ? "scale-125 cursor-grabbing" : "hover:scale-110"
           }`}
           style={{
@@ -205,15 +205,17 @@ export function TimelineSlider({
       </div>
 
       {/* Current commit info */}
-      <div className="mt-4 text-sm text-gray-700 font-medium">
+      <div className="mt-4 text-sm text-foreground-secondary font-medium">
         <div className="flex items-center justify-between">
           <span>
             Commit {currentIndex + 1} of {totalCommits}
           </span>
-          <span className="text-gray-600">{new Date(currentCommit.date).toLocaleDateString()}</span>
+          <span className="text-foreground-tertiary">
+            {new Date(currentCommit.date).toLocaleDateString()}
+          </span>
         </div>
-        <div className="mt-1 font-semibold text-gray-900">{currentCommit.message}</div>
-        <div className="text-gray-700 font-medium">{currentCommit.author.name}</div>
+        <div className="mt-1 font-semibold text-foreground">{currentCommit.message}</div>
+        <div className="text-foreground-secondary font-medium">{currentCommit.author.name}</div>
       </div>
     </div>
   );
